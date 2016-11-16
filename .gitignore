@@ -1,13 +1,9 @@
 /bin/
-Client/.project
 Server/.classpath
-Server/.project
-.project
 .classpath
 .settings
 *.classpath
 /.classpath
 /.settings
-.project/
 .classpath/
 .metadata/
