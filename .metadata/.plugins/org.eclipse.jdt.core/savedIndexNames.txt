@@ -1,0 +1,2 @@
+INDEX VERSION 1.129+C:\Users\krist\Documents\GitHub\dirtyviggo\.metadata\.plugins\org.eclipse.jdt.core
+137624701.index
