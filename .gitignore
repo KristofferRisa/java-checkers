@@ -1,9 +1,6 @@
 /bin/
-Server/.classpath
+.project
 .classpath
-.settings
-*.classpath
-/.classpath
-/.settings
-.classpath/
+.settings/
 .metadata/
+.metadata/.plugins/org.eclipse.jdt.core/savedIndexNames.txt
