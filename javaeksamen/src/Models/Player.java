@@ -14,7 +14,7 @@ public class Player {
 	}
 	
 	//Fields
-	private String name;
+	public String name;
 	public String alias;
 	public Boolean isHuman;
 }

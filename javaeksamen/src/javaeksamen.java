@@ -1,5 +1,6 @@
+import Models.Checkers;
 
-public class AppStart {
+public class javaeksamen {
 	
 	public static void main(String[] args){
 		new Checkers();
