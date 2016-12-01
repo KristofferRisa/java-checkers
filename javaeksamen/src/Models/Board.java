@@ -1,3 +1,4 @@
+package Models;
 import java.awt.Color;
 
 public class Board {

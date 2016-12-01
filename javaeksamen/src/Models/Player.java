@@ -1,8 +1,13 @@
+package Models;
 
 public class Player {
 	
 	//Constructor
-	Player(String name, Boolean ishuman){
+	public Player(){
+		isHuman = true;
+	}
+	
+	public Player(String name, Boolean ishuman){
 		name = name;
 		alias = name;
 		isHuman = ishuman;
