@@ -8,7 +8,7 @@ public class Player {
 	}
 	
 	public Player(String name, Boolean ishuman){
-		name = name;
+		this.name = name;
 		alias = name;
 		isHuman = ishuman;
 	}
