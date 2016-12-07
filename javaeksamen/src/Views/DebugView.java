@@ -1,11 +1,13 @@
 package Views;
 
-
 import java.awt.BorderLayout;
 import java.awt.Container;
+import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.geom.FlatteningPathIterator;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
@@ -20,15 +22,22 @@ public class DebugView extends JFrame implements ActionListener {
 		Container c = getContentPane();
 		c.setLayout(new BorderLayout());
 		c.add(b,BorderLayout.SOUTH);
-		c.add(new JScrollPane(ta),BorderLayout.CENTER);
-		setSize(500,800);
-		xpos -= 500;
-		setLocation(xpos,10);
+		c.add(new JScrollPane(ta),BorderLayout.CENTER);	
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		int height = screenSize.height;
+		int width = screenSize.width;
 		setVisible(true);
+		if(width <=1024){
+			ta.setFont(getFont().deriveFont(new Float(16)));
+		} else {
+			ta.setFont(getFont().deriveFont(new Float(26)));
+		}
+		
+		log("Høyde " + height + "Bredde: " +width);
+		setSize(height/3, width/3);
+		setLocation(50,10);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		b.addActionListener(this);
-		ta.setFont(getFont().deriveFont(new Float(30)));
-		
 	}
 
 	public void log(String s) {
@@ -42,8 +51,5 @@ public class DebugView extends JFrame implements ActionListener {
 	JTextArea ta;
 	JButton b;
 	
-	static final int SCREENWIDTH = 1250;
-	static int xpos = SCREENWIDTH;
-	private static final long serialVersionUID = 5699042746425429470L;
 
 }
