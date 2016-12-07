@@ -1,7 +1,5 @@
 package Views;
 
-import com.sun.nio.file.SensitivityWatchEventModifier;
-
 import Models.Game;
 
 public class WindowManager extends Thread {
