@@ -9,14 +9,12 @@ public class Player implements Serializable {
 		isHuman = true;
 	}
 	
-	public Player(String name, Boolean ishuman){
-		this.name = name;
-		alias = name;
-		isHuman = ishuman;
+	public Player(String n, Boolean human){
+		name = n;
+		isHuman = human;
 	}
 	
 	//Fields
 	public String name;
-	public String alias;
 	public Boolean isHuman;
 }

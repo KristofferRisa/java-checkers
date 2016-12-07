@@ -3,57 +3,98 @@ package Views;
 import javax.swing.JFrame;
 
 import Models.Game;
-import Models.GameConfig;
+import Models.Klient;
 import Models.Player;
+import Models.Server;
 
-public class WindowManager extends JFrame {
+public class WindowManager extends Thread {
 	
-	public Player player;
 	public Game game;
-	public DebugView debug;
 	private GameView gameView;
-	private UserInputView userInputView;
+	public DebugView debug;
+	private WindowContainer windowContainer;
+	private Server server;
+	private Klient klient;
 	
-	public WindowManager(Game game, Player player,GameConfig config){
-		this.game = game;
-		this.player = player;
-		userInputView = new UserInputView(config);
+	public WindowManager(){
 		gameView = new GameView();
+		windowContainer = new WindowContainer();
 		
-		configureFrame();
-		
-		add(userInputView);
 		debug = new DebugView();
 	}
 
-	private void configureFrame() {
-		setTitle("Checkers 1.0!! (java eksamen)");
-		setVisible(true);
-		setSize(400,500);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setLocationRelativeTo(null);
-	}
-	
-	public void showUserInput(){
-		userInputView.p = this.player;
-		userInputView.setVisible(true);
-	}
-	
+
 	public void showGameView(){
 		gameView.setVisible(true);
 	}
 	
 	public void closeUserInput(){
-		userInputView.setVisible(false);
+		windowContainer.userInputView.setVisible(false);
 		notifyAll();
 	}
 	
 	public boolean userInputIsActive(){
-		return (userInputView.isVisible() == true) ? true : false;
+		return (windowContainer.userInputView.isVisible() == true) ? true : false;
 	}
 
 	public boolean gameIsActive() {
 		return (game.isActive == true) ? true : false;
+	}
+
+
+
+	public void startGameView() {
+		if(game.player1 != null){
+			//Start server
+			server = new Server(game, debug);
+			server.start();
+			while(server.isConnected == false){
+				try {
+					debug.log("venter på spiller");
+					sleep(1000);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		} 
+		else 
+		{
+			//Klient
+			debug.log("Starter ny klient");
+			klient = new Klient(debug);
+			
+			debug.log("Forsøker å kople til server");
+			while(klient.isConnected == false){
+				try {
+					debug.log("Venter på Server");
+					sleep(1000);
+					klient.start();
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			
+			
+		}
+	}
+
+	public Game setupGame() {
+		
+		windowContainer.setVisible(true);
+		
+		while(userInputIsActive() == true){
+			try{
+				debug.log("Venter på user input");
+				sleep(2000);
+			}
+			catch(InterruptedException e){
+				debug.log(e.getMessage());
+			}			
+		}
+		
+		return windowContainer.userInputView.game;
 	}
 
 	

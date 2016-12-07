@@ -32,10 +32,9 @@ public class Klient {
 			OutputStream outputStream = socket.getOutputStream();
 			
 			ObjectInputStream input = new ObjectInputStream(inputStream);
-			GameData dataFromServer = (GameData)input.readObject();
+			Game dataFromServer = (Game)input.readObject();
 			
 			debug.log("leser objekt fra server");
-			debug.log("Spill navn: " + dataFromServer.Name);
 			debug.log("Spiller 1: " + dataFromServer.player1.name);
 			
 			ObjectOutputStream out = new ObjectOutputStream(outputStream);

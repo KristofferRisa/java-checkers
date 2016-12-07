@@ -12,7 +12,7 @@ import javax.swing.JTextField;
 
 import com.sun.glass.events.MouseEvent;
 
-import Models.GameConfig;
+import Models.Game;
 import Models.Player;
 
 public class UserInputView extends JPanel implements ActionListener  {
@@ -21,13 +21,15 @@ public class UserInputView extends JPanel implements ActionListener  {
 
 	private JCheckBox checkBox;
 
-	public UserInputView(GameConfig config){
-		this.config = config;
+	public Game game;
+
+	public UserInputView(){
+		
+		game = new Game();
 		tf = new JTextField();
 		JLabel l = new JLabel("Skriv inn navn:");
 		button = new JButton("Start");
 		checkBox = new JCheckBox("Server");
-		
 		
 		setSize(400,500);
 		setLayout(new GridLayout(4,0));
@@ -42,13 +44,12 @@ public class UserInputView extends JPanel implements ActionListener  {
 	
 	private JTextField tf;
 	
-	public Player p;
-	public GameConfig config;
-	
 	public void actionPerformed(ActionEvent event) {
-		if(p != null && config != null){
-			p.name = tf.getText();
-			config.isServer = checkBox.isSelected();
+		if(checkBox.isSelected()){
+			//Spiller 1
+			game.player1.name = tf.getText();			
+		} else {
+			game.player2.name = tf.getText();
 		}
 		setVisible(false);
     }

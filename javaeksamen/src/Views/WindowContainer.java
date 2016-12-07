@@ -2,17 +2,15 @@ package Views;
 
 import javax.swing.JFrame;
 
-import Models.GameConfig;
-
 public class WindowContainer extends JFrame {
 
 	public UserInputView userInputView;
 	
-	public WindowContainer(GameConfig config){
+	public WindowContainer(){
 
 		configureFrame();
 		
-		userInputView = new UserInputView(config);
+		userInputView = new UserInputView();
 		add(userInputView);
 	}
 	

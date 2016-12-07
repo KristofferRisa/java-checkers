@@ -12,15 +12,15 @@ public class Server extends Thread {
 
 	private DebugView debug;
 
-	public Server(GameData g, DebugView d){
-		gameData = g;
+	public Server(Game g, DebugView d){
+		game = g;
 		debug = d;
 		isConnected = false;
 	}
 	
 	private ServerSocket server;
 	private Socket socket;
-	private GameData gameData;
+	private Game game;
 	
 	public boolean isConnected;
 	
@@ -37,7 +37,7 @@ public class Server extends Thread {
 		        	InputStream inputStream = socket.getInputStream();
 		        	ObjectOutputStream output = new ObjectOutputStream(socket.getOutputStream());
 					
-		        	output.writeObject(gameData);
+		        	output.writeObject(game);
 					output.flush();
 					
 					byte[] buffer = new byte[1024];
