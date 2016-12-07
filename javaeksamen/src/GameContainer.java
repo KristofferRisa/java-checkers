@@ -3,7 +3,7 @@ public class GameContainer {
 	
 	GameContainer(){
 		
-		System.out.println("Skriv inn spiller navn: /n");
+		System.out.println("Hei.. Skriv inn spiller navn: /n");
 		String playerName = System.console().readLine();
 		
 		player1 = new Player(playerName,true);
