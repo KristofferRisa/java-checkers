@@ -14,7 +14,7 @@ public class Player implements Serializable {
 		isHuman = human;
 	}
 	
-	//Fields
 	public String name;
+	
 	public Boolean isHuman;
 }

@@ -2,16 +2,30 @@ package Views;
 
 import javax.swing.JFrame;
 
+import Board.BoardWindow;
+
 public class WindowContainer extends JFrame {
 
 	public UserInputView userInputView;
+	private BoardWindow boardWindow;
 	
 	public WindowContainer(){
 
 		configureFrame();
+		setVisible(true);
 		
+		
+	}
+	
+	public void showUserInput(){
 		userInputView = new UserInputView();
 		add(userInputView);
+	}
+	
+	public void showBoard(){
+		boardWindow = new BoardWindow();
+		remove(userInputView);
+		add(boardWindow);
 	}
 	
 	private void configureFrame() {

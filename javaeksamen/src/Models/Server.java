@@ -9,9 +9,7 @@ import java.net.Socket;
 import Views.DebugView;
 
 public class Server extends Thread {
-
-	private DebugView debug;
-
+	
 	public Server(Game g, DebugView d){
 		game = g;
 		debug = d;
@@ -52,8 +50,8 @@ public class Server extends Thread {
 		    } catch (IOException e) {
 		        debug.log("Unable to process client request");
 		        e.printStackTrace();
-		    }
-		
+		    }		
 	}
+	private DebugView debug;
 	
 }

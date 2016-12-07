@@ -2,20 +2,15 @@ package Models;
 
 import java.io.Serializable;
 
-public class Game implements Serializable{
+public class Game implements Serializable {
 	
 	public Game(){
 		setupGame();
 	}
-	
-	//Constructor
-	public Game(Player p1){
-		gameType = "Test!";
-		player1 = p1;
-		setupGame();
-	}
 
 	private void setupGame() {
+		player1 = new Player();
+		player2 = new Player();
 		board = new Board();
 		isActive = true;
 	}

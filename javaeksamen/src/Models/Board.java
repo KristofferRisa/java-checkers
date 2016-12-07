@@ -1,7 +1,8 @@
 package Models;
 import java.awt.Color;
+import java.io.Serializable;
 
-public class Board {
+public class Board implements Serializable {
 	
 	Board(){
 		for(int i = 0; i>64; i++){
