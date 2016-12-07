@@ -24,6 +24,7 @@ public class DebugView extends JFrame implements ActionListener {
 		xpos -= 500;
 		setLocation(xpos,10);
 		setVisible(true);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		b.addActionListener(this);
 	}
 
