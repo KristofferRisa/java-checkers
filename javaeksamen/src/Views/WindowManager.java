@@ -23,7 +23,6 @@ public class WindowManager extends Thread {
 		debug = new DebugView();
 	}
 
-
 	public void showGameView(){
 		gameView.setVisible(true);
 	}
@@ -63,13 +62,13 @@ public class WindowManager extends Thread {
 			//Klient
 			debug.log("Starter ny klient");
 			klient = new Klient(debug);
-			
+			klient.start();
+
 			debug.log("Forsøker å kople til server");
 			while(klient.isConnected == false){
 				try {
 					debug.log("Venter på Server");
 					sleep(1000);
-					klient.start();
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -79,6 +78,7 @@ public class WindowManager extends Thread {
 			
 		}
 	}
+
 
 	public Game setupGame() {
 		
