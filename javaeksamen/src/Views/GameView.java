@@ -30,4 +30,6 @@ public class GameView extends JPanel implements ActionListener  {
 	public void actionPerformed(ActionEvent arg0) {
 		setVisible(false);
 	}
+	private static final long serialVersionUID = 7542084159328657810L;
+
 }
