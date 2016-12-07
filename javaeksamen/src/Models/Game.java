@@ -3,7 +3,7 @@ package Models;
 import java.io.Serializable;
 
 public class Game implements Serializable {
-	
+
 	public Game(){
 		setupGame();
 	}
@@ -41,4 +41,6 @@ public class Game implements Serializable {
 	
 	public boolean isActive;
 		
+	private static final long serialVersionUID = 3484073086581610846L;
+
 }

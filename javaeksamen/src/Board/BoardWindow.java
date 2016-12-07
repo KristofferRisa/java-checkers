@@ -2,11 +2,10 @@ package Board;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
-
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 public class BoardWindow extends JPanel {
+
 	public BoardWindow () {
 		add (new SquareMatrix());
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -17,4 +16,6 @@ public class BoardWindow extends JPanel {
 		setSize(height/2, width/4);
 		setVisible(true);		
 	}
+
+	private static final long serialVersionUID = 2897347750559652886L;
 }

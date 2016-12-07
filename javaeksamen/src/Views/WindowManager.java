@@ -5,7 +5,6 @@ import Models.Game;
 public class WindowManager extends Thread {
 	
 	public WindowManager(){
-		gameView = new GameView();
 		windowContainer = new WindowContainer();
 		debug = new DebugView();
 	}
@@ -47,7 +46,6 @@ public class WindowManager extends Thread {
 	}
 
 	public Game game;
-	private GameView gameView;
 	public DebugView debug;
 	private WindowContainer windowContainer;
 }

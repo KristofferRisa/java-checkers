@@ -41,4 +41,6 @@ public class DebugView extends JFrame implements ActionListener {
 	
 	static final int SCREENWIDTH = 1250;
 	static int xpos = SCREENWIDTH;
+	private static final long serialVersionUID = 5699042746425429470L;
+
 }

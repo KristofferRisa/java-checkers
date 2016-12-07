@@ -6,15 +6,10 @@ import Board.BoardWindow;
 
 public class WindowContainer extends JFrame {
 
-	public UserInputView userInputView;
-	private BoardWindow boardWindow;
-	
-	public WindowContainer(){
 
+	public WindowContainer(){
 		configureFrame();
 		setVisible(true);
-		
-		
 	}
 	
 	public void showUserInput(){
@@ -35,5 +30,10 @@ public class WindowContainer extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
 	}
+	
+	public UserInputView userInputView;
+	private BoardWindow boardWindow;
+	private static final long serialVersionUID = -3425445318104341180L;
+	
 	
 }

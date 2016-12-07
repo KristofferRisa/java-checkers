@@ -4,7 +4,6 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -14,18 +13,6 @@ import javax.swing.JTextField;
 import Models.Game;
 
 public class UserInputView extends JPanel implements ActionListener  {
-
-	private JTextField nameField;
-
-	private JButton btnServer;
-
-	private JButton btnJoin;
-
-	private JButton btnLocal;
-
-	public Game game;
-
-	public boolean isServer;
 
 	public UserInputView(){
 
@@ -92,6 +79,20 @@ public class UserInputView extends JPanel implements ActionListener  {
 		setVisible(false);
     }
 	
+	private JTextField nameField;
+
+	private JButton btnServer;
+
+	private JButton btnJoin;
+
+	private JButton btnLocal;
+
+	public Game game;
+
+	public boolean isServer;
+	
+	private static final long serialVersionUID = -3671918994272350809L;
+
 }
 
 
