@@ -3,6 +3,7 @@ package Views;
 
 import java.awt.BorderLayout;
 import java.awt.Container;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
@@ -26,6 +27,8 @@ public class DebugView extends JFrame implements ActionListener {
 		setVisible(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		b.addActionListener(this);
+		ta.setFont(getFont().deriveFont(new Float(30)));
+		
 	}
 
 	public void log(String s) {

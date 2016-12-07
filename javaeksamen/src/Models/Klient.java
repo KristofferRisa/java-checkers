@@ -8,7 +8,7 @@ import java.net.Socket;
 
 import Views.DebugView;
 
-public class Klient {
+public class Klient extends Thread {
 	
 	private DebugView debug;
 
