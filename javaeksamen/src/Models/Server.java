@@ -1,6 +1,7 @@
 package Models;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.ObjectOutputStream;
 import java.io.PrintStream;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -8,16 +9,16 @@ import java.net.Socket;
 import Views.DebugView;
 
 public class Server extends Thread {
-
-	private DebugView debug;
-
-	public Server(DebugView d){
+	
+	public Server(Game g, DebugView d){
+		game = g;
 		debug = d;
 		isConnected = false;
 	}
 	
 	private ServerSocket server;
 	private Socket socket;
+	private Game game;
 	
 	public boolean isConnected;
 	
@@ -32,9 +33,9 @@ public class Server extends Thread {
 		        	debug.log("Ny klient tilkoplet!");
 		        	isConnected = true;
 		        	InputStream inputStream = socket.getInputStream();
-		        	PrintStream output = new PrintStream(socket.getOutputStream());
+		        	ObjectOutputStream output = new ObjectOutputStream(socket.getOutputStream());
 					
-		        	output.println("Dette er en melding til player2!");
+		        	output.writeObject(game);
 					output.flush();
 					
 					byte[] buffer = new byte[1024];
@@ -49,8 +50,8 @@ public class Server extends Thread {
 		    } catch (IOException e) {
 		        debug.log("Unable to process client request");
 		        e.printStackTrace();
-		    }
-		
+		    }		
 	}
+	private DebugView debug;
 	
 }

@@ -2,28 +2,19 @@ package Views;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import com.sun.glass.events.MouseEvent;
-
-import Models.GameConfig;
-import Models.Player;
+import Models.Game;
 
 public class UserInputView extends JPanel implements ActionListener  {
 
-	public Player p;
-	
-	public GameConfig config;
-	
 	private JTextField nameField;
 
 	private JButton btnServer;
@@ -32,9 +23,14 @@ public class UserInputView extends JPanel implements ActionListener  {
 
 	private JButton btnLocal;
 
-	public UserInputView(GameConfig c){
-		
-		config = c;
+	public Game game;
+
+	public boolean isServer;
+
+	public UserInputView(){
+
+		game = new Game();
+		isServer = false;
 		setBorder(BorderFactory.createTitledBorder("Type in your username and create a new game or join an existing one!"));
 		
 		JLabel nameLabel = new JLabel ("Username: ");
@@ -49,9 +45,7 @@ public class UserInputView extends JPanel implements ActionListener  {
 		
 		GridBagConstraints gc = new GridBagConstraints();
 		gc.anchor = GridBagConstraints.LINE_START;
-		
-		//Label and TextField  -------------------
-		
+				
 		gc.weightx = 0.5;
 		gc.weighty = 0.5;
 		
@@ -85,17 +79,15 @@ public class UserInputView extends JPanel implements ActionListener  {
 		
 	}
 	
-	
 	public void actionPerformed(ActionEvent e) {
-		if(p != null && config != null){
-			
-			p.name = nameField.getText();
-			
-		if(e.getSource() == btnServer)
-			config.isServer = true;
+		
+		if(e.getSource() == btnServer){
+			game.player1.name = nameField.getText();	
+			isServer = true;
 		}
 		if(e.getSource() == btnJoin){
-			config.isServer = false;
+			game.player2.name = nameField.getText();
+			isServer = false;
 		}
 		setVisible(false);
     }
