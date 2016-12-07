@@ -1,6 +1,7 @@
 package Models;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.ObjectOutputStream;
 import java.io.PrintStream;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -11,13 +12,15 @@ public class Server extends Thread {
 
 	private DebugView debug;
 
-	public Server(DebugView d){
+	public Server(GameData g, DebugView d){
+		gameData = g;
 		debug = d;
 		isConnected = false;
 	}
 	
 	private ServerSocket server;
 	private Socket socket;
+	private GameData gameData;
 	
 	public boolean isConnected;
 	
@@ -32,9 +35,9 @@ public class Server extends Thread {
 		        	debug.log("Ny klient tilkoplet!");
 		        	isConnected = true;
 		        	InputStream inputStream = socket.getInputStream();
-		        	PrintStream output = new PrintStream(socket.getOutputStream());
+		        	ObjectOutputStream output = new ObjectOutputStream(socket.getOutputStream());
 					
-		        	output.println("Dette er en melding til player2!");
+		        	output.writeObject(gameData);
 					output.flush();
 					
 					byte[] buffer = new byte[1024];

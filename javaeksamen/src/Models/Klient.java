@@ -1,6 +1,7 @@
 package Models;
 
 import java.io.InputStream;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.net.Socket;
@@ -29,6 +30,13 @@ public class Klient {
 			
 			InputStream inputStream = socket.getInputStream();
 			OutputStream outputStream = socket.getOutputStream();
+			
+			ObjectInputStream input = new ObjectInputStream(inputStream);
+			GameData dataFromServer = (GameData)input.readObject();
+			
+			debug.log("leser objekt fra server");
+			debug.log("Spill navn: " + dataFromServer.Name);
+			debug.log("Spiller 1: " + dataFromServer.player1.name);
 			
 			ObjectOutputStream out = new ObjectOutputStream(outputStream);
 			
