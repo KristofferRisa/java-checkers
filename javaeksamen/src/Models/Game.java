@@ -8,8 +8,7 @@ public class Game {
 		player1 = p1;
 		player2 = p2;
 		board = new Board();
-		
-		
+		isActive = true;
 	}
 	
 	private Player player1;
@@ -37,5 +36,6 @@ public class Game {
 		throw new UnsupportedOperationException();
 	}
 	
+	public boolean isActive;
 		
 }
