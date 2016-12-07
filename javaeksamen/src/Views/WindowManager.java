@@ -1,6 +1,7 @@
 package Views;
 
 import Models.Game;
+import Models.Server;
 
 public class WindowManager extends Thread {
 	
@@ -43,6 +44,10 @@ public class WindowManager extends Thread {
 
 	public Boolean getServerStatus() {
 		return windowContainer.userInputView.isServer;
+	}
+	
+	public void setServer(Server s){
+		windowContainer.server = s;
 	}
 
 	public Game game;

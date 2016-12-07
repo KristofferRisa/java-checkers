@@ -37,19 +37,25 @@ public class Server extends Thread {
 	        	output.writeObject(game);
 				output.flush();
 				
-				byte[] buffer = new byte[1024];
-			    int read;
-			    while((read = inputStream.read(buffer)) != -1) {
-			        String out = new String(buffer, 0, read);
-			        debug.log(out);
-			        System.out.flush();
-			    };
+				break;
+//				byte[] buffer = new byte[1024];
+//			    int read;
+//			    while((read = inputStream.read(buffer)) != -1) {
+//			        String out = new String(buffer, 0, read);
+//			        debug.log(out);
+//			        System.out.flush();
+//			    };
 				
 	        }
 	    } catch (IOException e) {
 	        debug.log("Unable to process client request");
 	        e.printStackTrace();
 	    }		
+	    debug.log("ferdig med klient!");
+	}
+	
+	public void sendGame(){
+		
 	}
 	
 	private DebugView debug;

@@ -18,6 +18,7 @@ public class UserInputView extends JPanel implements ActionListener  {
 
 		game = new Game();
 		isServer = false;
+		
 		setBorder(BorderFactory.createTitledBorder("Type in your username and create a new game or join an existing one!"));
 		
 		JLabel nameLabel = new JLabel ("Username: ");
