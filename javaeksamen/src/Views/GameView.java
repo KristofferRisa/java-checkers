@@ -48,7 +48,7 @@ public class GameView extends JPanel implements ActionListener  {
 		}
 		if(e.getSource() == b2){
 			if(server != null){
-				System.out.println("forsøker å sende game til klient!");
+				System.out.println("forsÃ¸ker Ã¥ sende game til klient!");
 				server.sendGame();	
 			}
 		}
