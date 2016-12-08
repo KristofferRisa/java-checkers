@@ -8,6 +8,7 @@ import java.awt.Toolkit;
 import javax.swing.JFrame;
 import Board.BoardWindow;
 import Models.Server;
+import sun.applet.Main;
 
 public class WindowContainer extends JFrame {
 
@@ -20,6 +21,7 @@ public class WindowContainer extends JFrame {
 		userInputView = new UserInputView();
 		add(userInputView);
 	}
+	
 	
 	public void showBoard(){
 		boardWindow = new BoardWindow();

@@ -139,6 +139,8 @@ public class UserInputView extends JPanel implements ActionListener  {
 
 	public boolean isServer;
 	
+	private DebugView debug;
+	
 	private static final long serialVersionUID = -3671918994272350809L;
 
 	
