@@ -1,4 +1,6 @@
+
 package Views;
+
 
 import java.awt.BorderLayout;
 import java.awt.Container;
@@ -8,6 +10,7 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.FlatteningPathIterator;
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
@@ -33,7 +36,7 @@ public class DebugView extends JFrame implements ActionListener {
 			ta.setFont(getFont().deriveFont(new Float(26)));
 		}
 		
-		log("HÃ¸yde " + height + "Bredde: " +width);
+		log("Høyde " + height + "Bredde: " +width);
 		setSize(height/3, width/3);
 		setLocation(50,10);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
