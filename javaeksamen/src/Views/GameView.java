@@ -36,6 +36,7 @@ public class GameView extends JPanel implements ActionListener  {
 		add(ta);
 		add(b);
 		add(b2);
+		
 
 		b.addActionListener(this);
 		b2.addActionListener(this);
