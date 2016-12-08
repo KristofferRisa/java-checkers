@@ -1,6 +1,8 @@
 package Views;
 
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Toolkit;
@@ -12,6 +14,9 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.border.TitledBorder;
+
+import com.sun.glass.ui.Size;
 
 import Models.Game;
 
@@ -25,8 +30,8 @@ public class UserInputView extends JPanel implements ActionListener  {
 		
 		game = new Game();
 		isServer = false;
+		//setBorder(BorderFactory.createTitledBorder("Type in your username and create a new game or join an existing one!"));
 		
-		setBorder(BorderFactory.createTitledBorder("Type in your username and create a new game or join an existing one!"));
 		
 		JLabel nameLabel = new JLabel ("Username: ");
 		
@@ -76,21 +81,36 @@ public class UserInputView extends JPanel implements ActionListener  {
 		int height = screenSize.height;
 		int width = screenSize.width;
 		setVisible(true);
-		if(width <=1024){
+		if(width <=1366){
 			nameLabel.setFont(getFont().deriveFont(new Float(16)));
 			nameField.setFont(getFont().deriveFont(new Float(16)));
 			nameField.setFont(getFont().deriveFont(new Float(16)));
 			btnServer.setFont(getFont().deriveFont(new Float(16)));
 			btnJoin.setFont(getFont().deriveFont(new Float(16)));
 			btnLocal.setFont(getFont().deriveFont(new Float(16)));
+			setBorder(BorderFactory.createTitledBorder(null, "Type in your username and create a new game or join an existing one!", TitledBorder.CENTER, TitledBorder.TOP, new Font("times new roman",Font.PLAIN,10), Color.black ));
 			
-		} else {
+		} else if (width >=1367 || width <=2001) {
 			nameLabel.setFont(getFont().deriveFont(new Float(26)));
 			nameField.setFont(getFont().deriveFont(new Float(26)));
 			btnServer.setFont(getFont().deriveFont(new Float(26)));
 			btnJoin.setFont(getFont().deriveFont(new Float(26)));
 			btnLocal.setFont(getFont().deriveFont(new Float(26)));
+			setBorder(BorderFactory.createTitledBorder(null, "Type in your username and create a new game or join an existing one!", TitledBorder.CENTER, TitledBorder.TOP, new Font("times new roman",Font.PLAIN,20), Color.black ));
 		}
+				
+				
+				else {
+			nameLabel.setFont(getFont().deriveFont(new Float(36)));
+			nameField.setFont(getFont().deriveFont(new Float(36)));
+			btnServer.setFont(getFont().deriveFont(new Float(36)));
+			btnJoin.setFont(getFont().deriveFont(new Float(36)));
+			btnLocal.setFont(getFont().deriveFont(new Float(36)));
+			setBorder(BorderFactory.createTitledBorder(null, "Type in your username and create a new game or join an existing one!", TitledBorder.CENTER, TitledBorder.TOP, new Font("times new roman",Font.PLAIN,30), Color.black ));
+			
+		}
+		
+		
 		
 	}
 	
