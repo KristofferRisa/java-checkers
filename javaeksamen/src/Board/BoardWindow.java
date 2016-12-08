@@ -2,12 +2,11 @@ package Board;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import javax.swing.JPanel;
 
-import javax.swing.JFrame;
+public class BoardWindow extends JPanel {
 
-public class BoardWindow extends JFrame {
 	public BoardWindow () {
-		setTitle ("Dirty Checkers");
 		add (new SquareMatrix());
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		
@@ -15,8 +14,8 @@ public class BoardWindow extends JFrame {
 		int width = screenSize.width;
 		
 		setSize(height/2, width/4);
-		setVisible(true);
-		setLocationRelativeTo(null);
-		
+		setVisible(true);		
 	}
+
+	private static final long serialVersionUID = 2897347750559652886L;
 }

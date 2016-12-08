@@ -3,94 +3,84 @@ package Models;
 import Views.WindowManager;
 
 public class Checkers extends Thread {
-	
-	private Player p2;
-	private Game game;	
-	private Player p1;
-	private WindowManager gui;
-	private GameConfig config;
-	private Server server;
-	private Klient klient;
 
 	public Checkers(){
 		//oppsett spillere og GUI(windowmanager)
-		setupPlayersAndGame();
+		windowManager = new WindowManager();
 		
-		gui.showUserInput(); 
+		windowManager.debug.log("Starter");
+		//Viser GUI for å spill og spiller informasjon
+		game = windowManager.setupGame();
 		
-		while(gui.userInputIsActive() == true){
-			try{
-				//gui.debug.log("Venter på user input");
-				sleep(2000);
-			}
-			catch(InterruptedException e){
-				gui.debug.log(e.getMessage());
-			}			
-		}
-		gui.debug.log(p1.name);
+		//Debug status
+		isServer = windowManager.getServerStatus();
+		windowManager.debug.log("Player = " + game.player1.name);
+		String status = (isServer == true) ? "on" : "off";
+		windowManager.debug.log("Server status: " + status);
 		
-		if(config.isServer == true){
+		if(isServer){
 			//Start server
-			server = new Server(gui.debug);
+			server = new Server(game, windowManager.debug);
 			server.start();
+			windowManager.setServer(server);
 			while(server.isConnected == false){
 				try {
-					gui.debug.log("venter på spiller");
+					windowManager.debug.log("venter på spiller");
 					sleep(1000);
-					
 				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
+					break;
+				}
+			}
+			while(server.isConnected && game.isActive){
+				try{
+					windowManager.debug.log("Spillet kan starte");
+					sleep(1000);
+					windowManager.showGameView();
+				} catch (InterruptedException e){
+					e.printStackTrace();
+					break;
 				}
 			}
 		} 
 		else 
 		{
-			//Klient
-			gui.debug.log("Starter ny klient");
-			klient = new Klient(gui.debug);
-			
-			gui.debug.log("Forsøker å kople til server");
+			//Starter klient
+			windowManager.debug.log("Starter ny klient");
+			klient = new Klient(windowManager.debug);
+			klient.start();
+
+			windowManager.debug.log("Forsøker å kople til server");
 			while(klient.isConnected == false){
 				try {
-					gui.debug.log("Venter på Server");
+					windowManager.debug.log("Venter på Server");
 					sleep(1000);
-					klient.start();
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
-			
-			
-		}
-		
-		gui.showGameView();
-		while(gui.gameIsActive() == true && ((server != null && server.isConnected == true) || (klient != null && klient.isConnected))){
-			try {
-				gui.debug.log("Starter Game view!");
-				gui.debug.log("Server: " + config.isServer.toString());
-				
-				sleep(2000);
-				gui.game.isActive = true;
-			} catch (InterruptedException e) {
-				gui.debug.log(e.getMessage());
-				gui.debug.log(e.getStackTrace().toString());
+			while(server.isConnected && game.isActive){
+				try{
+					windowManager.debug.log("Spillet kan starte");
+					sleep(1000);
+					windowManager.showGameView();
+				} catch (InterruptedException e){
+					e.printStackTrace();
+					break;
+				}
 			}
 		}
 		
-		gui.debug.log("ferdig, avslutter aplikasjon");
+		windowManager.debug.log("ferdig, avslutter aplikasjon");
 		System.exit(0);
 		//game.start();
 		
 	}
-
-	private void setupPlayersAndGame() {
-		p1 = new Player();
-		p2 = new Player("Robot", false);
-		config = new GameConfig();
-		game = new Game(p1, p2);				
-		gui = new WindowManager(game, p1, config);
-	}
 		
+	private Game game;	
+	private WindowManager windowManager;
+	private Server server;
+	private Klient klient;
+	public Boolean isServer;
 }

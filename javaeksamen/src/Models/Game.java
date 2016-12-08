@@ -1,28 +1,31 @@
 package Models;
 
-public class Game {
-	
-	//Constructor
-	public Game(Player p1, Player p2){
-		gameType = "Unni og Doffens uvannlige regler!";
-		player1 = p1;
-		player2 = p2;
+import java.io.Serializable;
+
+public class Game implements Serializable {
+
+	public Game(){
+		setupGame();
+	}
+
+	private void setupGame() {
+		player1 = new Player();
+		player2 = new Player();
 		board = new Board();
 		isActive = true;
 	}
 	
-	private Player player1;
+	public Player player1;
 	
-	private Player player2;
+	public Player player2;
 	
-	private Board board;
+	public Board board;
 	
-	private String gameType;
+	public String gameType;
 	
 	public void restart(){
 		throw new UnsupportedOperationException();
 	}
-	
 	
 	public void save(){
 		throw new UnsupportedOperationException();
@@ -38,4 +41,6 @@ public class Game {
 	
 	public boolean isActive;
 		
+	private static final long serialVersionUID = 3484073086581610846L;
+
 }

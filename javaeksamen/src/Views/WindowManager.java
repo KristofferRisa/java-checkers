@@ -1,60 +1,56 @@
 package Views;
 
-import javax.swing.JFrame;
-
 import Models.Game;
-import Models.GameConfig;
-import Models.Player;
+import Models.Server;
 
-public class WindowManager extends JFrame {
+public class WindowManager extends Thread {
 	
-	public Player player;
-	public Game game;
-	public DebugView debug;
-	private GameView gameView;
-	private UserInputView userInputView;
-	
-	public WindowManager(Game game, Player player,GameConfig config){
-		this.game = game;
-		this.player = player;
-		userInputView = new UserInputView(config);
-		gameView = new GameView();
-		
-		configureFrame();
-		
-		add(userInputView);
+	public WindowManager(){
+		windowContainer = new WindowContainer();
 		debug = new DebugView();
 	}
 
-	private void configureFrame() {
-		setTitle("Checkers 1.0!! (java eksamen)");
-		setVisible(true);
-		setSize(400,500);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setLocationRelativeTo(null);
-	}
-	
-	public void showUserInput(){
-		userInputView.p = this.player;
-		userInputView.setVisible(true);
-	}
-	
 	public void showGameView(){
-		gameView.setVisible(true);
+		windowContainer.showBoard();
 	}
 	
 	public void closeUserInput(){
-		userInputView.setVisible(false);
+		windowContainer.userInputView.setVisible(false);
 		notifyAll();
 	}
 	
 	public boolean userInputIsActive(){
-		return (userInputView.isVisible() == true) ? true : false;
+		return (windowContainer.userInputView.isVisible() == true) ? true : false;
 	}
 
 	public boolean gameIsActive() {
 		return (game.isActive == true) ? true : false;
 	}
 
+	public Game setupGame() {		
+		windowContainer.showUserInput();		
+		
+		while(userInputIsActive() == true){
+			try{
+				debug.log("Venter på user input");
+				sleep(2000);
+			}
+			catch(InterruptedException e){
+				debug.log(e.getMessage());
+			}			
+		}		
+		return windowContainer.userInputView.game;
+	}
+
+	public Boolean getServerStatus() {
+		return windowContainer.userInputView.isServer;
+	}
 	
+	public void setServer(Server s){
+		windowContainer.server = s;
+	}
+
+	public Game game;
+	public DebugView debug;
+	private WindowContainer windowContainer;
 }
