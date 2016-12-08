@@ -11,7 +11,7 @@ public class BoardWindow extends JPanel {
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		int height = screenSize.height;
 		int width = screenSize.width;
-		setSize(height/2, width/4);
+		setSize(height, width/4);
 		setVisible(true);		
 	}
 
