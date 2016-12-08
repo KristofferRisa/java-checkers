@@ -33,7 +33,7 @@ public class DebugView extends JFrame implements ActionListener {
 			ta.setFont(getFont().deriveFont(new Float(26)));
 		}
 		
-		log("Høyde " + height + "Bredde: " +width);
+		log("HÃ¸yde " + height + "Bredde: " +width);
 		setSize(height/3, width/3);
 		setLocation(50,10);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

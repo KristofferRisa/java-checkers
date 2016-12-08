@@ -1,9 +1,12 @@
 package Views;
 
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -16,6 +19,10 @@ public class UserInputView extends JPanel implements ActionListener  {
 
 	public UserInputView(){
 
+
+		
+		
+		
 		game = new Game();
 		isServer = false;
 		
@@ -65,6 +72,26 @@ public class UserInputView extends JPanel implements ActionListener  {
 		btnServer.addActionListener(this);
 		btnJoin.addActionListener(this);
 		
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		int height = screenSize.height;
+		int width = screenSize.width;
+		setVisible(true);
+		if(width <=1024){
+			nameLabel.setFont(getFont().deriveFont(new Float(16)));
+			nameField.setFont(getFont().deriveFont(new Float(16)));
+			nameField.setFont(getFont().deriveFont(new Float(16)));
+			btnServer.setFont(getFont().deriveFont(new Float(16)));
+			btnJoin.setFont(getFont().deriveFont(new Float(16)));
+			btnLocal.setFont(getFont().deriveFont(new Float(16)));
+			
+		} else {
+			nameLabel.setFont(getFont().deriveFont(new Float(26)));
+			nameField.setFont(getFont().deriveFont(new Float(26)));
+			btnServer.setFont(getFont().deriveFont(new Float(26)));
+			btnJoin.setFont(getFont().deriveFont(new Float(26)));
+			btnLocal.setFont(getFont().deriveFont(new Float(26)));
+		}
+		
 	}
 	
 	public void actionPerformed(ActionEvent e) {
@@ -94,6 +121,8 @@ public class UserInputView extends JPanel implements ActionListener  {
 	
 	private static final long serialVersionUID = -3671918994272350809L;
 
+	
+		
 }
 
 
