@@ -1,8 +1,10 @@
 package Views;
 
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -36,6 +38,27 @@ public class GameView extends JPanel implements ActionListener  {
 		add(ta);
 		add(b);
 		add(b2);
+		
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		//int height = screenSize.height;
+		int width = screenSize.width;
+		setVisible(true);
+		
+		if(width <=1366){
+			ta.setFont(getFont().deriveFont(new Float(16)));
+			b2.setFont(getFont().deriveFont(new Float(16)));
+			b.setFont(getFont().deriveFont(new Float(16)));
+		} else if (width <=1367 && width <=2001) {
+			ta.setFont(getFont().deriveFont(new Float(28)));
+			b2.setFont(getFont().deriveFont(new Float(28)));
+			b.setFont(getFont().deriveFont(new Float(28)));
+		}
+		
+		else {
+			ta.setFont(getFont().deriveFont(new Float(28)));
+			b2.setFont(getFont().deriveFont(new Float(28)));
+			b.setFont(getFont().deriveFont(new Float(28)));
+		}
 
 		b.addActionListener(this);
 		b2.addActionListener(this);
