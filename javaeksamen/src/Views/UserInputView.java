@@ -16,117 +16,112 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 
-import com.sun.glass.ui.Size;
-
 import Models.Game;
 
-public class UserInputView extends JPanel implements ActionListener  {
+public class UserInputView extends JPanel implements ActionListener {
 
-	public UserInputView(){
+	public UserInputView() {
 
-
-		
-		
-		
 		game = new Game();
 		isServer = false;
-		//setBorder(BorderFactory.createTitledBorder("Type in your username and create a new game or join an existing one!"));
-		
-		
-		JLabel nameLabel = new JLabel ("Username: ");
-		
+
+		JLabel nameLabel = new JLabel("Username: ");
+
 		nameField = new JTextField(10);
-		
+
 		btnServer = new JButton("Create New Online Game");
 		btnJoin = new JButton("Join Online Game/Enter IP");
 		btnLocal = new JButton("Test Game Locally");
-		
+
 		setLayout(new GridBagLayout());
-		
+
 		GridBagConstraints gc = new GridBagConstraints();
 		gc.anchor = GridBagConstraints.LINE_START;
-				
+
 		gc.weightx = 0.5;
 		gc.weighty = 0.5;
-		
+
 		gc.gridx = 0;
 		gc.gridy = 0;
 		add(nameLabel, gc);
-		
+
 		gc.gridx = 1;
 		gc.gridy = 0;
 		add(nameField, gc);
-		
-		//First button - Create Game  -------------------
+
+		// First button - Create Game -------------------
 		gc.gridx = 1;
 		gc.gridy = 2;
 		add(btnServer, gc);
-		
-		//Second button - Join Game  -------------------
+
+		// Second button - Join Game -------------------
 		gc.gridx = 1;
 		gc.gridy = 3;
 		add(btnJoin, gc);
-		
+
 		gc.weighty = 10;
 		gc.weightx = 10;
-		
-		//Third button - Test Game  -------------------
+
+		// Third button - Test Game -------------------
 		gc.gridx = 1;
 		gc.gridy = 4;
 		add(btnLocal, gc);
 		btnServer.addActionListener(this);
 		btnJoin.addActionListener(this);
-		
+
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		int height = screenSize.height;
 		int width = screenSize.width;
 		setVisible(true);
-		if(width <=1366){
+		if (width <= 1366) {
 			nameLabel.setFont(getFont().deriveFont(new Float(16)));
 			nameField.setFont(getFont().deriveFont(new Float(16)));
 			nameField.setFont(getFont().deriveFont(new Float(16)));
 			btnServer.setFont(getFont().deriveFont(new Float(16)));
 			btnJoin.setFont(getFont().deriveFont(new Float(16)));
 			btnLocal.setFont(getFont().deriveFont(new Float(16)));
-			setBorder(BorderFactory.createTitledBorder(null, "Type in your username and create a new game or join an existing one!", TitledBorder.CENTER, TitledBorder.TOP, new Font("times new roman",Font.PLAIN,10), Color.black ));
-			
-		} else if (width >=1367 || width <=2001) {
+			setBorder(BorderFactory.createTitledBorder(null,
+					"Type in your username and create a new game or join an existing one!", TitledBorder.CENTER,
+					TitledBorder.TOP, new Font("times new roman", Font.PLAIN, 10), Color.black));
+
+		} else if (width >= 1367 || width <= 2001) {
 			nameLabel.setFont(getFont().deriveFont(new Float(26)));
 			nameField.setFont(getFont().deriveFont(new Float(26)));
 			btnServer.setFont(getFont().deriveFont(new Float(26)));
 			btnJoin.setFont(getFont().deriveFont(new Float(26)));
 			btnLocal.setFont(getFont().deriveFont(new Float(26)));
-			setBorder(BorderFactory.createTitledBorder(null, "Type in your username and create a new game or join an existing one!", TitledBorder.CENTER, TitledBorder.TOP, new Font("times new roman",Font.PLAIN,20), Color.black ));
+			setBorder(BorderFactory.createTitledBorder(null,
+					"Type in your username and create a new game or join an existing one!", TitledBorder.CENTER,
+					TitledBorder.TOP, new Font("times new roman", Font.PLAIN, 20), Color.black));
 		}
-				
-				
-				else {
+
+		else {
 			nameLabel.setFont(getFont().deriveFont(new Float(36)));
 			nameField.setFont(getFont().deriveFont(new Float(36)));
 			btnServer.setFont(getFont().deriveFont(new Float(36)));
 			btnJoin.setFont(getFont().deriveFont(new Float(36)));
 			btnLocal.setFont(getFont().deriveFont(new Float(36)));
-			setBorder(BorderFactory.createTitledBorder(null, "Type in your username and create a new game or join an existing one!", TitledBorder.CENTER, TitledBorder.TOP, new Font("times new roman",Font.PLAIN,30), Color.black ));
-			
+			setBorder(BorderFactory.createTitledBorder(null,
+					"Type in your username and create a new game or join an existing one!", TitledBorder.CENTER,
+					TitledBorder.TOP, new Font("times new roman", Font.PLAIN, 30), Color.black));
+
 		}
-		
-		
-		
+
 	}
-	
+
 	public void actionPerformed(ActionEvent e) {
-		
-		if(e.getSource() == btnServer){
-			game.player1.name = nameField.getText();	
+
+		if (e.getSource() == btnServer) {
+			game.player1.name = nameField.getText();
 			isServer = true;
 		}
-		if(e.getSource() == btnJoin){
+		if (e.getSource() == btnJoin) {
 			game.player2.name = nameField.getText();
 			isServer = false;
 		}
 		setVisible(false);
-    }
-	
+	}
+
 	private JTextField nameField;
 
 	private JButton btnServer;
@@ -138,11 +133,7 @@ public class UserInputView extends JPanel implements ActionListener  {
 	public Game game;
 
 	public boolean isServer;
-	
+
 	private static final long serialVersionUID = -3671918994272350809L;
 
-	
-		
 }
-
-
