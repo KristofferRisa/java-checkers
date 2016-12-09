@@ -23,6 +23,8 @@ public class Checkers extends Thread {
 			server = new Server(game, windowManager.debug);
 			server.start();
 			windowManager.setServer(server);
+
+			windowManager.showGameView();
 			while(server.isConnected == false){
 				try {
 					windowManager.debug.log("venter på spiller");
@@ -36,7 +38,7 @@ public class Checkers extends Thread {
 				try{
 					windowManager.debug.log("Spillet kan starte");
 					sleep(1000);
-					windowManager.showGameView();
+					
 				} catch (InterruptedException e){
 					e.printStackTrace();
 					break;
