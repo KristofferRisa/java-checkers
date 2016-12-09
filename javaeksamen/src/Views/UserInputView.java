@@ -22,10 +22,10 @@ import Models.Game;
 public class UserInputView extends JPanel implements ActionListener {
 
 	public UserInputView() {
-
+		
 		game = new Game();
 		isServer = false;
-
+		
 		JLabel nameLabel = new JLabel("Username: ");
 
 		nameField = new JTextField(10);
@@ -110,8 +110,6 @@ public class UserInputView extends JPanel implements ActionListener {
 					TitledBorder.TOP, new Font("", Font.PLAIN, 30)));
 		}
 		
-		
-		
 	}
 
 	public void actionPerformed(ActionEvent e) {
@@ -139,9 +137,7 @@ public class UserInputView extends JPanel implements ActionListener {
 
 	public boolean isServer;
 
-	
 	private DebugView debug;
-	
 
 	private static final long serialVersionUID = -3671918994272350809L;
 
