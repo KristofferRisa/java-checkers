@@ -39,10 +39,10 @@ public class WindowContainer extends JFrame {
 		add(boardWindow,gc);
 		
 		
-		gc.gridx = 1;
+		gc.gridx = 0;
 		gc.gridy = 1;
 		
-		gc.gridx = 1;
+		gc.gridx = 0;
 		gc.gridy = 1;
 		
 		if(server != null){
