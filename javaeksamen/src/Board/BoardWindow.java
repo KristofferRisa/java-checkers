@@ -11,10 +11,6 @@ public class BoardWindow extends JPanel {
 	
 	public BoardWindow () {
 		add (new SquareMatrix());
-		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-		int height = screenSize.height;
-		int width = screenSize.width;
-		setSize(height, width/4);
 		setVisible(true);		
 	}
 
