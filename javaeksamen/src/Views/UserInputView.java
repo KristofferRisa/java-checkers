@@ -23,10 +23,6 @@ import Models.Game;
 public class UserInputView extends JPanel implements ActionListener  {
 
 	public UserInputView(){
-
-
-		
-		
 		
 		game = new Game();
 		isServer = false;
@@ -88,7 +84,7 @@ public class UserInputView extends JPanel implements ActionListener  {
 			btnServer.setFont(getFont().deriveFont(new Float(16)));
 			btnJoin.setFont(getFont().deriveFont(new Float(16)));
 			btnLocal.setFont(getFont().deriveFont(new Float(16)));
-			setBorder(BorderFactory.createTitledBorder(null, "Type in your username and create a new game or join an existing one!", TitledBorder.CENTER, TitledBorder.TOP, new Font("times new roman",Font.PLAIN,10), Color.black ));
+			setBorder(BorderFactory.createTitledBorder(null, "Checkers Java 1.0!", TitledBorder.CENTER, TitledBorder.TOP, new Font("times new roman",Font.PLAIN,10), Color.black ));
 			
 		} else if (width >=1367 || width <=2001) {
 			nameLabel.setFont(getFont().deriveFont(new Float(26)));
@@ -96,21 +92,17 @@ public class UserInputView extends JPanel implements ActionListener  {
 			btnServer.setFont(getFont().deriveFont(new Float(26)));
 			btnJoin.setFont(getFont().deriveFont(new Float(26)));
 			btnLocal.setFont(getFont().deriveFont(new Float(26)));
-			setBorder(BorderFactory.createTitledBorder(null, "Type in your username and create a new game or join an existing one!", TitledBorder.CENTER, TitledBorder.TOP, new Font("times new roman",Font.PLAIN,20), Color.black ));
+			setBorder(BorderFactory.createTitledBorder(null, "Checkers Java 1.0!", TitledBorder.CENTER, TitledBorder.TOP, new Font("times new roman",Font.PLAIN,20), Color.black ));
 		}
-				
-				
+		
 				else {
 			nameLabel.setFont(getFont().deriveFont(new Float(36)));
 			nameField.setFont(getFont().deriveFont(new Float(36)));
 			btnServer.setFont(getFont().deriveFont(new Float(36)));
 			btnJoin.setFont(getFont().deriveFont(new Float(36)));
 			btnLocal.setFont(getFont().deriveFont(new Float(36)));
-			setBorder(BorderFactory.createTitledBorder(null, "Type in your username and create a new game or join an existing one!", TitledBorder.CENTER, TitledBorder.TOP, new Font("times new roman",Font.PLAIN,30), Color.black ));
-			
+			setBorder(BorderFactory.createTitledBorder(null, "Checkers Java 1.0!", TitledBorder.CENTER, TitledBorder.TOP, new Font("times new roman",Font.PLAIN,30), Color.black ));
 		}
-		
-		
 		
 	}
 	
