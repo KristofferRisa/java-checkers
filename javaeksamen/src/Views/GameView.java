@@ -37,7 +37,7 @@ public class GameView extends JPanel implements ActionListener  {
 		add(l);
 		add(ta);
 		add(b);
-		//add(b2);
+		add(b2);
 		
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		//int height = screenSize.height;
