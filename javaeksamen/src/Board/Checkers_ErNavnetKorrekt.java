@@ -1,5 +1,5 @@
 package Board;
 
-public class Checkers {
+public class Checkers_ErNavnetKorrekt {
 
 }
