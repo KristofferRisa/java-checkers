@@ -6,8 +6,8 @@ import Models.Server;
 public class WindowManager extends Thread {
 	
 	public WindowManager(){
-		windowContainer = new WindowContainer();
 		debug = new DebugView();
+		windowContainer = new WindowContainer();
 	}
 
 	public void showGameView(){

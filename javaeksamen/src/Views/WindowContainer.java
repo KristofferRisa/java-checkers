@@ -64,10 +64,10 @@ public class WindowContainer extends JFrame {
 		int height = screenSize.height;
 		int width = screenSize.width;
 		setSize(height,width/2);
-		setVisible(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLayout(new GridBagLayout());
 		setLocationRelativeTo(null);
+		setVisible(true);
 	}
 	
 	public UserInputView userInputView;
