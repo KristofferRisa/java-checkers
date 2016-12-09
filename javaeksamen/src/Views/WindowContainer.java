@@ -38,6 +38,7 @@ public class WindowContainer extends JFrame {
 		
 		add(boardWindow,gc);
 		
+		
 		gc.gridx = 1;
 		gc.gridy = 1;
 		
