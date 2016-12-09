@@ -45,7 +45,7 @@ public class UserInputView extends JPanel implements ActionListener {
 		gc.gridx = 0;
 		gc.gridy = 0;
 		add(nameLabel, gc);
-
+		
 		gc.gridx = 1;
 		gc.gridy = 0;
 		add(nameField, gc);
@@ -60,16 +60,14 @@ public class UserInputView extends JPanel implements ActionListener {
 		gc.gridy = 3;
 		add(btnJoin, gc);
 
-		gc.weighty = 10;
-		gc.weightx = 10;
-
 		// Third button - Test Game -------------------
 		gc.gridx = 1;
 		gc.gridy = 4;
 		add(btnLocal, gc);
 		btnServer.addActionListener(this);
 		btnJoin.addActionListener(this);
-
+		
+		// Puts relative sizes on all JComponents
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		int height = screenSize.height;
 		int width = screenSize.width;
@@ -83,8 +81,8 @@ public class UserInputView extends JPanel implements ActionListener {
 			btnLocal.setFont(getFont().deriveFont(new Float(16)));
 
 			setBorder(BorderFactory.createTitledBorder(null,
-					"Type in your username and create a new game or join an existing one!", TitledBorder.CENTER,
-					TitledBorder.TOP, new Font("times new roman", Font.PLAIN, 10), Color.black));
+					"Checkers Java 1.0!", TitledBorder.CENTER,
+					TitledBorder.TOP, new Font("", Font.PLAIN, 10)));
 
 		} else if (width >= 1367 || width <= 2001) {
 
@@ -95,8 +93,8 @@ public class UserInputView extends JPanel implements ActionListener {
 			btnLocal.setFont(getFont().deriveFont(new Float(26)));
 
 			setBorder(BorderFactory.createTitledBorder(null,
-					"Type in your username and create a new game or join an existing one!", TitledBorder.CENTER,
-					TitledBorder.TOP, new Font("times new roman", Font.PLAIN, 20), Color.black));
+					"Checkers Java 1.0!", TitledBorder.CENTER,
+					TitledBorder.TOP, new Font("", Font.PLAIN, 20)));
 		}
 
 		else {
@@ -108,11 +106,12 @@ public class UserInputView extends JPanel implements ActionListener {
 			btnLocal.setFont(getFont().deriveFont(new Float(36)));
 
 			setBorder(BorderFactory.createTitledBorder(null,
-					"Type in your username and create a new game or join an existing one!", TitledBorder.CENTER,
-					TitledBorder.TOP, new Font("times new roman", Font.PLAIN, 30), Color.black));
-
+					"Checkers Java 1.0!", TitledBorder.CENTER,
+					TitledBorder.TOP, new Font("", Font.PLAIN, 30)));
 		}
-
+		
+		
+		
 	}
 
 	public void actionPerformed(ActionEvent e) {
