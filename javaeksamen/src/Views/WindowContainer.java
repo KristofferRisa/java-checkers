@@ -1,10 +1,14 @@
 package Views;
 
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Toolkit;
+
 import javax.swing.JFrame;
 import Board.BoardWindow;
 import Models.Server;
+import sun.applet.Main;
 
 public class WindowContainer extends JFrame {
 
@@ -31,12 +35,14 @@ public class WindowContainer extends JFrame {
 		gc.gridx = 0;
 		gc.gridy = 0;
 		
+		boardWindow.setPreferredSize(new Dimension(800,600));
 		add(boardWindow,gc);
 		
-		gc.gridx = 1;
+		
+		gc.gridx = 0;
 		gc.gridy = 1;
 		
-		gc.gridx = 1;
+		gc.gridx = 0;
 		gc.gridy = 1;
 		
 		if(server != null){
@@ -46,18 +52,21 @@ public class WindowContainer extends JFrame {
 			g = new GameView();
 		}
 		add(g,gc);
-		
+		pack();
 	}
-
-
 	
 	private void configureFrame() {
 		setTitle("Checkers 1.0!! (java eksamen)");
-		setVisible(true);
-		setSize(400,500);
+		
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		
+		int height = screenSize.height;
+		int width = screenSize.width;
+		setSize(height,width/2);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLayout(new GridBagLayout());
 		setLocationRelativeTo(null);
+		setVisible(true);
 	}
 	
 	public UserInputView userInputView;
