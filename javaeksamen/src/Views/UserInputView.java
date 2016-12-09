@@ -22,10 +22,10 @@ import Models.Game;
 public class UserInputView extends JPanel implements ActionListener {
 
 	public UserInputView() {
-
+		
 		game = new Game();
 		isServer = false;
-
+		
 		JLabel nameLabel = new JLabel("Username: ");
 
 		nameField = new JTextField(10);
@@ -59,7 +59,7 @@ public class UserInputView extends JPanel implements ActionListener {
 		gc.gridx = 1;
 		gc.gridy = 3;
 		add(btnJoin, gc);
-
+		
 		// Third button - Test Game -------------------
 		gc.gridx = 1;
 		gc.gridy = 4;
@@ -84,7 +84,7 @@ public class UserInputView extends JPanel implements ActionListener {
 					"Checkers Java 1.0!", TitledBorder.CENTER,
 					TitledBorder.TOP, new Font("", Font.PLAIN, 10)));
 
-		} else if (width >= 1367 || width <= 2001) {
+		} else if (width >= 1367 && width <= 2001) {
 
 			nameLabel.setFont(getFont().deriveFont(new Float(26)));
 			nameField.setFont(getFont().deriveFont(new Float(26)));
@@ -109,8 +109,6 @@ public class UserInputView extends JPanel implements ActionListener {
 					"Checkers Java 1.0!", TitledBorder.CENTER,
 					TitledBorder.TOP, new Font("", Font.PLAIN, 30)));
 		}
-		
-		
 		
 	}
 
@@ -139,9 +137,7 @@ public class UserInputView extends JPanel implements ActionListener {
 
 	public boolean isServer;
 
-	
 	private DebugView debug;
-	
 
 	private static final long serialVersionUID = -3671918994272350809L;
 
