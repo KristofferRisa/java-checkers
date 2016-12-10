@@ -1,4 +1,4 @@
-package Models;
+package Game;
 
 import java.io.Serializable;
 

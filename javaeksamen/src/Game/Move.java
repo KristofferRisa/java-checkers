@@ -1,4 +1,7 @@
-package Models;
+package Game;
+
+import Board.Piece;
+import Board.Postion;
 
 public class Move {
 	public Postion fromPostion;

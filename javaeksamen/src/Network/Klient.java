@@ -1,13 +1,11 @@
 package Network;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.net.Socket;
-
-import Models.Game;
-import Prototype.Handshake;
 import Views.DebugWindow;
 
 public class Klient extends Thread {
@@ -25,30 +23,41 @@ public class Klient extends Thread {
 	public void start(){
 		try {
 			
-			Debug.log("Forsøker å kople til server");
+			Debug.log("_klient: Forsøker å kople til server");
 			socket = new Socket("127.0.0.1", 1337);
-
+			
+			Debug.log("_klient: Tilkoplet server");
 			isConnected = true;
 			
 			InputStream inputStream = socket.getInputStream();
 			OutputStream outputStream = socket.getOutputStream();
 			
+			Debug.log("_klient: venter på data fra server");
 			ObjectInputStream input = new ObjectInputStream(inputStream);
-			Handshake hs = (Handshake)input.readObject();
+			GameData data = (GameData)input.readObject();
 							
-			Debug.log("Kopler til " + hs.server);
+			Debug.log(" data: " + data.msg);
 			
-			Debug.log("Forsøker å sende data til server");
-			
-			ObjectOutputStream output = new ObjectOutputStream(outputStream);
-			hs.client = "En helt vanlig klient";
-			output.writeObject(hs);
-					    		
-			output.close();
+//			ObjectOutputStream output = new ObjectOutputStream(outputStream);
+//			data.msg = "Dette er en melding tilbake til server fra klient klassen";
+//			output.writeObject(data);					    		
+//			output.close();
 			
 		} catch (Exception e) {
 			Debug.log(e.getMessage());
 			isConnected = false;
 		}
+	}
+
+	public void send(GameData data) {
+		// TODO Auto-generated method stub
+		try {
+			ObjectOutputStream output = new ObjectOutputStream(socket.getOutputStream());
+			output.writeObject(data);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 }

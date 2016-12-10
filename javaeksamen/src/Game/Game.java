@@ -1,4 +1,4 @@
-package Models;
+package Game;
 
 import java.io.Serializable;
 
@@ -10,15 +10,13 @@ public class Game implements Serializable {
 
 	private void setupGame() {
 		player1 = new Player();		
-		board = new Board();
+
 		isActive = true;
 	}
 	
 	public Player player1;
 	
 	public Player player2;
-	
-	public Board board;
 	
 	public String gameType;
 	

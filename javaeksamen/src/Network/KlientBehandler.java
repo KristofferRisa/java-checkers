@@ -1,5 +1,6 @@
 package Network;
 
+import java.io.ObjectOutputStream;
 import java.io.PrintStream;
 import java.net.Socket;
 
@@ -7,23 +8,25 @@ import Views.DebugWindow;
 
 public class KlientBehandler extends Thread {
 	private Socket socket;
-	private DebugWindow debug;
+	private DebugWindow Debug;
 
 	public KlientBehandler(Socket s, DebugWindow d){
 		socket = s;
-		debug = d;
+		Debug = d;
 	}
 	
 	public void run(){
 		try{
-			debug.log("Lager output classe for å sende data til klient");
 			
-			PrintStream output = new PrintStream(socket.getOutputStream());
-			output.println("Dette er en melding til player2!");
-			
-			
+				Debug.log("_klientbehandler: Starter klient tilkopling");				
+				Debug.log("_klientbehandler: sender melding til klient");
+				ObjectOutputStream output = new ObjectOutputStream(socket.getOutputStream());
+				GameData data = new GameData();
+				data.msg =  "test melding fra server i klientbehandler Klassen";
+				output.writeObject(data);
+						
 		} catch(Exception e) {
-			
+			Debug.log("_klientbehandler: " + e.getMessage());
 		}
 	}
 }
