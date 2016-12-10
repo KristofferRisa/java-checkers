@@ -7,6 +7,7 @@ import java.awt.Toolkit;
 import javax.swing.JFrame;
 import Board.BoardWindow;
 import Game.Game;
+import Network.Klient;
 import Network.Server;
 
 public class WindowContainer extends JFrame {
@@ -22,12 +23,13 @@ public class WindowContainer extends JFrame {
 		
 		startView = new StartPanel(game,this);
 		add(startView);
+		pack();
 		game = startView.getGame();
 
 		return game;
 	}
 	
-	public void showBoard(){
+	public void showBoard(Klient klient){
 		boardWindow = new BoardWindow();
 		remove(startView);
 		
@@ -50,12 +52,9 @@ public class WindowContainer extends JFrame {
 		gc.gridx = 0;
 		gc.gridy = 1;
 		
-		if(server != null){
-			gameview = new GameView(server);
-		}
-		else {
-			gameview = new GameView();
-		}
+		
+		gameview = new GameView(klient);
+		
 		add(gameview,gc);
 		pack();
 	}

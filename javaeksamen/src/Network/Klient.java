@@ -6,6 +6,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.net.Socket;
+
+import Game.Move;
 import Views.DebugWindow;
 
 public class Klient extends Thread {
@@ -32,11 +34,11 @@ public class Klient extends Thread {
 			InputStream inputStream = socket.getInputStream();
 			OutputStream outputStream = socket.getOutputStream();
 			
-			Debug.log("_klient: venter på data fra server");
-			ObjectInputStream input = new ObjectInputStream(inputStream);
-			GameData data = (GameData)input.readObject();
-							
-			Debug.log(" data: " + data.msg);
+//			Debug.log("_klient: venter på data fra server");
+//			ObjectInputStream input = new ObjectInputStream(inputStream);
+//			GameData data = (GameData)input.readObject();
+//							
+//			Debug.log(" data: " + data.msg);
 			
 //			ObjectOutputStream output = new ObjectOutputStream(outputStream);
 //			data.msg = "Dette er en melding tilbake til server fra klient klassen";
@@ -49,11 +51,11 @@ public class Klient extends Thread {
 		}
 	}
 
-	public void send(GameData data) {
+	public void send(Move move) {
 		// TODO Auto-generated method stub
 		try {
 			ObjectOutputStream output = new ObjectOutputStream(socket.getOutputStream());
-			output.writeObject(data);
+			output.writeObject(move);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

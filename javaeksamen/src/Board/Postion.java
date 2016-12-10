@@ -1,6 +1,8 @@
 package Board;
 
-public class Postion {
+import java.io.Serializable;
+
+public class Postion implements Serializable {
 	
 	public Postion(int x, int y){
 		this.x = x;
