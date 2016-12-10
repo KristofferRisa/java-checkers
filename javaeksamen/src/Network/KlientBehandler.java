@@ -1,15 +1,15 @@
-package Models;
+package Network;
 
 import java.io.PrintStream;
 import java.net.Socket;
 
-import Views.DebugView;
+import Views.DebugWindow;
 
 public class KlientBehandler extends Thread {
 	private Socket socket;
-	private DebugView debug;
+	private DebugWindow debug;
 
-	public KlientBehandler(Socket s, DebugView d){
+	public KlientBehandler(Socket s, DebugWindow d){
 		socket = s;
 		debug = d;
 	}

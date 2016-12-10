@@ -13,7 +13,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
-import Models.Server;
+import Network.Server;
 
 public class GameView extends JPanel implements ActionListener  {
 
@@ -72,7 +72,7 @@ public class GameView extends JPanel implements ActionListener  {
 		if(e.getSource() == b2){
 			if(server != null){
 				System.out.println("forsøker å sende game til klient!");
-				server.sendGame();	
+//				server.sendGame();	
 			}
 		}
 	}
