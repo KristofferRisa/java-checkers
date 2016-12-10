@@ -1,4 +1,4 @@
-import Models.Checkers;
+import Game.Checkers;
 
 public class javaeksamen {
 	

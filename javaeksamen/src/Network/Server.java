@@ -9,7 +9,7 @@ import java.io.PrintStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-import Prototype.Handshake;
+import Game.Game;
 import Views.DebugWindow;
 
 public class Server extends Thread {
@@ -17,12 +17,10 @@ public class Server extends Thread {
 	private DebugWindow Debug;
 	private ObjectInputStream input;
 	private ObjectOutputStream output;
-	private Handshake handshake;
 
 	public Server(DebugWindow d){
 		Debug = d;
 		isConnected = false;
-		handshake = new Handshake();
 	}
 	
 	public void run(){
@@ -46,14 +44,13 @@ public class Server extends Thread {
 				  }
 				  Debug.log("Sender handshake melding til klient");
 				  
-				  handshake.server = "Super server 01";
 				  
-				  output.writeObject(handshake);
+//				  output.writeObject(handshake);
 				  
-				  input = new ObjectInputStream(socket.getInputStream());
-				  Handshake data = (Handshake)input.readObject();
+//				  input = new ObjectInputStream(socket.getInputStream());
+//				  Handshake data = (Handshake)input.readObject();
 				  
-				  Debug.log("Kople til: "+ data.client);
+//				  Debug.log("Kople til: "+ data.client);
 				  
 				  isConnected = true;
 				  
@@ -61,7 +58,7 @@ public class Server extends Thread {
 	    } catch (IOException e) {
 	    	Debug.log("Unable to process client request");
 	        e.printStackTrace();
-	    } catch (ClassNotFoundException e) {
+	    } catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}		
@@ -78,11 +75,11 @@ public class Server extends Thread {
 		
 	}
 	
-	public void SendCmd(Handshake hs){
+	public void Send(Game game){
 		if(isConnected){
 			try {
 				Debug.log("Forsøker å sende data!");
-				output.writeObject(hs);
+				output.writeObject(game);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

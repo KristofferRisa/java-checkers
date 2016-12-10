@@ -16,7 +16,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 
-import Models.Game;
+import Game.Game;
 
 
 public class StartPanel extends JPanel implements ActionListener {

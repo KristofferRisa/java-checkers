@@ -1,4 +1,4 @@
-package Models;
+package Game;
 
 import Network.Klient;
 import Network.Server;
@@ -9,6 +9,7 @@ public class Checkers extends Thread {
 
 	private WindowContainer gui;
 	private static DebugWindow Debug;
+	
 	public Checkers(){
 		Debug = new DebugWindow();
 		gui = new WindowContainer();

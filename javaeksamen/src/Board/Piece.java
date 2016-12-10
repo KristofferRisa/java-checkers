@@ -1,4 +1,4 @@
-package Models;
+package Board;
 
 import java.awt.Color;
 

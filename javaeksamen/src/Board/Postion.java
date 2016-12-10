@@ -1,4 +1,4 @@
-package Models;
+package Board;
 
 public class Postion {
 	

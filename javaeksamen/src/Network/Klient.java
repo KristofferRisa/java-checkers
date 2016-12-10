@@ -5,9 +5,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.net.Socket;
-
-import Models.Game;
-import Prototype.Handshake;
 import Views.DebugWindow;
 
 public class Klient extends Thread {
@@ -34,15 +31,15 @@ public class Klient extends Thread {
 			OutputStream outputStream = socket.getOutputStream();
 			
 			ObjectInputStream input = new ObjectInputStream(inputStream);
-			Handshake hs = (Handshake)input.readObject();
+//			Handshake hs = (Handshake)input.readObject();
 							
-			Debug.log("Kopler til " + hs.server);
+//			Debug.log("Kopler til " + hs.server);
 			
 			Debug.log("Forsøker å sende data til server");
 			
 			ObjectOutputStream output = new ObjectOutputStream(outputStream);
-			hs.client = "En helt vanlig klient";
-			output.writeObject(hs);
+//			hs.client = "En helt vanlig klient";
+//			output.writeObject(hs);
 					    		
 			output.close();
 			
@@ -50,5 +47,10 @@ public class Klient extends Thread {
 			Debug.log(e.getMessage());
 			isConnected = false;
 		}
+	}
+
+	public void send() {
+		// TODO Auto-generated method stub
+		
 	}
 }

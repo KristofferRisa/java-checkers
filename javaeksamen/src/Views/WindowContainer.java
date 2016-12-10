@@ -6,7 +6,7 @@ import java.awt.GridBagLayout;
 import java.awt.Toolkit;
 import javax.swing.JFrame;
 import Board.BoardWindow;
-import Models.Game;
+import Game.Game;
 import Network.Server;
 
 public class WindowContainer extends JFrame {

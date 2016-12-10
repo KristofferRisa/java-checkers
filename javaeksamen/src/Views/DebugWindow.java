@@ -3,8 +3,6 @@ package Views;
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Dimension;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -15,14 +13,13 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-
 import Network.Klient;
 import Network.Server;
-import Prototype.Handshake;
 
 public class DebugWindow extends JFrame implements ActionListener {
 
 	private Server srv;
+	private Klient k;
 	public DebugWindow() {
 		
 		ta  = new JTextArea();
@@ -81,13 +78,11 @@ public class DebugWindow extends JFrame implements ActionListener {
 				break;
 			case klient:
 			case client:
-				Klient k = new Klient(this);
+				k = new Klient(this);
 				k.start();
 				break;
 			case send:
-				Handshake data = new Handshake();
-				data.client ="Oppdatert klient info";
-				srv.SendCmd(data);
+				k.send();
 				break;
 			case close:
 			case exit:
