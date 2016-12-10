@@ -9,8 +9,7 @@ public class Game implements Serializable {
 	}
 
 	private void setupGame() {
-		player1 = new Player();
-		player2 = new Player();
+		player1 = new Player();		
 		board = new Board();
 		isActive = true;
 	}
