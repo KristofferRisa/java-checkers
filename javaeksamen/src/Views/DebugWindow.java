@@ -14,6 +14,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+import Game.Move;
 import Network.GameData;
 import Network.Klient;
 import Network.Server;
@@ -22,19 +23,30 @@ public class DebugWindow extends JFrame implements ActionListener {
 
 	private Server srv;
 	private Klient k;
-	public DebugWindow() {
-		
+	
+	public DebugWindow(String title) {		
+		addComponents();
+		setupFrame(title);
+		log("Ferdig med oppsett");
+	}
+	
+	public DebugWindow() {		
+		addComponents();
+		setupFrame("Checkers debug");
+		log("Ferdig med oppsett");
+	}
+
+	private void addComponents() {
 		ta  = new JTextArea();
 		ta.setAutoscrolls(true);
 		ta.setEditable(false);
-		t = new JTextField();
-		
+		t = new JTextField();		
 		sendButton = new JButton("send");
+		
 		getRootPane().setDefaultButton(sendButton);
 		Container c = getContentPane();
 		c.setLayout(new BorderLayout());
-		
-			
+					
 		c.add(new JScrollPane(ta),BorderLayout.CENTER);	
 		
 		JPanel cmdPanel = new JPanel();
@@ -45,9 +57,6 @@ public class DebugWindow extends JFrame implements ActionListener {
 		c.add(cmdPanel, BorderLayout.SOUTH);
 					
 		sendButton.addActionListener(this);
-		
-		setupFrame();
-		log("Ferdig med oppsett");
 
 	}
 
@@ -75,8 +84,8 @@ public class DebugWindow extends JFrame implements ActionListener {
 				ta.setText("");
 				break;
 			case server:
-				srv = new Server(this);
-				srv.start();
+//				srv = new Server();
+//				srv.start();
 				break;
 			case klient:
 			case client:
@@ -84,7 +93,7 @@ public class DebugWindow extends JFrame implements ActionListener {
 				k.start();
 				break;
 			case send:
-				k.send(new GameData());
+				k.send(new Move());
 				break;
 			case close:
 			case exit:
@@ -107,8 +116,8 @@ public class DebugWindow extends JFrame implements ActionListener {
 
 	}
 
-	private void setupFrame() {
-		setTitle("Checkers debug");
+	private void setupFrame(String title) {
+		setTitle(title);
 		setVisible(true);
 		setFontAndSize();
 		setLocation(50,10);

@@ -40,4 +40,9 @@ public class Game implements Serializable {
 		
 	private static final long serialVersionUID = 3484073086581610846L;
 
+	public void update(Move move1) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

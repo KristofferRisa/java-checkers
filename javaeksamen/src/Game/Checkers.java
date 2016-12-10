@@ -33,7 +33,7 @@ public class Checkers extends Thread {
 		
 		if(isServer){
 			//Start server
-			server = new Server(Debug);
+			server = new Server(game);
 			server.start();		
 		} 
 		
@@ -56,14 +56,15 @@ public class Checkers extends Thread {
 		}
 		
 		while(klient.isConnected == true){
-			gui.showBoard();
+			Debug.log("_chekers: Viser brett");
+			gui.showBoard(klient);
 			
 			while(gui.gameview.isVisible()){
 					
 			
-				GameData data = new GameData();
-				data.msg = "klient er klar for spill";
-				klient.send(data);
+//				GameData data = new GameData();
+//				data.msg = "klient er klar for spill";
+//				klient.send(data);
 				
 				try {
 					sleep(2000);

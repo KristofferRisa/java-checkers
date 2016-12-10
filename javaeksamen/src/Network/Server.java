@@ -9,6 +9,7 @@ import java.io.PrintStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import Game.Game;
+import Game.Move;
 import Views.DebugWindow;
 
 public class Server extends Thread {
@@ -16,10 +17,15 @@ public class Server extends Thread {
 	private DebugWindow Debug;
 	private ObjectInputStream input;
 	private ObjectOutputStream output;
+	private Game game;
+	private KlientBehandler klient1;
+	private KlientBehandler klient2;
 
-	public Server(DebugWindow d){
-		Debug = d;
+	public Server(Game game){
+		Debug = new DebugWindow("checkers server logg");
 		isConnected = false;
+		this.game = game;
+		game.isActive = true;
 	}
 	
 	public void run(){
@@ -40,14 +46,41 @@ public class Server extends Thread {
 	    		numberOfClients++;
 	    		
 	    		Debug.log("_server: klar for å ta imot klienter");
-	    		if(numberOfClients < 3){
-	    			Debug.log("_server: Number of clients connected = " + numberOfClients ); 
+	    		Debug.log("_server: Number of clients connected = " + numberOfClients );
+	    		if(numberOfClients == 1){
+	    			 
 	        		Debug.log("_server: Ny klient tilkoplet");
-					new KlientBehandler(socket, Debug).start();;
-					
+					klient1 = new KlientBehandler(socket, Debug);
+					klient1.start();
+	        	} else if(numberOfClients == 2) {
+	        		
+	        		Debug.log("_server: Ny klient tilkoplet");
+					klient2 = new KlientBehandler(socket, Debug);
+					klient2.start();
+	        	
 	        	} else {
-	        		Debug.log("_server: Ny klient kunne ikke kople til da det allerede er 2 spillere tilkoplet! ");
+	        			    			
+	        		while(game.isActive){
+	        			//Spillet kan starte - annen hver tur
+	        			GameData data = new GameData();
+	        			data.game = game;
+	        			
+	        			klient1.send(data);
+	        			Move move1 = klient1.recive();
+	        			
+	        			game.update(move1);
+	        			
+	        			klient2.send(data);
+	        			Move move2 = klient2.recive();
+	        			
+	        			game.update(move2);
+	        		}
+	        		
 	        	}
+	    		
+	    		
+	    		
+	    		
 			}
 	    } catch (IOException e) {
 	    	Debug.log("_server: Unable to process client request");
