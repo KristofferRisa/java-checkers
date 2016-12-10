@@ -1,8 +1,7 @@
 package Board;
 
+import java.awt.Color;
 import java.awt.Graphics;
-
-import com.sun.prism.paint.Color;
 
 public final class Checker {
 	

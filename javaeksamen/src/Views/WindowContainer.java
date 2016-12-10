@@ -22,7 +22,6 @@ public class WindowContainer extends JFrame {
 		add(userInputView);
 	}
 	
-	
 	public void showBoard(){
 		boardWindow = new BoardWindow();
 		remove(userInputView);
@@ -36,12 +35,14 @@ public class WindowContainer extends JFrame {
 		gc.gridx = 0;
 		gc.gridy = 0;
 		
+		boardWindow.setPreferredSize(new Dimension(800,600));
 		add(boardWindow,gc);
 		
-		gc.gridx = 1;
+		
+		gc.gridx = 0;
 		gc.gridy = 1;
 		
-		gc.gridx = 1;
+		gc.gridx = 0;
 		gc.gridy = 1;
 		
 		if(server != null){
@@ -51,10 +52,8 @@ public class WindowContainer extends JFrame {
 			g = new GameView();
 		}
 		add(g,gc);
-		
+		pack();
 	}
-
-
 	
 	private void configureFrame() {
 		setTitle("Checkers 1.0!! (java eksamen)");
