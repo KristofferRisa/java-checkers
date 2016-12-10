@@ -8,7 +8,6 @@ import java.io.ObjectOutputStream;
 import java.io.PrintStream;
 import java.net.ServerSocket;
 import java.net.Socket;
-
 import Game.Game;
 import Views.DebugWindow;
 
@@ -24,71 +23,42 @@ public class Server extends Thread {
 	}
 	
 	public void run(){
-		
+		ServerSocket server = null;
 	    try {
-	    	Debug.log("Starter server");
-	        server = new ServerSocket(1337);	 
-	        while( (socket = server.accept()) != null){
-	        	
-				Debug.log("Ny klient tilkoplet");
-				isConnected = true;
-				
-				//http://stackoverflow.com/questions/5680259/using-sockets-to-send-and-receive-data
-				  try {
-					  Debug.log("Oppretter kontakt.");					  
-					  output = new ObjectOutputStream (socket.getOutputStream());
-				  }
-				  catch (IOException e) {
-				      System.out.println(e);
-				      Debug.log(e.getMessage());
-				  }
-				  Debug.log("Sender handshake melding til klient");
-				  
-				  
-//				  output.writeObject(handshake);
-				  
-//				  input = new ObjectInputStream(socket.getInputStream());
-//				  Handshake data = (Handshake)input.readObject();
-				  
-//				  Debug.log("Kople til: "+ data.client);
-				  
-				  isConnected = true;
-				  
+	    	Debug.log("_server: Starter server");
+	        server = new ServerSocket(1337);
+	    }catch ( IOException ioe){
+	    	Debug.log("_server: Kunne ikke lage Server socket");
+	    }
+	    
+	    
+	    try{
+	    	Socket socket;
+	    	int numberOfClients = 0;
+	    	Debug.log("_server: venter på klient");
+	    	while( (socket = server.accept()) != null){
+	    		numberOfClients++;
+	    		
+	    		Debug.log("_server: klar for å ta imot klienter");
+	    		if(numberOfClients < 3){
+	    			Debug.log("_server: Number of clients connected = " + numberOfClients ); 
+	        		Debug.log("_server: Ny klient tilkoplet");
+					new KlientBehandler(socket, Debug).start();;
+					
+	        	} else {
+	        		Debug.log("_server: Ny klient kunne ikke kople til da det allerede er 2 spillere tilkoplet! ");
+	        	}
 			}
 	    } catch (IOException e) {
-	    	Debug.log("Unable to process client request");
+	    	Debug.log("_server: Unable to process client request");
 	        e.printStackTrace();
 	    } catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}		
-	    Debug.log("Klient frakoplet");
-	}
-	
-	public Socket getSocket(){
-		if(isConnected)
-		{
-			return socket;
-		} else {
-			return null;
-		}
-		
-	}
-	
-	public void Send(Game game){
-		if(isConnected){
-			try {
-				Debug.log("Forsøker å sende data!");
-				output.writeObject(game);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}			
-		}
-	}
-	private ServerSocket server;
-	private Socket socket;
-		
+	    Debug.log("_server: Klient frakoplet");
+	}	
+			
 	public boolean isConnected;
 	
 }

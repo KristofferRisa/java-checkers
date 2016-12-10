@@ -1,5 +1,6 @@
 package Game;
 
+import Network.GameData;
 import Network.Klient;
 import Network.Server;
 import Views.DebugWindow;
@@ -11,9 +12,11 @@ public class Checkers extends Thread {
 	private static DebugWindow Debug;
 	
 	public Checkers(){
+		
 		Debug = new DebugWindow();
 		gui = new WindowContainer();
 		isServer = false;
+		
 		Debug.log("Starter!");
 		
 		game = gui.showUserInput();
@@ -23,69 +26,59 @@ public class Checkers extends Thread {
 			isServer = true;
 		}
 		Debug.log("Player = " + game.player1.name);
+		
 		String status = (isServer == true) ? "on" : "off";
+		
 		Debug.log("Server status: " + status);
 		
 		if(isServer){
 			//Start server
 			server = new Server(Debug);
-			server.start();
-			gui.showBoard();
-			while(server.isConnected == false){
-				try {
-					Debug.log("venter på spiller");
-					sleep(1000);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-					break;
-				}
-			}
-			while(server.isConnected && game.isActive){
-				try{
-					Debug.log("Spillet kan starte");
-					sleep(1000);
-					
-				} catch (InterruptedException e){
-					e.printStackTrace();
-					break;
-				}
-			}
+			server.start();		
 		} 
-		else 
-		{
-			//Starter klient
-			Debug.log("Starter ny klient");
-			klient = new Klient(Debug);
-			klient.start();
+		
+		//Starter klient
+		Debug.log("Starter ny klient");
+		klient = new Klient(Debug);
+		klient.start();
 
-			Debug.log("Forsøker å kople til server");
-			while(klient.isConnected == false){
+		while(klient.isConnected == false){
+			try {
+				klient.start();
+				Debug.log("Forsøker å kople til server");
+				Debug.log("Venter på Server");
+				sleep(1000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				Debug.log(e.getMessage());
+				e.printStackTrace();
+			}
+		}
+		
+		while(klient.isConnected == true){
+			gui.showBoard();
+			
+			while(gui.gameview.isVisible()){
+					
+			
+				GameData data = new GameData();
+				data.msg = "klient er klar for spill";
+				klient.send(data);
+				
 				try {
-					Debug.log("Venter på Server");
-					sleep(1000);
+					sleep(2000);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-			}
-			while(server.isConnected && game.isActive){
-				try{
-					Debug.log("Spillet kan starte");
-					sleep(1000);
-					gui.showBoard();
-				} catch (InterruptedException e){
-					e.printStackTrace();
-					break;
-				}
-			}
+			}		
 		}
-		
 		Debug.log("ferdig, avslutter aplikasjon");
 		System.exit(0);
 		//game.start();
 		
 	}
-		
+	
 	private Game game;
 	private Server server;
 	private Klient klient;

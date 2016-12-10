@@ -13,6 +13,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+
+import Network.GameData;
 import Network.Klient;
 import Network.Server;
 
@@ -82,7 +84,7 @@ public class DebugWindow extends JFrame implements ActionListener {
 				k.start();
 				break;
 			case send:
-				k.send();
+				k.send(new GameData());
 				break;
 			case close:
 			case exit:

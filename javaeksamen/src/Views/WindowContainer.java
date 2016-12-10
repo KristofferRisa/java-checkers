@@ -11,7 +11,7 @@ import Network.Server;
 
 public class WindowContainer extends JFrame {
 
-	private GameView g;
+	public GameView gameview;
 	private Game game;
 	public WindowContainer(){
 		configureFrame();
@@ -20,7 +20,7 @@ public class WindowContainer extends JFrame {
 	public Game showUserInput(){
 		game = new Game();
 		
-		startView = new StartPanel(game);
+		startView = new StartPanel(game,this);
 		add(startView);
 		game = startView.getGame();
 
@@ -51,12 +51,12 @@ public class WindowContainer extends JFrame {
 		gc.gridy = 1;
 		
 		if(server != null){
-			g = new GameView(server);
+			gameview = new GameView(server);
 		}
 		else {
-			g = new GameView();
+			gameview = new GameView();
 		}
-		add(g,gc);
+		add(gameview,gc);
 		pack();
 	}
 	

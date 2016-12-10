@@ -3,6 +3,7 @@ package Views;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Frame;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Toolkit;
@@ -11,20 +12,25 @@ import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 
 import Game.Game;
+import Game.Player;
 
 
 public class StartPanel extends JPanel implements ActionListener {
 
 	private boolean done;
 
-	public StartPanel(Game g) {
+	private JFrame frame;
+
+	public StartPanel(Game g, JFrame frame) {
 		game = g;
+		this.frame = frame;
 		isServer = false;
 		JLabel nameLabel = new JLabel("Username: ");
 		nameField = new JTextField(10);
@@ -117,9 +123,13 @@ public class StartPanel extends JPanel implements ActionListener {
 			isServer = true;
 		}
 		if (e.getSource() == btnJoin) {
+			if(game.player2 == null){
+				game.player2 = new Player();
+			}
 			game.player2.name = nameField.getText();
 			isServer = false;
-		}
+		}		
+		frame.getContentPane().repaint();
 		done = true;
 		setVisible(false);
 	}
