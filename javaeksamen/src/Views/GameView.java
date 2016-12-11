@@ -13,12 +13,18 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
-import Models.Server;
+import Board.Postion;
+import Game.Move;
+import Network.GameData;
+import Network.Klient;
+import Network.Server;
 
 public class GameView extends JPanel implements ActionListener  {
 
-	public GameView(Server s){
-		server = s;
+	private Klient klient;
+
+	public GameView(Klient klient){
+		this.klient = klient;
 		setupGameView();
 	}
 	
@@ -30,14 +36,14 @@ public class GameView extends JPanel implements ActionListener  {
 	private void setupGameView() {
 		JLabel l = new JLabel("Checkers 1.0");
 		JTextArea ta = new JTextArea();
-		b2 = new JButton("Send melding til klient!");
-		b = new JButton("Lukk meg!");
+		msgButton = new JButton("Send melding til klient!");
+		closeButton = new JButton("Lukk meg!");
 		//setLayout(new GridLayout());
 		setLayout(new GridBagLayout());
 		add(l);
 		add(ta);
-		add(b);
-		add(b2);
+		add(closeButton);
+		add(msgButton);
 		
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		//int height = screenSize.height;
@@ -46,41 +52,40 @@ public class GameView extends JPanel implements ActionListener  {
 		
 		if(width <=1366){
 			ta.setFont(getFont().deriveFont(new Float(16)));
-			b2.setFont(getFont().deriveFont(new Float(16)));
-			b.setFont(getFont().deriveFont(new Float(16)));
+			msgButton.setFont(getFont().deriveFont(new Float(16)));
+			closeButton.setFont(getFont().deriveFont(new Float(16)));
 		} else if (width <=1367 && width <=2001) {
 			ta.setFont(getFont().deriveFont(new Float(28)));
-			b2.setFont(getFont().deriveFont(new Float(28)));
-			b.setFont(getFont().deriveFont(new Float(28)));
+			msgButton.setFont(getFont().deriveFont(new Float(28)));
+			closeButton.setFont(getFont().deriveFont(new Float(28)));
 		}
 		
 		else {
 			ta.setFont(getFont().deriveFont(new Float(28)));
-			b2.setFont(getFont().deriveFont(new Float(28)));
-			b.setFont(getFont().deriveFont(new Float(28)));
+			msgButton.setFont(getFont().deriveFont(new Float(28)));
+			closeButton.setFont(getFont().deriveFont(new Float(28)));
 		}
 
-		b.addActionListener(this);
-		b2.addActionListener(this);
+		closeButton.addActionListener(this);
+		msgButton.addActionListener(this);
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if(e.getSource() == b) {
+		if(e.getSource() == closeButton) {
 			System.exit(0);	
 		}
-		if(e.getSource() == b2){
-			if(server != null){
-				System.out.println("forsøker å sende game til klient!");
-				server.sendGame();	
-			}
+		if(e.getSource() == msgButton){			
+			System.out.println("forsøker å sende game til klient!");
+			Move move = new Move();
+			move.fromPostion = new Postion(1, 2);
+			klient.send(move);	
+	
 		}
 	}
 	
-	private Server server;
-
-	private JButton b2;
-	private JButton b;
+	private JButton msgButton;
+	private JButton closeButton;
 	
 	private static final long serialVersionUID = 7542084159328657810L;
 

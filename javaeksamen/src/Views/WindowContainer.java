@@ -4,27 +4,34 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Toolkit;
-
 import javax.swing.JFrame;
 import Board.BoardWindow;
-import Models.Server;
-import sun.applet.Main;
+import Game.Game;
+import Network.Klient;
+import Network.Server;
 
 public class WindowContainer extends JFrame {
 
-	private GameView g;
+	public GameView gameview;
+	private Game game;
 	public WindowContainer(){
 		configureFrame();
 	}
 	
-	public void showUserInput(){
-		userInputView = new UserInputView();
-		add(userInputView);
+	public Game showUserInput(){
+		game = new Game();
+		
+		startView = new StartPanel(game,this);
+		add(startView);
+		pack();
+		game = startView.getGame();
+
+		return game;
 	}
 	
-	public void showBoard(){
+	public void showBoard(Klient klient){
 		boardWindow = new BoardWindow();
-		remove(userInputView);
+		remove(startView);
 		
 		GridBagConstraints gc = new GridBagConstraints();
 		gc.anchor = GridBagConstraints.LINE_START;
@@ -45,13 +52,10 @@ public class WindowContainer extends JFrame {
 		gc.gridx = 0;
 		gc.gridy = 1;
 		
-		if(server != null){
-			g = new GameView(server);
-		}
-		else {
-			g = new GameView();
-		}
-		add(g,gc);
+		
+		gameview = new GameView(klient);
+		
+		add(gameview,gc);
 		pack();
 	}
 	
@@ -69,7 +73,7 @@ public class WindowContainer extends JFrame {
 		setVisible(true);
 	}
 	
-	public UserInputView userInputView;
+	public StartPanel startView;
 	private BoardWindow boardWindow;
 	public Server server;
 	private static final long serialVersionUID = -3425445318104341180L;
