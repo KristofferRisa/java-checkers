@@ -1,4 +1,4 @@
-package graphics.usercontrol;
+package datamodels;
 
 public class UserInput {
 	public String name;

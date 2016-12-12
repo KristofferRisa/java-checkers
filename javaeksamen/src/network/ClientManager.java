@@ -9,8 +9,8 @@ import java.io.PrintStream;
 import java.net.Socket;
 
 import game.Checker;
-import game.board.Move;
 import graphics.DebugWindowFrame;
+import network.data.Move;
 
 public class ClientManager extends Thread {
 	private Socket socket;

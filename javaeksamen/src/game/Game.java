@@ -1,6 +1,6 @@
 package game;
 
-import game.board.Move;
+import network.data.Move;
 
 public class Game {
 	public void restart(){

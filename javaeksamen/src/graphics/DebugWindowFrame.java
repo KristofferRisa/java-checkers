@@ -14,10 +14,10 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-import game.board.Move;
 import network.GameDataTransferObject;
 import network.Client;
 import network.Server;
+import network.data.Move;
 
 public class DebugWindowFrame extends JFrame implements ActionListener {
 

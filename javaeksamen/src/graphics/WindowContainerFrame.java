@@ -6,12 +6,12 @@ import java.awt.GridBagLayout;
 import java.awt.Toolkit;
 import javax.swing.JFrame;
 
+import datamodels.UserInput;
 import game.Checker;
 import game.RuleEngine;
 import graphics.usercontrol.BoardPanel;
 import graphics.usercontrol.GamePanel;
 import graphics.usercontrol.StartPanel;
-import graphics.usercontrol.UserInput;
 import network.Client;
 import network.Server;
 
