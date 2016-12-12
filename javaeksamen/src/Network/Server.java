@@ -1,4 +1,4 @@
-package Network;
+package network;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -8,13 +8,14 @@ import java.io.ObjectOutputStream;
 import java.io.PrintStream;
 import java.net.ServerSocket;
 import java.net.Socket;
-import Game.Game;
-import Game.Move;
-import Views.DebugWindow;
+
+import game.Game;
+import game.Move;
+import graphics.DebugWindowFrame;
 
 public class Server extends Thread {
 	
-	private DebugWindow Debug;
+	private DebugWindowFrame Debug;
 	private ObjectInputStream input;
 	private ObjectOutputStream output;
 	private Game game;
@@ -22,7 +23,7 @@ public class Server extends Thread {
 	private KlientBehandler klient2;
 
 	public Server(Game game){
-		Debug = new DebugWindow("checkers server logg");
+		Debug = new DebugWindowFrame("checkers server logg");
 		isConnected = false;
 		this.game = game;
 		game.isActive = true;
@@ -62,7 +63,7 @@ public class Server extends Thread {
 	        			    			
 	        		while(game.isActive){
 	        			//Spillet kan starte - annen hver tur
-	        			GameData data = new GameData();
+	        			DataTransferObject data = new DataTransferObject();
 	        			data.game = game;
 	        			
 	        			klient1.send(data);

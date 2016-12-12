@@ -1,4 +1,4 @@
-package Views;
+package graphics;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -18,8 +18,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 
-import Game.Game;
-import Game.Player;
+import game.Game;
+import game.Player;
 
 
 public class StartPanel extends JPanel implements ActionListener {

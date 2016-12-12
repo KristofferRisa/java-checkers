@@ -1,4 +1,4 @@
-package Network;
+package network;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -8,18 +8,18 @@ import java.io.OutputStream;
 import java.io.PrintStream;
 import java.net.Socket;
 
-import Game.Game;
-import Game.Move;
-import Views.DebugWindow;
+import game.Game;
+import game.Move;
+import graphics.DebugWindowFrame;
 
 public class KlientBehandler extends Thread {
 	private Socket socket;
-	private DebugWindow Debug;
+	private DebugWindowFrame Debug;
 	private ObjectOutputStream output;
 	private ObjectInputStream input;
 	private Move move;
 
-	public KlientBehandler(Socket s, DebugWindow d){
+	public KlientBehandler(Socket s, DebugWindowFrame d){
 		socket = s;
 		Debug = d;
 	}
@@ -33,7 +33,7 @@ public class KlientBehandler extends Thread {
 				output = new ObjectOutputStream(socket.getOutputStream());
 				
 				
-				GameData data = new GameData();
+				DataTransferObject data = new DataTransferObject();
 				data.msg =  "test melding fra server i klientbehandler Klassen";
 				output.writeObject(data);
 				
@@ -56,10 +56,9 @@ public class KlientBehandler extends Thread {
 		}
 	}
 	
-	public void send(GameData data) {
-		try {
-			
-			MoveOutputStream output2 = new MoveOutputStream(socket.getOutputStream());
+	public void send(DataTransferObject data) {
+		try {			
+			ObjectOutputStream output2 = new ObjectOutputStream(socket.getOutputStream());
 			output2.writeObject(data);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

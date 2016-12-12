@@ -1,20 +1,20 @@
-package Views;
+package graphics;
 
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Toolkit;
 import javax.swing.JFrame;
-import Board.BoardWindow;
-import Game.Game;
-import Network.Klient;
-import Network.Server;
 
-public class WindowContainer extends JFrame {
+import game.Game;
+import network.Klient;
+import network.Server;
 
-	public GameView gameview;
+public class WindowContainerFrame extends JFrame {
+
+	public GamePanel gameview;
 	private Game game;
-	public WindowContainer(){
+	public WindowContainerFrame(){
 		configureFrame();
 	}
 	
@@ -30,7 +30,7 @@ public class WindowContainer extends JFrame {
 	}
 	
 	public void showBoard(Klient klient){
-		boardWindow = new BoardWindow();
+		boardWindow = new BoardPanel();
 		remove(startView);
 		
 		GridBagConstraints gc = new GridBagConstraints();
@@ -53,7 +53,7 @@ public class WindowContainer extends JFrame {
 		gc.gridy = 1;
 		
 		
-		gameview = new GameView(klient);
+		gameview = new GamePanel(klient);
 		
 		add(gameview,gc);
 		pack();
@@ -74,7 +74,7 @@ public class WindowContainer extends JFrame {
 	}
 	
 	public StartPanel startView;
-	private BoardWindow boardWindow;
+	private BoardPanel boardWindow;
 	public Server server;
 	private static final long serialVersionUID = -3425445318104341180L;
 	
