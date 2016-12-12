@@ -19,30 +19,21 @@ import network.Client;
 import network.Server;
 import network.data.Move;
 
-<<<<<<< HEAD:javaeksamen/src/graphics/usercontrol/GamePanel.java
-public class GamePanel extends JPanel implements ActionListener {
-=======
+
 public class GameControlPanel extends JPanel implements ActionListener  {
->>>>>>> refs/remotes/origin/master:javaeksamen/src/graphics/usercontrol/GameControlPanel.java
+
 
 	private Client klient;
 	private JTextArea textArea;
 
-<<<<<<< HEAD:javaeksamen/src/graphics/usercontrol/GamePanel.java
-	public GamePanel(Client klient) {
-		this.klient = klient;
-		setupGameView();
-	}
 
-	public GamePanel() {
-=======
 	public GameControlPanel(Client klient){
 		this.klient = klient;
 		setupGameView();
 	}
 	
 	public GameControlPanel(){
->>>>>>> refs/remotes/origin/master:javaeksamen/src/graphics/usercontrol/GameControlPanel.java
+
 
 		setupGameView();
 	}
@@ -70,29 +61,13 @@ public class GameControlPanel extends JPanel implements ActionListener  {
 		add(textArea);
 		add(closeButton);
 		add(msgButton);
-<<<<<<< HEAD:javaeksamen/src/graphics/usercontrol/GamePanel.java
-
-=======
 	}
 
 	private void setDimensions() {
->>>>>>> refs/remotes/origin/master:javaeksamen/src/graphics/usercontrol/GameControlPanel.java
+
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		int width = screenSize.width;
 		setVisible(true);
-<<<<<<< HEAD:javaeksamen/src/graphics/usercontrol/GamePanel.java
-
-		if (width <= 1366) {
-			ta.setFont(getFont().deriveFont(new Float(16)));
-			msgButton.setFont(getFont().deriveFont(new Float(16)));
-			closeButton.setFont(getFont().deriveFont(new Float(16)));
-		} else if (width <= 1367 && width <= 2001) {
-			ta.setFont(getFont().deriveFont(new Float(28)));
-			msgButton.setFont(getFont().deriveFont(new Float(28)));
-			closeButton.setFont(getFont().deriveFont(new Float(28)));
-		}
-
-=======
 		
 		if(width <=1366){
 			textArea.setFont(getFont().deriveFont(new Float(16)));
@@ -103,7 +78,6 @@ public class GameControlPanel extends JPanel implements ActionListener  {
 			msgButton.setFont(getFont().deriveFont(new Float(28)));
 			closeButton.setFont(getFont().deriveFont(new Float(28)));
 		}	
->>>>>>> refs/remotes/origin/master:javaeksamen/src/graphics/usercontrol/GameControlPanel.java
 		else {
 			textArea.setFont(getFont().deriveFont(new Float(28)));
 			msgButton.setFont(getFont().deriveFont(new Float(28)));
