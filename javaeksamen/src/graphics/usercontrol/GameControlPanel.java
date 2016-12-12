@@ -19,55 +19,67 @@ import network.Client;
 import network.Server;
 import network.data.Move;
 
-public class GamePanel extends JPanel implements ActionListener  {
+public class GameControlPanel extends JPanel implements ActionListener  {
 
 	private Client klient;
+	private JTextArea textArea;
 
-	public GamePanel(Client klient){
+	public GameControlPanel(Client klient){
 		this.klient = klient;
 		setupGameView();
 	}
 	
-	public GamePanel(){
+	public GameControlPanel(){
 
 		setupGameView();
 	}
 
 	private void setupGameView() {
-		JLabel l = new JLabel("Checkers 1.0");
-		JTextArea ta = new JTextArea();
+		setupComponets();
+		
+		setDimensions();
+
+		addActionListeners();
+	}
+
+	private void addActionListeners() {
+		closeButton.addActionListener(this);
+		msgButton.addActionListener(this);
+	}
+
+	private void setupComponets() {
+		JLabel label = new JLabel("Checkers 1.0");
+		textArea = new JTextArea();
 		msgButton = new JButton("Send melding til klient!");
 		closeButton = new JButton("Lukk meg!");
 		//setLayout(new GridLayout());
 		setLayout(new GridBagLayout());
-		add(l);
-		add(ta);
+		add(label);
+		add(textArea);
 		add(closeButton);
 		add(msgButton);
-		
+	}
+
+	private void setDimensions() {
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		//int height = screenSize.height;
 		int width = screenSize.width;
 		setVisible(true);
 		
 		if(width <=1366){
-			ta.setFont(getFont().deriveFont(new Float(16)));
+			textArea.setFont(getFont().deriveFont(new Float(16)));
 			msgButton.setFont(getFont().deriveFont(new Float(16)));
 			closeButton.setFont(getFont().deriveFont(new Float(16)));
 		} else if (width <=1367 && width <=2001) {
-			ta.setFont(getFont().deriveFont(new Float(28)));
+			textArea.setFont(getFont().deriveFont(new Float(28)));
 			msgButton.setFont(getFont().deriveFont(new Float(28)));
 			closeButton.setFont(getFont().deriveFont(new Float(28)));
-		}
-		
+		}	
 		else {
-			ta.setFont(getFont().deriveFont(new Float(28)));
+			textArea.setFont(getFont().deriveFont(new Float(28)));
 			msgButton.setFont(getFont().deriveFont(new Float(28)));
 			closeButton.setFont(getFont().deriveFont(new Float(28)));
 		}
-
-		closeButton.addActionListener(this);
-		msgButton.addActionListener(this);
 	}
 
 	@Override
