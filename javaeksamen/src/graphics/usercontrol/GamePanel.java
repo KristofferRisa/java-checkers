@@ -1,4 +1,4 @@
-package graphics;
+package graphics.usercontrol;
 
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
@@ -13,17 +13,17 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
-import board.Postion;
-import game.Move;
-import network.DataTransferObject;
-import network.Klient;
+import game.board.Move;
+import game.board.Postion;
+import network.GameDataTransferObject;
+import network.Client;
 import network.Server;
 
 public class GamePanel extends JPanel implements ActionListener  {
 
-	private Klient klient;
+	private Client klient;
 
-	public GamePanel(Klient klient){
+	public GamePanel(Client klient){
 		this.klient = klient;
 		setupGameView();
 	}

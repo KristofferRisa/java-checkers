@@ -7,14 +7,14 @@ import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 
-import game.Move;
+import game.board.Move;
 import graphics.DebugWindowFrame;
 
-public class Klient extends Thread {
+public class Client extends Thread {
 
 	private DebugWindowFrame Debug;
 
-	public Klient(DebugWindowFrame d){
+	public Client(DebugWindowFrame d){
 		Debug = d;
 		isConnected = false;
 	}

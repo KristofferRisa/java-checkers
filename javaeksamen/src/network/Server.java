@@ -9,8 +9,8 @@ import java.io.PrintStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-import game.Game;
-import game.Move;
+import game.Checker;
+import game.board.Move;
 import graphics.DebugWindowFrame;
 
 public class Server extends Thread {
@@ -18,11 +18,11 @@ public class Server extends Thread {
 	private DebugWindowFrame Debug;
 	private ObjectInputStream input;
 	private ObjectOutputStream output;
-	private Game game;
-	private KlientBehandler klient1;
-	private KlientBehandler klient2;
+	private Checker game;
+	private ClientManager klient1;
+	private ClientManager klient2;
 
-	public Server(Game game){
+	public Server(Checker game){
 		Debug = new DebugWindowFrame("checkers server logg");
 		isConnected = false;
 		this.game = game;
@@ -51,19 +51,19 @@ public class Server extends Thread {
 	    		if(numberOfClients == 1){
 	    			 
 	        		Debug.log("_server: Ny klient tilkoplet");
-					klient1 = new KlientBehandler(socket, Debug);
+					klient1 = new ClientManager(socket, Debug);
 					klient1.start();
 	        	} else if(numberOfClients == 2) {
 	        		
 	        		Debug.log("_server: Ny klient tilkoplet");
-					klient2 = new KlientBehandler(socket, Debug);
+					klient2 = new ClientManager(socket, Debug);
 					klient2.start();
 	        	
 	        	} else {
 	        			    			
 	        		while(game.isActive){
 	        			//Spillet kan starte - annen hver tur
-	        			DataTransferObject data = new DataTransferObject();
+	        			GameDataTransferObject data = new GameDataTransferObject();
 	        			data.game = game;
 	        			
 	        			klient1.send(data);

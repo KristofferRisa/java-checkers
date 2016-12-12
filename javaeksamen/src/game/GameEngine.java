@@ -2,16 +2,19 @@ package game;
 
 import graphics.DebugWindowFrame;
 import graphics.WindowContainerFrame;
-import network.DataTransferObject;
-import network.Klient;
+import network.Client;
 import network.Server;
 
-public class Checkers extends Thread {
-
+public class GameEngine extends Thread {
+	
+	public static void main(String[] args){
+		new GameEngine();
+	}
+	
 	private WindowContainerFrame gui;
 	private static DebugWindowFrame Debug;
 	
-	public Checkers(){
+	public GameEngine(){
 		
 		Debug = new DebugWindowFrame();
 		gui = new WindowContainerFrame();
@@ -39,7 +42,7 @@ public class Checkers extends Thread {
 		
 		//Starter klient
 		Debug.log("Starter ny klient");
-		klient = new Klient(Debug);
+		klient = new Client(Debug);
 		klient.start();
 
 		while(klient.isConnected == false){
@@ -80,14 +83,12 @@ public class Checkers extends Thread {
 		
 	}
 	
-	private Game game;
+	private Checker game;
 	private Server server;
-	private Klient klient;
+	private Client klient;
 	public Boolean isServer;
 	
-	public static void main(String[] args){
-		new Checkers();
-	}
+
 }
 
 

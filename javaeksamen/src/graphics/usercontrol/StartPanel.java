@@ -1,4 +1,4 @@
-package graphics;
+package graphics.usercontrol;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -18,7 +18,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 
-import game.Game;
+import game.Checker;
 import game.Player;
 
 
@@ -28,7 +28,7 @@ public class StartPanel extends JPanel implements ActionListener {
 
 	private JFrame frame;
 
-	public StartPanel(Game g, JFrame frame) {
+	public StartPanel(Checker g, JFrame frame) {
 		game = g;
 		this.frame = frame;
 		isServer = false;
@@ -136,7 +136,7 @@ public class StartPanel extends JPanel implements ActionListener {
 		setVisible(false);
 	}
 	
-	public Game getGame(){
+	public Checker getGame(){
 		
 		while(this.done == false){
 			System.out.println("venter");
@@ -152,7 +152,7 @@ public class StartPanel extends JPanel implements ActionListener {
 
 	private JButton btnLocal;
 
-	private Game game;
+	private Checker game;
 
 	public boolean isServer;
 

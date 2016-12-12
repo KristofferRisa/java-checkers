@@ -6,20 +6,23 @@ import java.awt.GridBagLayout;
 import java.awt.Toolkit;
 import javax.swing.JFrame;
 
-import game.Game;
-import network.Klient;
+import game.Checker;
+import graphics.usercontrol.BoardPanel;
+import graphics.usercontrol.GamePanel;
+import graphics.usercontrol.StartPanel;
+import network.Client;
 import network.Server;
 
 public class WindowContainerFrame extends JFrame {
 
 	public GamePanel gameview;
-	private Game game;
+	private Checker game;
 	public WindowContainerFrame(){
 		configureFrame();
 	}
 	
-	public Game showUserInput(){
-		game = new Game();
+	public Checker showUserInput(){
+		game = new Checker();
 		
 		startView = new StartPanel(game,this);
 		add(startView);
@@ -29,7 +32,7 @@ public class WindowContainerFrame extends JFrame {
 		return game;
 	}
 	
-	public void showBoard(Klient klient){
+	public void showBoard(Client klient){
 		boardWindow = new BoardPanel();
 		remove(startView);
 		

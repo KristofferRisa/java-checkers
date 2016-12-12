@@ -2,9 +2,11 @@ package game;
 
 import java.io.Serializable;
 
-public class Game implements Serializable {
+import game.board.Move;
 
-	public Game(){
+public class Checker implements Serializable {
+
+	public Checker(){
 		setupGame();
 	}
 

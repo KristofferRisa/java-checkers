@@ -1,10 +1,10 @@
-package board;
+package game.board;
 
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import javax.swing.JPanel;
 
-import board.Square;
+import game.board.Square;
 
 public class SquareMatrix extends JPanel {
 

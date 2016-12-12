@@ -8,18 +8,18 @@ import java.io.OutputStream;
 import java.io.PrintStream;
 import java.net.Socket;
 
-import game.Game;
-import game.Move;
+import game.Checker;
+import game.board.Move;
 import graphics.DebugWindowFrame;
 
-public class KlientBehandler extends Thread {
+public class ClientManager extends Thread {
 	private Socket socket;
 	private DebugWindowFrame Debug;
 	private ObjectOutputStream output;
 	private ObjectInputStream input;
 	private Move move;
 
-	public KlientBehandler(Socket s, DebugWindowFrame d){
+	public ClientManager(Socket s, DebugWindowFrame d){
 		socket = s;
 		Debug = d;
 	}
@@ -33,7 +33,7 @@ public class KlientBehandler extends Thread {
 				output = new ObjectOutputStream(socket.getOutputStream());
 				
 				
-				DataTransferObject data = new DataTransferObject();
+				GameDataTransferObject data = new GameDataTransferObject();
 				data.msg =  "test melding fra server i klientbehandler Klassen";
 				output.writeObject(data);
 				
@@ -56,7 +56,7 @@ public class KlientBehandler extends Thread {
 		}
 	}
 	
-	public void send(DataTransferObject data) {
+	public void send(GameDataTransferObject data) {
 		try {			
 			ObjectOutputStream output2 = new ObjectOutputStream(socket.getOutputStream());
 			output2.writeObject(data);

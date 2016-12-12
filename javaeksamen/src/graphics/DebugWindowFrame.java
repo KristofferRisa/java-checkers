@@ -14,15 +14,15 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-import game.Move;
-import network.DataTransferObject;
-import network.Klient;
+import game.board.Move;
+import network.GameDataTransferObject;
+import network.Client;
 import network.Server;
 
 public class DebugWindowFrame extends JFrame implements ActionListener {
 
 	private Server srv;
-	private Klient k;
+	private Client k;
 	
 	public DebugWindowFrame(String title) {		
 		addComponents();
@@ -89,7 +89,7 @@ public class DebugWindowFrame extends JFrame implements ActionListener {
 				break;
 			case klient:
 			case client:
-				k = new Klient(this);
+				k = new Client(this);
 				k.start();
 				break;
 			case send:
