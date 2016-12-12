@@ -19,16 +19,16 @@ import network.GameDataTransferObject;
 import network.Client;
 import network.Server;
 
-public class GamePanel extends JPanel implements ActionListener  {
+public class GamePanel extends JPanel implements ActionListener {
 
 	private Client klient;
 
-	public GamePanel(Client klient){
+	public GamePanel(Client klient) {
 		this.klient = klient;
 		setupGameView();
 	}
-	
-	public GamePanel(){
+
+	public GamePanel() {
 
 		setupGameView();
 	}
@@ -38,28 +38,26 @@ public class GamePanel extends JPanel implements ActionListener  {
 		JTextArea ta = new JTextArea();
 		msgButton = new JButton("Send melding til klient!");
 		closeButton = new JButton("Lukk meg!");
-		//setLayout(new GridLayout());
 		setLayout(new GridBagLayout());
 		add(l);
 		add(ta);
 		add(closeButton);
 		add(msgButton);
-		
+
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-		//int height = screenSize.height;
 		int width = screenSize.width;
 		setVisible(true);
-		
-		if(width <=1366){
+
+		if (width <= 1366) {
 			ta.setFont(getFont().deriveFont(new Float(16)));
 			msgButton.setFont(getFont().deriveFont(new Float(16)));
 			closeButton.setFont(getFont().deriveFont(new Float(16)));
-		} else if (width <=1367 && width <=2001) {
+		} else if (width <= 1367 && width <= 2001) {
 			ta.setFont(getFont().deriveFont(new Float(28)));
 			msgButton.setFont(getFont().deriveFont(new Float(28)));
 			closeButton.setFont(getFont().deriveFont(new Float(28)));
 		}
-		
+
 		else {
 			ta.setFont(getFont().deriveFont(new Float(28)));
 			msgButton.setFont(getFont().deriveFont(new Float(28)));
@@ -72,21 +70,21 @@ public class GamePanel extends JPanel implements ActionListener  {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if(e.getSource() == closeButton) {
-			System.exit(0);	
+		if (e.getSource() == closeButton) {
+			System.exit(0);
 		}
-		if(e.getSource() == msgButton){			
+		if (e.getSource() == msgButton) {
 			System.out.println("forsøker å sende game til klient!");
 			Move move = new Move();
 			move.fromPostion = new Postion(1, 2);
-			klient.send(move);	
-	
+			klient.send(move);
+
 		}
 	}
-	
+
 	private JButton msgButton;
 	private JButton closeButton;
-	
+
 	private static final long serialVersionUID = 7542084159328657810L;
 
 }
