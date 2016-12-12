@@ -1,10 +1,10 @@
 package game;
 
-import game.board.Move;
 import graphics.DebugWindowFrame;
 import graphics.WindowContainerFrame;
 import network.Client;
 import network.Server;
+import network.data.Move;
 
 public class RuleEngine extends Thread {
 	
@@ -16,14 +16,13 @@ public class RuleEngine extends Thread {
 	public RuleEngine(DebugWindowFrame d){
 		
 		isServer = false;
+		
 		Debug = d;
 		
 		Debug.log("Starter!");
 		
 		isActive = false;	
-		
-		
-		
+
 	}
 	
 	public Player player1;
@@ -31,10 +30,6 @@ public class RuleEngine extends Thread {
 	public Player player2;	
 	
 	public GameDetails gameDetails;
-	
-	private Checker game;
-	private Server server;
-	private Client klient;
 	public Boolean isServer;
 
 	public void update(Move move1) {

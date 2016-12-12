@@ -13,11 +13,11 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
-import game.board.Move;
 import game.board.Postion;
 import network.GameDataTransferObject;
 import network.Client;
 import network.Server;
+import network.data.Move;
 
 public class GameControlPanel extends JPanel implements ActionListener  {
 

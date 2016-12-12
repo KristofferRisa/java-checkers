@@ -19,6 +19,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 
+import datamodels.UserInput;
 import game.Checker;
 import game.Player;
 
