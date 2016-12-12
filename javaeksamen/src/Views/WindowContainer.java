@@ -5,7 +5,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Toolkit;
 import javax.swing.JFrame;
-import Board.BoardWindow;
+
 import Game.Game;
 import Network.Klient;
 import Network.Server;

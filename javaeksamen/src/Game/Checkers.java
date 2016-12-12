@@ -84,4 +84,10 @@ public class Checkers extends Thread {
 	private Server server;
 	private Klient klient;
 	public Boolean isServer;
+	
+	public static void main(String[] args){
+		new Checkers();
+	}
 }
+
+
