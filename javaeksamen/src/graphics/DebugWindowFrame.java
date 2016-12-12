@@ -1,5 +1,5 @@
 
-package Views;
+package graphics;
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Dimension;
@@ -14,23 +14,23 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-import Game.Move;
-import Network.GameData;
-import Network.Klient;
-import Network.Server;
+import game.Move;
+import network.DataTransferObject;
+import network.Klient;
+import network.Server;
 
-public class DebugWindow extends JFrame implements ActionListener {
+public class DebugWindowFrame extends JFrame implements ActionListener {
 
 	private Server srv;
 	private Klient k;
 	
-	public DebugWindow(String title) {		
+	public DebugWindowFrame(String title) {		
 		addComponents();
 		setupFrame(title);
 		log("Ferdig med oppsett");
 	}
 	
-	public DebugWindow() {		
+	public DebugWindowFrame() {		
 		addComponents();
 		setupFrame("Checkers debug");
 		log("Ferdig med oppsett");

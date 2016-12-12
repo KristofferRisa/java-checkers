@@ -1,16 +1,16 @@
-package Views;
+package graphics;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import javax.swing.JPanel;
 
-import Board.SquareMatrix;
+import board.SquareMatrix;
 import sun.applet.Main;
 
-public class BoardWindow extends JPanel {
+public class BoardPanel extends JPanel {
 	
 	
-	public BoardWindow () {
+	public BoardPanel () {
 		add (new SquareMatrix());
 		setVisible(true);		
 	}
