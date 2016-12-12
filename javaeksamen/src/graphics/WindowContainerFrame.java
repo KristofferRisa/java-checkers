@@ -7,34 +7,44 @@ import java.awt.Toolkit;
 import javax.swing.JFrame;
 
 import game.Checker;
+import game.RuleEngine;
 import graphics.usercontrol.BoardPanel;
 import graphics.usercontrol.GamePanel;
 import graphics.usercontrol.StartPanel;
+import graphics.usercontrol.UserInput;
 import network.Client;
 import network.Server;
 
 public class WindowContainerFrame extends JFrame {
 
 	public GamePanel gameview;
-	private Checker game;
+	
 	public WindowContainerFrame(){
 		configureFrame();
 	}
 	
-	public Checker showUserInput(){
-		game = new Checker();
-		
-		startView = new StartPanel(game,this);
-		add(startView);
+	public UserInput showUserInput(){
+		startPanel = new StartPanel(this);
+		add(startPanel);
 		pack();
-		game = startView.getGame();
-
-		return game;
+		
+		while(startPanel.isVisible()){
+			
+			try {
+				System.out.println("Waiting on user input");
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		}
+		return startPanel.getUserInputData();
 	}
-	
+
 	public void showBoard(Client klient){
 		boardWindow = new BoardPanel();
-		remove(startView);
+		remove(startPanel);
 		
 		GridBagConstraints gc = new GridBagConstraints();
 		gc.anchor = GridBagConstraints.LINE_START;
@@ -76,10 +86,11 @@ public class WindowContainerFrame extends JFrame {
 		setVisible(true);
 	}
 	
-	public StartPanel startView;
+	public StartPanel startPanel;
 	private BoardPanel boardWindow;
 	public Server server;
 	private static final long serialVersionUID = -3425445318104341180L;
-	
+
+
 	
 }

@@ -10,6 +10,8 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 import game.Checker;
+import game.Game;
+import game.RuleEngine;
 import game.board.Move;
 import graphics.DebugWindowFrame;
 
@@ -18,15 +20,17 @@ public class Server extends Thread {
 	private DebugWindowFrame Debug;
 	private ObjectInputStream input;
 	private ObjectOutputStream output;
-	private Checker game;
+	private Game game;
 	private ClientManager klient1;
 	private ClientManager klient2;
+	private RuleEngine ruleEngine;
 
-	public Server(Checker game){
+	public Server(Game game, RuleEngine ruleEngine){
 		Debug = new DebugWindowFrame("checkers server logg");
 		isConnected = false;
 		this.game = game;
-		game.isActive = true;
+		this.ruleEngine = ruleEngine;
+//		game2.isActive = true;
 	}
 	
 	public void run(){
@@ -69,18 +73,15 @@ public class Server extends Thread {
 	        			klient1.send(data);
 	        			Move move1 = klient1.recive();
 	        			
-	        			game.update(move1);
+	        			ruleEngine.update(move1);
 	        			
 	        			klient2.send(data);
 	        			Move move2 = klient2.recive();
 	        			
-	        			game.update(move2);
+	        			ruleEngine.update(move2);
 	        		}
 	        		
 	        	}
-	    		
-	    		
-	    		
 	    		
 			}
 	    } catch (IOException e) {

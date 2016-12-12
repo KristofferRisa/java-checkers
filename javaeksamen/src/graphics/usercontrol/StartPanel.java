@@ -9,6 +9,7 @@ import java.awt.GridBagLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.MissingResourceException;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -24,14 +25,20 @@ import game.Player;
 
 public class StartPanel extends JPanel implements ActionListener {
 
-	private boolean done;
-
 	private JFrame frame;
 
-	public StartPanel(Checker g, JFrame frame) {
-		game = g;
+	private UserInput userInput;
+
+	public UserInput getUserInputData(){
+		if(userInput != null){
+			return userInput;
+		}
+		//TODO: add exception handling
+		throw new MissingResourceException("Missing userinput data", getName(), "UserInput");
+	}
+	
+	public StartPanel(JFrame frame) {
 		this.frame = frame;
-		isServer = false;
 		JLabel nameLabel = new JLabel("Username: ");
 		nameField = new JTextField(10);
 		btnServer = new JButton("Create New Online Game");
@@ -115,35 +122,24 @@ public class StartPanel extends JPanel implements ActionListener {
 					TitledBorder.TOP, new Font("", Font.PLAIN, 30)));
 		}
 		setVisible(true);
-		done = false;
 	}
 
 	public void actionPerformed(ActionEvent e) {
 
 		if (e.getSource() == btnServer) {
-			game.player1.name = nameField.getText();
-			isServer = true;
+			userInput = new UserInput();
+			userInput.name = nameField.getText();
+			userInput.isServer = true;
 		}
 		if (e.getSource() == btnJoin) {
-			if(game.player2 == null){
-				game.player2 = new Player();
-			}
-			game.player2.name = nameField.getText();
-			isServer = false;
+			userInput = new UserInput();
+			userInput.name = nameField.getText();
+			userInput.isServer = false;
 		}		
 		frame.getContentPane().repaint();
-		done = true;
 		setVisible(false);
 	}
 	
-	public Checker getGame(){
-		
-		while(this.done == false){
-			System.out.println("venter");
-		}
-		return game;
-	}
-
 	private JTextField nameField;
 
 	private JButton btnServer;
@@ -151,10 +147,6 @@ public class StartPanel extends JPanel implements ActionListener {
 	private JButton btnJoin;
 
 	private JButton btnLocal;
-
-	private Checker game;
-
-	public boolean isServer;
 
 	private static final long serialVersionUID = -3671918994272350809L;
 
