@@ -17,7 +17,7 @@ import javax.swing.JPanel;
 import game.board.CheckerType;
 import game.board.Piece;
 
-public class BoardPanel extends JComponent implements MouseListener {
+public class BoardPanel extends JPanel implements MouseListener {
 	// dimension of checkerboard square (25% bigger than checker)
 	private final static int SQUAREDIM = (int) (Piece.getDimension() * 1.25);
 
@@ -202,7 +202,7 @@ public class BoardPanel extends JComponent implements MouseListener {
 	      ((Graphics2D) g).setRenderingHint(RenderingHints.KEY_ANTIALIASING,
 	                                        RenderingHints.VALUE_ANTIALIAS_ON);
 
-	      // Paint checkerboard.
+//	       Paint checkerboard.
 
 	      for (int row = 0; row < 8; row++)
 	      {
