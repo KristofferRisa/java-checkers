@@ -1,4 +1,4 @@
-package game.board;
+package graphics.usercontrol;
 
 import java.awt.Dimension;
 import java.awt.GridLayout;
@@ -6,9 +6,9 @@ import javax.swing.JPanel;
 
 import game.board.Square;
 
-public class SquareMatrix extends JPanel {
+public class SquarePanel extends JPanel {
 
-	public SquareMatrix() {
+	public SquarePanel() {
 		setLayout (new GridLayout (8,8));
 		setPreferredSize(new Dimension(600,600));
 		for (int i=0; i<64; i++) {
