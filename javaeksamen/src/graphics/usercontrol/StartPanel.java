@@ -19,6 +19,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 
+import datamodels.UserInput;
 import game.Checker;
 import game.Player;
 
@@ -44,6 +45,7 @@ public class StartPanel extends JPanel implements ActionListener {
 		btnServer = new JButton("Create New Online Game");
 		btnJoin = new JButton("Join Online Game/Enter IP");
 		btnLocal = new JButton("Test Game Locally");
+		
 
 		setLayout(new GridBagLayout());
 

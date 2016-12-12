@@ -3,7 +3,9 @@ package game.board;
 import java.awt.Color;
 import java.awt.Graphics;
 
+
 public class Piece {
+	
 	public final static int DIMENSION = 50;
 	
 	private CheckerType checkerType;
@@ -43,13 +45,5 @@ public class Piece {
 	      return DIMENSION;
 	   }
 	   
-	   public enum CheckerType {
-
-		   BLACK_REGULAR,
-		   BLACK_KING,
-		   RED_REGULAR,
-		   RED_KING
-		
-	}
-
 }
+

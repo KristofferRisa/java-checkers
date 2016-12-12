@@ -12,8 +12,8 @@ import java.net.Socket;
 import game.Checker;
 import game.Game;
 import game.RuleEngine;
-import game.board.Move;
 import graphics.DebugWindowFrame;
+import network.data.Move;
 
 public class Server extends Thread {
 	
@@ -25,12 +25,11 @@ public class Server extends Thread {
 	private ClientManager klient2;
 	private RuleEngine ruleEngine;
 
-	public Server(Game game, RuleEngine ruleEngine){
+	public Server(RuleEngine ruleEngine){
 		Debug = new DebugWindowFrame("checkers server logg");
 		isConnected = false;
-		this.game = game;
+		game = new Game();
 		this.ruleEngine = ruleEngine;
-//		game2.isActive = true;
 	}
 	
 	public void run(){
@@ -41,8 +40,7 @@ public class Server extends Thread {
 	    }catch ( IOException ioe){
 	    	Debug.log("_server: Kunne ikke lage Server socket");
 	    }
-	    
-	    
+	    	    
 	    try{
 	    	Socket socket;
 	    	int numberOfClients = 0;
@@ -93,7 +91,7 @@ public class Server extends Thread {
 		}		
 	    Debug.log("_server: Klient frakoplet");
 	}	
-			
+
 	public boolean isConnected;
 	
 }

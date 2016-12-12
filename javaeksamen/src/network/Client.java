@@ -7,8 +7,9 @@ import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 
-import game.board.Move;
 import graphics.DebugWindowFrame;
+import helpers.Network;
+import network.data.Move;
 
 public class Client extends Thread {
 
@@ -20,30 +21,20 @@ public class Client extends Thread {
 	}
 	
 	public boolean isConnected;
+	
 	private Socket socket;
 	
 	public void start(){
-		try {
-			
+		try {			
 			Debug.log("_klient: Forsøker å kople til server");
 			socket = new Socket("127.0.0.1", 1337);
 			
-			Debug.log("_klient: Tilkoplet server");
+			Network helper = new Network();
+			Object data = helper.readObject(socket);
+			
+			//
 			isConnected = true;
 			
-			InputStream inputStream = socket.getInputStream();
-			OutputStream outputStream = socket.getOutputStream();
-			
-//			Debug.log("_klient: venter på data fra server");
-//			ObjectInputStream input = new ObjectInputStream(inputStream);
-//			GameData data = (GameData)input.readObject();
-//							
-//			Debug.log(" data: " + data.msg);
-			
-//			ObjectOutputStream output = new ObjectOutputStream(outputStream);
-//			data.msg = "Dette er en melding tilbake til server fra klient klassen";
-//			output.writeObject(data);					    		
-//			output.close();
 			
 		} catch (Exception e) {
 			Debug.log(e.getMessage());
