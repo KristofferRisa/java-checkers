@@ -1,25 +1,24 @@
-package Models;
+package game;
 
 import java.io.Serializable;
 
-public class Game implements Serializable {
+import game.board.Move;
 
-	public Game(){
+public class Checker implements Serializable {
+
+	public Checker(){
 		setupGame();
 	}
 
 	private void setupGame() {
-		player1 = new Player();
-		player2 = new Player();
-		board = new Board();
+		player1 = new Player();		
+
 		isActive = true;
 	}
 	
 	public Player player1;
 	
 	public Player player2;
-	
-	public Board board;
 	
 	public String gameType;
 	
@@ -42,5 +41,10 @@ public class Game implements Serializable {
 	public boolean isActive;
 		
 	private static final long serialVersionUID = 3484073086581610846L;
+
+	public void update(Move move1) {
+		// TODO Auto-generated method stub
+		
+	}
 
 }

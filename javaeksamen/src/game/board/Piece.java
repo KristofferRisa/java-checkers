@@ -1,16 +1,14 @@
-package Board;
+package game.board;
 
+import java.awt.Color;
 import java.awt.Graphics;
 
-import com.sun.prism.paint.Color;
-
-public final class Checker {
-	
+public class Piece {
 	public final static int DIMENSION = 50;
 	
 	private CheckerType checkerType;
 	
-	public Checker(CheckerType checkerType)
+	public Piece(CheckerType checkerType)
 	{
 		this.checkerType = checkerType;
 	}
@@ -44,5 +42,14 @@ public final class Checker {
 	   {
 	      return DIMENSION;
 	   }
+	   
+	   public enum CheckerType {
+
+		   BLACK_REGULAR,
+		   BLACK_KING,
+		   RED_REGULAR,
+		   RED_KING
+		
+	}
 
 }

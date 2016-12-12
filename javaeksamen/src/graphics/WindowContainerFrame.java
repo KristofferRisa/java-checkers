@@ -1,29 +1,40 @@
-package Views;
+package graphics;
 
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Toolkit;
-
 import javax.swing.JFrame;
-import Board.BoardWindow;
-import Models.Server;
 
-public class WindowContainer extends JFrame {
+import game.Checker;
+import graphics.usercontrol.BoardPanel;
+import graphics.usercontrol.GamePanel;
+import graphics.usercontrol.StartPanel;
+import network.Client;
+import network.Server;
 
-	private GameView g;
-	public WindowContainer(){
+public class WindowContainerFrame extends JFrame {
+
+	public GamePanel gameview;
+	private Checker game;
+	public WindowContainerFrame(){
 		configureFrame();
 	}
 	
-	public void showUserInput(){
-		userInputView = new UserInputView();
-		add(userInputView);
+	public Checker showUserInput(){
+		game = new Checker();
+		
+		startView = new StartPanel(game,this);
+		add(startView);
+		pack();
+		game = startView.getGame();
+
+		return game;
 	}
 	
-	public void showBoard(){
-		boardWindow = new BoardWindow();
-		remove(userInputView);
+	public void showBoard(Client klient){
+		boardWindow = new BoardPanel();
+		remove(startView);
 		
 		GridBagConstraints gc = new GridBagConstraints();
 		gc.anchor = GridBagConstraints.LINE_START;
@@ -34,25 +45,22 @@ public class WindowContainer extends JFrame {
 		gc.gridx = 0;
 		gc.gridy = 0;
 		
+		boardWindow.setPreferredSize(new Dimension(800,600));
 		add(boardWindow,gc);
 		
-		gc.gridx = 1;
+		
+		gc.gridx = 0;
 		gc.gridy = 1;
 		
-		gc.gridx = 1;
+		gc.gridx = 0;
 		gc.gridy = 1;
 		
-		if(server != null){
-			g = new GameView(server);
-		}
-		else {
-			g = new GameView();
-		}
-		add(g,gc);
 		
+		gameview = new GamePanel(klient);
+		
+		add(gameview,gc);
+		pack();
 	}
-
-
 	
 	private void configureFrame() {
 		setTitle("Checkers 1.0!! (java eksamen)");
@@ -68,8 +76,8 @@ public class WindowContainer extends JFrame {
 		setVisible(true);
 	}
 	
-	public UserInputView userInputView;
-	private BoardWindow boardWindow;
+	public StartPanel startView;
+	private BoardPanel boardWindow;
 	public Server server;
 	private static final long serialVersionUID = -3425445318104341180L;
 	
