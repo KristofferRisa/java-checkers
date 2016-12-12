@@ -1,20 +1,20 @@
-package Game;
+package game;
 
-import Network.GameData;
-import Network.Klient;
-import Network.Server;
-import Views.DebugWindow;
-import Views.WindowContainer;
+import graphics.DebugWindowFrame;
+import graphics.WindowContainerFrame;
+import network.DataTransferObject;
+import network.Klient;
+import network.Server;
 
 public class Checkers extends Thread {
 
-	private WindowContainer gui;
-	private static DebugWindow Debug;
+	private WindowContainerFrame gui;
+	private static DebugWindowFrame Debug;
 	
 	public Checkers(){
 		
-		Debug = new DebugWindow();
-		gui = new WindowContainer();
+		Debug = new DebugWindowFrame();
+		gui = new WindowContainerFrame();
 		isServer = false;
 		
 		Debug.log("Starter!");

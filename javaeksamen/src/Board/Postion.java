@@ -1,4 +1,4 @@
-package Board;
+package board;
 
 import java.io.Serializable;
 

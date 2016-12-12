@@ -1,4 +1,4 @@
-package Network;
+package network;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -7,14 +7,14 @@ import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 
-import Game.Move;
-import Views.DebugWindow;
+import game.Move;
+import graphics.DebugWindowFrame;
 
 public class Klient extends Thread {
 
-	private DebugWindow Debug;
+	private DebugWindowFrame Debug;
 
-	public Klient(DebugWindow d){
+	public Klient(DebugWindowFrame d){
 		Debug = d;
 		isConnected = false;
 	}

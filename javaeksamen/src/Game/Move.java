@@ -1,9 +1,9 @@
-package Game;
+package game;
 
 import java.io.Serializable;
 
-import Board.Piece;
-import Board.Postion;
+import board.Piece;
+import board.Postion;
 
 public class Move implements Serializable {
 	public Postion fromPostion;
