@@ -11,7 +11,7 @@ public class SquarePanel extends JPanel {
 
 	public SquarePanel() {
 		setLayout (new GridLayout (8,8));
-		setPreferredSize(new Dimension(600,600));
+		setPreferredSize(new Dimension(400,400));
 		for (int i=0; i<64; i++) {
 			add (new Square(i));
 		}

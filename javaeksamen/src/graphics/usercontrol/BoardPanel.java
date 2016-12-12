@@ -184,7 +184,8 @@ public class BoardPanel extends JPanel implements MouseListener {
 	   @Override
 	   protected void paintComponent(Graphics g)
 	   {
-	      paintCheckerBoard(g);
+		   // HUSK!!!
+	     // paintCheckerBoard(g);
 	      for (PosCheck posCheck: posChecks)
 	         if (posCheck != BoardPanel.this.posCheck)
 	            posCheck.piece.draw(g, posCheck.cx, posCheck.cy);
@@ -197,23 +198,23 @@ public class BoardPanel extends JPanel implements MouseListener {
 	   }
 
 	
-	   private void paintCheckerBoard(Graphics g)
-	   {
-	      ((Graphics2D) g).setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-	                                        RenderingHints.VALUE_ANTIALIAS_ON);
-
-//	       Paint checkerboard.
-
-	      for (int row = 0; row < 8; row++)
-	      {
-	         g.setColor(((row & 1) != 0) ? Color.BLACK : Color.WHITE);
-	         for (int col = 0; col < 8; col++)
-	         {
-	            g.fillRect(col * SQUAREDIM, row * SQUAREDIM, SQUAREDIM, SQUAREDIM);
-	            g.setColor((g.getColor() == Color.BLACK) ? Color.WHITE : Color.BLACK);
-	         }
-	      }
-	   }
+//	   private void paintCheckerBoard(Graphics g)
+//	   {
+//	      ((Graphics2D) g).setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+//	                                        RenderingHints.VALUE_ANTIALIAS_ON);
+//
+////	       Paint checkerboard.
+//
+//	      for (int row = 0; row < 8; row++)
+//	      {
+//	         g.setColor(((row & 1) != 0) ? Color.BLACK : Color.WHITE);
+//	         for (int col = 0; col < 8; col++)
+//	         {
+//	            g.fillRect(col * SQUAREDIM, row * SQUAREDIM, SQUAREDIM, SQUAREDIM);
+//	            g.setColor((g.getColor() == Color.BLACK) ? Color.WHITE : Color.BLACK);
+//	         }
+//	      }
+//	   }
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
