@@ -50,6 +50,8 @@ public class StartPanel extends JPanel implements ActionListener {
 		gc.gridy = 0;
 		add(nameLabel, gc);
 		
+		gc.fill = 1;
+		
 		gc.gridx = 1;
 		gc.gridy = 0;
 		add(nameField, gc);
