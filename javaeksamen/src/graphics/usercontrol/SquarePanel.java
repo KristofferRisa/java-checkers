@@ -4,6 +4,7 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import javax.swing.JPanel;
 
+import game.board.Piece;
 import game.board.Square;
 
 public class SquarePanel extends JPanel {

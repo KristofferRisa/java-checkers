@@ -8,8 +8,10 @@ import javax.swing.JFrame;
 
 import game.Checker;
 import game.RuleEngine;
+import game.board.CheckerType;
+import game.board.Piece;
 import graphics.usercontrol.BoardPanel;
-import graphics.usercontrol.GamePanel;
+import graphics.usercontrol.GameControlPanel;
 import graphics.usercontrol.StartPanel;
 import graphics.usercontrol.UserInput;
 import network.Client;
@@ -17,7 +19,7 @@ import network.Server;
 
 public class WindowContainerFrame extends JFrame {
 
-	public GamePanel gameview;
+	public GameControlPanel gameview;
 	
 	public WindowContainerFrame(){
 		configureFrame();
@@ -46,6 +48,9 @@ public class WindowContainerFrame extends JFrame {
 		boardWindow = new BoardPanel();
 		remove(startPanel);
 		
+		boardWindow.add(new Piece(CheckerType.BLACK_KING),1,1);
+		
+		
 		GridBagConstraints gc = new GridBagConstraints();
 		gc.anchor = GridBagConstraints.LINE_START;
 				
@@ -66,7 +71,7 @@ public class WindowContainerFrame extends JFrame {
 		gc.gridy = 1;
 		
 		
-		gameview = new GamePanel(klient);
+		gameview = new GameControlPanel(klient);
 		
 		add(gameview,gc);
 		pack();
