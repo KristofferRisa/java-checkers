@@ -8,50 +8,43 @@ import java.io.OutputStream;
 import java.io.PrintStream;
 import java.net.Socket;
 
+import datamodels.GameDataTransferObject;
 import game.Checker;
 import graphics.DebugWindowFrame;
 import network.data.Move;
 
 public class ClientManager extends Thread {
-	private Socket socket;
+	public Socket socket;
 	private DebugWindowFrame Debug;
 	private ObjectOutputStream output;
 	private ObjectInputStream input;
 	private Move move;
-
-	public ClientManager(Socket s, DebugWindowFrame d){
-		socket = s;
+	public boolean isClientConneted;
+	public ClientManager(DebugWindowFrame d){
 		Debug = d;
+		isClientConneted = false;
 	}
 	
 	public void run(){
-		try{
-			
+		try{			
 				Debug.log("_klientbehandler: Starter klient tilkopling");				
 				Debug.log("_klientbehandler: sender melding til klient");
 							
 				output = new ObjectOutputStream(socket.getOutputStream());
 				
-				
-				GameDataTransferObject data = new GameDataTransferObject();
-				data.msg =  "test melding fra server i klientbehandler Klassen";
+				GameDataTransferObject data = new GameDataTransferObject("OK");
 				output.writeObject(data);
-				
-//				data = (GameData)input.readObject();
-//
-//				Debug.log("_klientbehandler: " +data.msg);
 				input = new ObjectInputStream(socket.getInputStream());
+			
+				data = (GameDataTransferObject)input.readObject();
 				
-				while(true){
-					
-					move = (Move)input.readObject();
-					
-					Debug.log("_klientBehandler: fikk melding fra klient - move= " + move.fromPostion.x + " og " + move.fromPostion.y);
-					
-					input.reset();
+				if(data.msg == "OK"){
+					Debug.log("_clientManager: Fikk melding fra klient. msg = " + data.msg);
+					isClientConneted = true;
 				}
-						
+					
 		} catch(Exception e) {
+			
 			Debug.log("_klientbehandler: " + e.getMessage());
 		}
 	}

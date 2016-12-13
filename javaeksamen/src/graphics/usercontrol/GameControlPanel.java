@@ -13,8 +13,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
+import datamodels.GameDataTransferObject;
 import game.board.Postion;
-import network.GameDataTransferObject;
 import network.Client;
 import network.Server;
 import network.data.Move;

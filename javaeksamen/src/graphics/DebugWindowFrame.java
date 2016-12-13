@@ -14,7 +14,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-import network.GameDataTransferObject;
+import datamodels.GameDataTransferObject;
 import network.Client;
 import network.Server;
 import network.data.Move;
@@ -89,8 +89,8 @@ public class DebugWindowFrame extends JFrame implements ActionListener {
 				break;
 			case klient:
 			case client:
-				k = new Client(this);
-				k.start();
+//				k = new Client(this);
+//				k.start();
 				break;
 			case send:
 				k.send(new Move());

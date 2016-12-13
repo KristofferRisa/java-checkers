@@ -7,6 +7,7 @@ import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 
+import datamodels.GameDataTransferObject;
 import graphics.DebugWindowFrame;
 import helpers.Network;
 import network.data.Move;
@@ -15,25 +16,42 @@ public class Client extends Thread {
 
 	private DebugWindowFrame Debug;
 
-	public Client(DebugWindowFrame d){
-		Debug = d;
-		isConnected = false;
+	private String ip;
+
+	private int port;
+
+	public Client(String ip, int port, DebugWindowFrame d){
+		this.ip = ip;
+		this.port = port;
+		this.Debug = d;
+		this.isConnected = false;
 	}
 	
 	public boolean isConnected;
 	
-	private Socket socket;
+	public Socket socket;
+
+	private GameDataTransferObject data;
 	
 	public void start(){
 		try {			
 			Debug.log("_klient: Forsøker å kople til server");
-			socket = new Socket("127.0.0.1", 1337);
+			
+			socket = new Socket(ip, port);
 			
 			Network helper = new Network();
-			Object data = helper.readObject(socket);
 			
-			//
-			isConnected = true;
+			data = helper.readGameData(socket);
+			
+			if(data.msg.equals("OK")){
+				helper.sendObject(socket, data);
+				isConnected = true;
+				Debug.log("_client: Tilkoplet server. melding fra server = " + data.msg);
+			} else {
+				isConnected = false;
+				Debug.log("_client: " + data.msg);
+				System.out.println(data.msg);
+			}
 			
 			
 		} catch (Exception e) {

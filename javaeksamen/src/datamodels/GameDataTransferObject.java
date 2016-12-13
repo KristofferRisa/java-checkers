@@ -1,8 +1,6 @@
-package network;
+package datamodels;
 
 import java.io.Serializable;
-
-import game.Checker;
 import game.Game;
 
 /***
@@ -11,6 +9,20 @@ import game.Game;
  *
  */
 public class GameDataTransferObject implements Serializable{
+	
+	public GameDataTransferObject(){
+		
+	}
+	
+	public GameDataTransferObject(String msg){
+		this.msg = msg;
+	}
+	
+	public GameDataTransferObject(Game game, String msg){
+		this.game = game;
+		this.msg = msg;
+	}
+	
 	private static final long serialVersionUID = 4555028078803373326L;
 	public Game game;
 	public String msg;

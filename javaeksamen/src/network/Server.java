@@ -9,22 +9,18 @@ import java.io.PrintStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import datamodels.GameDataTransferObject;
 import game.Checker;
 import game.Game;
 import game.RuleEngine;
 import graphics.DebugWindowFrame;
+import helpers.Network;
 import network.data.Move;
 
 public class Server extends Thread {
 	
-	private DebugWindowFrame Debug;
-	private ObjectInputStream input;
-	private ObjectOutputStream output;
-	private Game game;
-	private ClientManager klient1;
-	private ClientManager klient2;
-	private RuleEngine ruleEngine;
-
+	private ClientManager client2;
+	private ClientManager client1;
 	public Server(RuleEngine ruleEngine){
 		Debug = new DebugWindowFrame("checkers server logg");
 		isConnected = false;
@@ -43,26 +39,27 @@ public class Server extends Thread {
 	    	    
 	    try{
 	    	Socket socket;
-	    	int numberOfClients = 0;
 	    	Debug.log("_server: venter på klient");
+	    	
+	    	//Instansierer 2 klient objekter 
+	    	client1 = new ClientManager(Debug);
+	    	client2 = new ClientManager(Debug);
+	    	
 	    	while( (socket = server.accept()) != null){
-	    		numberOfClients++;
-	    		
 	    		Debug.log("_server: klar for å ta imot klienter");
-	    		Debug.log("_server: Number of clients connected = " + numberOfClients );
-	    		if(numberOfClients == 1){
-	    			 
-	        		Debug.log("_server: Ny klient tilkoplet");
-					klient1 = new ClientManager(socket, Debug);
-					klient1.start();
-	        	} else if(numberOfClients == 2) {
-	        		
-	        		Debug.log("_server: Ny klient tilkoplet");
-					klient2 = new ClientManager(socket, Debug);
-					klient2.start();
-	        	
-	        	} else {
-	        			    			
+	    		
+	    		if(client1.isClientConneted == false && client1.socket == null){
+	    			client1.socket = socket;
+	    			client1.start();
+	    		} else if(client2.isClientConneted == false && client2.socket == null){
+	    			client2.socket = socket;
+	    			client2.start();
+	    		} else {
+	    			helpers.Network helper = new Network();
+	    			helper.sendObject(socket, new GameDataTransferObject("ERROR"));
+	    		}
+	    		
+	    			
 	        		while(game.isActive){
 	        			//Spillet kan starte - annen hver tur
 	        			GameDataTransferObject data = new GameDataTransferObject();
@@ -79,7 +76,7 @@ public class Server extends Thread {
 	        			ruleEngine.update(move2);
 	        		}
 	        		
-	        	}
+	        	
 	    		
 			}
 	    } catch (IOException e) {
@@ -87,11 +84,19 @@ public class Server extends Thread {
 	        e.printStackTrace();
 	    } catch (Exception e) {
 			// TODO Auto-generated catch block
+	    	Debug.log("_server: " + e.getMessage());
 			e.printStackTrace();
 		}		
 	    Debug.log("_server: Klient frakoplet");
 	}	
 
 	public boolean isConnected;
+	private DebugWindowFrame Debug;
+	private ObjectInputStream input;
+	private ObjectOutputStream output;
+	private Game game;
+	private ClientManager klient1;
+	private ClientManager klient2;
+	private RuleEngine ruleEngine;
 	
 }
