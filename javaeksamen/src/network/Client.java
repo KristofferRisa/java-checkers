@@ -11,9 +11,11 @@ import datamodels.UserInput;
 import graphics.DebugWindowFrame;
 import network.data.Move;
 
-public class Client extends Thread {
+public class Client {
 
 	private UserInput userInput;
+	private ObjectInputStream input;
+	private ObjectOutputStream output;
 	public Client(String ip, int port, UserInput userInput, DebugWindowFrame d){
 		this.ip = ip;
 		this.port = port;
@@ -22,13 +24,13 @@ public class Client extends Thread {
 		this.userInput = userInput;
 	}
 	
-	public void run(){
+	public void connectServer(){
 		try {			
 			Debug.log("_klient: Forsøker å kople til server");
 			
 			socket = new Socket(ip, port);
-			ObjectInputStream input = new ObjectInputStream(socket.getInputStream());
-			ObjectOutputStream output = new ObjectOutputStream(socket.getOutputStream());
+			input = new ObjectInputStream(socket.getInputStream());
+			output = new ObjectOutputStream(socket.getOutputStream());
 			
 			Debug.log("_client: Socket opprettet, " + socket.isConnected());
 			
@@ -50,24 +52,15 @@ public class Client extends Thread {
 				
 				output.writeObject(data);
 
-				
 				isConnected = true;
+				
 				data =(GameDataTransferObject)input.readObject();
-				while(true){
-					
-					
-					System.out.println("client er aktiv");
-					sleep(1000);
-					
-				}
+				
 			} else {
 				isConnected = false;
 				Debug.log("_client: " + data.msg);
 				System.out.println(data.msg);
 			}
-			
-			
-			
 			
 		} catch (Exception e) {
 			Debug.log("_client: " + e.getMessage());
@@ -79,7 +72,6 @@ public class Client extends Thread {
 	public void send(Move move) {
 		// TODO Auto-generated method stub
 		try {
-			ObjectOutputStream output = new ObjectOutputStream(socket.getOutputStream());
 			output.writeObject(move);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

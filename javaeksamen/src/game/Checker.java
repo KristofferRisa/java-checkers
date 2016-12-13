@@ -8,7 +8,7 @@ import network.Client;
 import network.Server;
 import network.data.Move;
 
-public class Checker extends Thread {
+public class Checker {
 
 	public Checker(){
 		openGuiManagerAndStartUserInput();
@@ -39,46 +39,23 @@ public class Checker extends Thread {
 		String ip = "127.0.0.1";
 		int port = 1337;
 		klient = new Client(ip, port, input, debug);
-		klient.start();
+		klient.connectServer();
 
-		while(klient.isConnected == false){
-			try {
-				debug.log("Forsøker å kople til server");
-				debug.log("Venter på Server");
-				sleep(5000);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				debug.log(e.getMessage());
-				e.printStackTrace();
-			}
-		}
-		while(klient.data == null
-				|| klient.data.player1.name == null
-				|| klient.data.player2.name == null){
-			//Sjekker om det er blitt utvekslet data mellom klienten og at det finnes både player 1 og player2
-			try {
-				
-				debug.log("_checker: waiting for oponent.");
-				sleep(1000);
-			} catch (InterruptedException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-		}
-
-
-		debug.log("_chekers: Viser brett");
-		guiManager.showBoard(klient);
-		
-		while(guiManager.gameControls.isVisible()){
+		if(klient.isConnected){
+			debug.log("_chekers: Viser brett");
+			guiManager.showBoard(klient);
 			
-			try {
-					sleep(2000);
-			} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}		
+			while(guiManager.gameControls.isVisible()){
+				
+				try {
+						Thread.sleep(2000);
+				} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}		
+			
+		}
 		
 		debug.log("ferdig, avslutter aplikasjon");
 		System.exit(0);

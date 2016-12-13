@@ -16,6 +16,9 @@ import javax.swing.JComponent;
 import javax.swing.JPanel;
 import game.board.CheckerType;
 import game.board.Piece;
+import game.board.Postion;
+import network.Client;
+import network.data.Move;
 
 public class BoardPanel extends JPanel implements MouseListener {
 	// dimension of checkerboard square (25% bigger than checker)
@@ -37,7 +40,9 @@ public class BoardPanel extends JPanel implements MouseListener {
 	// displacement between drag start coordinates and checker center
 	// coordinates
 
-	private int deltax, deltay;
+	private int deltax;
+	
+	private int deltay;
 
 	// reference to positioned checker at start of drag
 
@@ -51,9 +56,12 @@ public class BoardPanel extends JPanel implements MouseListener {
 
 	private List<PosCheck> posChecks;
 
-	public BoardPanel() {
+	private Client client;
+
+	public BoardPanel(Client client) {
 		// SquarePanel squarePanel = new SquarePanel();
 		// add(squarePanel);
+		this.client = client;
 		setVisible(true);
 
 		posChecks = new ArrayList<>();
@@ -102,11 +110,16 @@ public class BoardPanel extends JPanel implements MouseListener {
 				// Do not move checker onto an occupied square.
 
 				for (PosCheck posCheck : posChecks)
-					if (posCheck != BoardPanel.this.posCheck && posCheck.cx == BoardPanel.this.posCheck.cx
+					if (posCheck != BoardPanel.this.posCheck 
+						&& posCheck.cx == BoardPanel.this.posCheck.cx
 							&& posCheck.cy == BoardPanel.this.posCheck.cy) {
 						BoardPanel.this.posCheck.cx = oldcx;
 						BoardPanel.this.posCheck.cy = oldcy;
+						
+						
 					}
+				client.send(new Move(new Postion(oldcx, oldcy), new Postion(BoardPanel.this.posCheck.cx, BoardPanel.this.posCheck.cy)));
+				
 				posCheck = null;
 				repaint();
 			}
@@ -142,6 +155,7 @@ public class BoardPanel extends JPanel implements MouseListener {
 
 					posCheck.cx = me.getX() - deltax;
 					posCheck.cy = me.getY() - deltay;
+										
 					repaint();
 				}
 			}

@@ -102,9 +102,7 @@ public class GameControlPanel extends JPanel implements ActionListener  {
 		}
 		if (e.getSource() == msgButton) {
 			System.out.println("forsøker å sende game til klient!");
-			Move move = new Move();
-			move.fromPostion = new Postion(1, 2);
-			klient.send(move);
+			
 
 		}
 	}

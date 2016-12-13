@@ -93,7 +93,7 @@ public class DebugWindowFrame extends JFrame implements ActionListener {
 //				k.start();
 				break;
 			case send:
-				k.send(new Move());
+//				k.send(new Move());
 				break;
 			case close:
 			case exit:

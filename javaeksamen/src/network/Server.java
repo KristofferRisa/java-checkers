@@ -27,8 +27,8 @@ public class Server extends Thread {
 		Debug = debug;
 		isConnected = false;
 		dataTransferObject = new GameDataTransferObject();
-		client1 = new ClientManager(dataTransferObject,Debug);
-    	client2 = new ClientManager(dataTransferObject,Debug);
+		client1 = new ClientManager(dataTransferObject,1,Debug);
+    	client2 = new ClientManager(dataTransferObject,2,Debug);
 	}
 	
 	public void run(){
