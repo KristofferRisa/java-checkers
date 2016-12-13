@@ -181,21 +181,21 @@ public class BoardPanel extends JPanel implements MouseListener {
 	      return dimPrefSize;
 	   }
 
-	   @Override
-	   protected void paintComponent(Graphics g)
-	   {
-		   // HUSK!!!
-	     // paintCheckerBoard(g);
-	      for (PosCheck posCheck: posChecks)
-	         if (posCheck != BoardPanel.this.posCheck)
-	            posCheck.piece.draw(g, posCheck.cx, posCheck.cy);
-
-	      // Draw dragged checker last so that it appears over any underlying 
-	      // checker.
-
-	      if (posCheck != null)
-	         posCheck.piece.draw(g, posCheck.cx, posCheck.cy);
-	   }
+//	   @Override
+//	   protected void paintComponent(Graphics g)
+//	   {
+//	
+//	      paintCheckerBoard(g);
+//	      for (PosCheck posCheck: posChecks)
+//	         if (posCheck != BoardPanel.this.posCheck)
+//	            posCheck.piece.draw(g, posCheck.cx, posCheck.cy);
+//
+////	       Draw dragged checker last so that it appears over any underlying 
+////	       checker.
+//
+//	      if (posCheck != null)
+//	         posCheck.piece.draw(g, posCheck.cx, posCheck.cy);
+//	   }
 
 	
 //	   private void paintCheckerBoard(Graphics g)
