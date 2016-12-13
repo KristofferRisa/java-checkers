@@ -2,7 +2,6 @@ package graphics.usercontrol;
 
 import java.awt.Dimension;
 import java.awt.GridBagLayout;
-import java.awt.Menu;
 import java.awt.MenuBar;
 import java.awt.MenuItem;
 import java.awt.Toolkit;
@@ -14,7 +13,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
-import datamodels.GameDataTransferObject;
 import game.board.Postion;
 import network.Client;
 import network.data.Move;
@@ -43,7 +41,6 @@ public class GameControlPanel extends JPanel implements ActionListener  {
 		
 		setDimensions();
 
-		
 	}
 
 
@@ -57,6 +54,7 @@ public class GameControlPanel extends JPanel implements ActionListener  {
 		add(textArea);
 		add(closeButton);
 		add(msgButton);
+		
 	}
 	
 
@@ -103,8 +101,6 @@ public class GameControlPanel extends JPanel implements ActionListener  {
 
 	private JButton msgButton;
 	private JButton closeButton;
-	private MenuItem menuClose; 
-	private MenuItem menuNew;
 
 	private static final long serialVersionUID = 7542084159328657810L;
 
