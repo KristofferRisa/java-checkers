@@ -20,6 +20,7 @@ import game.board.Piece;
 import graphics.usercontrol.BoardPanel;
 import graphics.usercontrol.GameControlPanel;
 import graphics.usercontrol.StartPanel;
+import graphics.usercontrol.UserInfoPanel;
 import network.Client;
 import network.Server;
 
@@ -76,23 +77,35 @@ public class WindowContainerFrame extends JFrame {
 	}
 
 	public void showBoard(Client klient){
-		boardWindow = new BoardPanel(klient);
-		remove(startPanel);
+		boardpanel = new BoardPanel(klient);
 		
-		//boardWindow.add(new Piece(CheckerType.BLACK_KING),1,1);
-         
-		leggUtSvarteBrikker();
-		leggUtHviteBrikker();
-		
-
 		setLayout(new BorderLayout());
 		
-		boardWindow.setPreferredSize(new Dimension(800,600));
-		add(boardWindow,BorderLayout.CENTER);
+		remove(startPanel);
+		
+		//TODO: Oppdater med riktig brukerinfo
+		UserInfoPanel user1 = new UserInfoPanel("Test bruker", "IP");
+		
+		add(user1, BorderLayout.NORTH);
+		
+		leggUtSvarteBrikker();
+		
+		leggUtHviteBrikker();
+				
+		boardpanel.setPreferredSize(new Dimension(800,600));
+		
+		add(boardpanel,BorderLayout.CENTER);
 	
+		//TODO: Oppdater med riktig brukerinfo
+		UserInfoPanel user2 = new UserInfoPanel("TEST TEST", "Localhost");
+		
+		add(user2, BorderLayout.SOUTH);
+		
 		gameControls = new GameControlPanel(klient);
 		
-		add(gameControls,BorderLayout.SOUTH);
+		//add(gameControls,BorderLayout.SOUTH);
+		
+		pack();
 		repaint();
 	}
 
@@ -101,14 +114,14 @@ public class WindowContainerFrame extends JFrame {
 		for (int i = 1; i <= 8; i++) {
 
 			if (i % 2 == 0) {
-				boardWindow.add(new Piece(CheckerType.BLACK_REGULAR), 1, i);
+				boardpanel.add(new Piece(CheckerType.BLACK_REGULAR), 1, i);
 			}
 		}
 		
 		for (int i = 1; i <= 8; i++) {
 
 			if (i % 2 != 0) {
-				boardWindow.add(new Piece(CheckerType.BLACK_REGULAR), 2, i);
+				boardpanel.add(new Piece(CheckerType.BLACK_REGULAR), 2, i);
 				
 				
 			}
@@ -121,14 +134,14 @@ public class WindowContainerFrame extends JFrame {
 		for (int i = 1; i <= 8; i++) {
 
 			if (i % 2 == 0) {
-				boardWindow.add(new Piece(CheckerType.WHITE_REGULAR), 7, i);
+				boardpanel.add(new Piece(CheckerType.WHITE_REGULAR), 7, i);
 			}
 		}
 		
 		for (int i = 1; i <= 8; i++) {
 
 			if (i % 2 != 0) {
-				boardWindow.add(new Piece(CheckerType.WHITE_REGULAR), 8, i);
+				boardpanel.add(new Piece(CheckerType.WHITE_REGULAR), 8, i);
 				
 				
 			}
@@ -151,7 +164,7 @@ public class WindowContainerFrame extends JFrame {
 	}
 	
 	public StartPanel startPanel;
-	private BoardPanel boardWindow;
+	private BoardPanel boardpanel;
 	public Server server;
 	private static final long serialVersionUID = -3425445318104341180L;
 

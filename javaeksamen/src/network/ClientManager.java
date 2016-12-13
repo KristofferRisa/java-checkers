@@ -72,11 +72,11 @@ public class ClientManager extends Thread {
 				
 				output.writeObject(data);
 				
-				while(true){
-					Move move = (Move)input.readObject();
-					Debug.log("_clientManager_"+clientId+": Mottok ett trekk fra "+clientId + ". Move: "+ move);
-					
-				}
+//				while(true){
+//					Move move = (Move)input.readObject();
+//					Debug.log("_clientManager_"+clientId+": Mottok ett trekk fra "+clientId + ". Move: "+ move);
+//					
+//				}
 				
 		} catch(Exception e) {
 			
@@ -96,7 +96,6 @@ public class ClientManager extends Thread {
 	
 	public Move recive(){
 		try {
-			input = new ObjectInputStream(socket.getInputStream());
 			return (Move)input.readObject();
 		} catch (ClassNotFoundException | IOException e) {
 			// TODO Auto-generated catch block
