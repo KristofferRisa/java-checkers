@@ -1,5 +1,6 @@
 package game;
 
+import datamodels.GameDataTransferObject;
 import datamodels.UserInput;
 import graphics.DebugWindowFrame;
 import graphics.WindowContainerFrame;
@@ -12,15 +13,15 @@ public class Checker extends Thread {
 	public Checker(){
 		openGuiManagerAndStartUserInput();
 		
-		starterServer(); 
-		
+		starterServer();
+			
 		starterClient();
 		
 		while(klient.isConnected == true){
 			debug.log("_chekers: Viser brett");
 			guiManager.showBoard(klient);
 			
-			while(guiManager.gameview.isVisible()){
+			while(guiManager.gameControls.isVisible()){
 				
 				try {
 						sleep(2000);
@@ -36,11 +37,18 @@ public class Checker extends Thread {
 		
 	}
 
+	private void startGame() {
+		debug.log("_checker: start nytt Game");
+		Game game = new Game(server,ruleEngine,debug);
+		game.start();
+	}
+
 	private void starterServer() {
 		if(input.isServer){
 			//Start server
-			server = new Server(ruleEngine);
-			server.start();		
+			server = new Server(debug);
+			server.start();	
+			startGame();
 		}
 	}
 
@@ -48,21 +56,20 @@ public class Checker extends Thread {
 		debug.log("Starter ny klient");
 		String ip = "127.0.0.1";
 		int port = 1337;
-		klient = new Client(ip, port, debug);
+		klient = new Client(ip, port, input, debug);
 		klient.start();
 
 		while(klient.isConnected == false){
 			try {
-				klient.start();
 				debug.log("Forsøker å kople til server");
 				debug.log("Venter på Server");
-				sleep(1000);
+				sleep(5000);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				debug.log(e.getMessage());
 				e.printStackTrace();
 			}
-		}
+		}		
 	}
 
 	private void openGuiManagerAndStartUserInput() {

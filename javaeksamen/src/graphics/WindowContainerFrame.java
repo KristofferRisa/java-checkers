@@ -1,5 +1,6 @@
 package graphics;
 
+import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -19,7 +20,7 @@ import network.Server;
 
 public class WindowContainerFrame extends JFrame {
 
-	public GameControlPanel gameview;
+	public GameControlPanel gameControls;
 	
 	public WindowContainerFrame(){
 		configureFrame();
@@ -28,7 +29,6 @@ public class WindowContainerFrame extends JFrame {
 	public UserInput showUserInput(){
 		startPanel = new StartPanel(this);
 		add(startPanel);
-		pack();
 		
 		while(startPanel.isVisible()){
 			
@@ -50,30 +50,15 @@ public class WindowContainerFrame extends JFrame {
 		
 		boardWindow.add(new Piece(CheckerType.BLACK_KING),1,1);
 		
+		setLayout(new BorderLayout());
 		
-		GridBagConstraints gc = new GridBagConstraints();
-		gc.anchor = GridBagConstraints.LINE_START;
-				
-		gc.weightx = 0;
-		gc.weighty = 0;
-		
-		gc.gridx = 0;
-		gc.gridy = 0;
 		
 		boardWindow.setPreferredSize(new Dimension(800,600));
-		add(boardWindow,gc);
+		add(boardWindow,BorderLayout.CENTER);
+	
+		gameControls = new GameControlPanel(klient);
 		
-		
-		gc.gridx = 0;
-		gc.gridy = 1;
-		
-		gc.gridx = 0;
-		gc.gridy = 1;
-		
-		
-		gameview = new GameControlPanel(klient);
-		
-		add(gameview,gc);
+		add(gameControls,BorderLayout.SOUTH);
 		pack();
 	}
 	
@@ -84,7 +69,7 @@ public class WindowContainerFrame extends JFrame {
 		
 		int height = screenSize.height;
 		int width = screenSize.width;
-		setSize(height,width/2);
+		setSize(height/2,width/4);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLayout(new GridBagLayout());
 		setLocationRelativeTo(null);
