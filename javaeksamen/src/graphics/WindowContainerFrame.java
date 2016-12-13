@@ -76,7 +76,7 @@ public class WindowContainerFrame extends JFrame {
 	}
 
 	public void showBoard(Client klient){
-		boardWindow = new BoardPanel();
+		boardWindow = new BoardPanel(klient);
 		remove(startPanel);
 		
 		//boardWindow.add(new Piece(CheckerType.BLACK_KING),1,1);
@@ -135,10 +135,7 @@ public class WindowContainerFrame extends JFrame {
 			
 		}
 	}
-	
-	
 
-	
 	private void configureFrame() {
 		setTitle("Checkers 1.0!! (java eksamen)");
 		
@@ -152,8 +149,6 @@ public class WindowContainerFrame extends JFrame {
 		setLocationRelativeTo(null);
 		setVisible(true);
 	}
-	
-
 	
 	public StartPanel startPanel;
 	private BoardPanel boardWindow;
