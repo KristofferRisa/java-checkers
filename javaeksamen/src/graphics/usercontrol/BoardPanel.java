@@ -52,8 +52,8 @@ public class BoardPanel extends JPanel implements MouseListener {
 	private List<PosCheck> posChecks;
 
 	public BoardPanel() {
-		SquarePanel squarePanel = new SquarePanel();
-		add(squarePanel);
+//		SquarePanel squarePanel = new SquarePanel();
+//		add(squarePanel);
 		setVisible(true);
 
 		posChecks = new ArrayList<>();
