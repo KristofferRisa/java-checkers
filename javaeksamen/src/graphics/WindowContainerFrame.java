@@ -1,18 +1,19 @@
 package graphics;
 
 import java.awt.Dimension;
-
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.Menu;
-import java.awt.MenuBar;
-import java.awt.MenuItem;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 
 import datamodels.UserInput;
-import game.Checker;
-import game.RuleEngine;
 import game.board.CheckerType;
 import game.board.Piece;
 import graphics.usercontrol.BoardPanel;
@@ -25,10 +26,36 @@ public class WindowContainerFrame extends JFrame {
 
 	public GameControlPanel gameview;
 	
+	Toolkit tk = Toolkit.getDefaultToolkit();
+	Dimension d = tk.getScreenSize();
+	int screenHeight = d.height;
+	int screenWidth = d.width;
+	
 	public WindowContainerFrame(){
 		configureFrame();
+		addMenu();
 	}
 	
+	private void addMenu() {
+		JMenuBar menubar = new JMenuBar();
+		JMenu menu = new JMenu("Meny");
+		JMenuItem closeMenuItem = new JMenuItem("Close");
+		JMenuItem newGame = new JMenuItem("New Game");
+		setJMenuBar(menubar);
+		menubar.add(menu);
+		menu.add(newGame);
+		menu.add(closeMenuItem);
+		menu.setFont(new Font("Arial", Font.PLAIN, (int) screenWidth / 150));
+		newGame.setFont(new Font("Arial", Font.PLAIN, (int) screenWidth / 150));
+		closeMenuItem.setFont(new Font("Arial", Font.PLAIN, (int) screenWidth / 150));
+		closeMenuItem.addActionListener(new ActionListener() {
+			@Override
+            public void actionPerformed(ActionEvent e) {
+                System.exit(0);
+            }
+        });
+	}
+
 	public UserInput showUserInput(){
 		startPanel = new StartPanel(this);
 		add(startPanel);
