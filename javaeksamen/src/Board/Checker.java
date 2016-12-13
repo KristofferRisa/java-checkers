@@ -1,12 +1,12 @@
 package Board;
 
 import java.awt.Graphics;
+import java.awt.Color;
 
-import com.sun.prism.paint.Color;
 
 public final class Checker {
 	
-	public final static int DIMENSION = 50;
+	private final static int DIMENSION = 50;
 	
 	private CheckerType checkerType;
 	
