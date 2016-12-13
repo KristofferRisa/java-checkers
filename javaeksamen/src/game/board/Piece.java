@@ -2,11 +2,12 @@ package game.board;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Color;
 
 
 public class Piece {
 	
-	public final static int DIMENSION = 50;
+	private final static int DIMENSION = 50;
 	
 	private CheckerType checkerType;
 	
@@ -22,14 +23,14 @@ public class Piece {
 		
 		g.setColor(checkerType == CheckerType.BLACK_REGULAR || 
 				checkerType == CheckerType.BLACK_KING ? (Color) Color.BLACK :
-				Color.RED);
+				Color.WHITE);
 		
 		
 		g.fillOval(x, y, DIMENSION, DIMENSION);
 		g.setColor(Color.WHITE);
 		g.drawOval(x, y, DIMENSION, DIMENSION);
 		
-	    if (checkerType == CheckerType.RED_KING || 
+	    if (checkerType == CheckerType.WHITE_KING || 
 	    		checkerType == CheckerType.BLACK_KING)
 	            g.drawString("K", cx, cy);
 	}

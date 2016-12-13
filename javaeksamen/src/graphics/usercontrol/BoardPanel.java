@@ -52,8 +52,8 @@ public class BoardPanel extends JPanel implements MouseListener {
 	private List<PosCheck> posChecks;
 
 	public BoardPanel() {
-//		SquarePanel squarePanel = new SquarePanel();
-//		add(squarePanel);
+		// SquarePanel squarePanel = new SquarePanel();
+		// add(squarePanel);
 		setVisible(true);
 
 		posChecks = new ArrayList<>();
@@ -154,95 +154,88 @@ public class BoardPanel extends JPanel implements MouseListener {
 		});
 
 	}
-	
-	public void add(Piece piece, int row, int col){
-		 if (row < 1 || row > 8)
-	         throw new IllegalArgumentException("row out of range: " + row);
-	      if (col < 1 || col > 8)
-	         throw new IllegalArgumentException("col out of range: " + col);
-	      PosCheck posCheck = new PosCheck();
-	      posCheck.piece = piece;
-	      posCheck.cx = (col - 1) * SQUAREDIM + SQUAREDIM / 2;
-	      posCheck.cy = (row - 1) * SQUAREDIM + SQUAREDIM / 2;
-	      for (PosCheck _posCheck: posChecks)
-	         if (posCheck.cx == _posCheck.cx && posCheck.cy == _posCheck.cy)
+
+	public void add(Piece piece, int row, int col) {
+		if (row < 1 || row > 8)
+			throw new IllegalArgumentException("row out of range: " + row);
+		if (col < 1 || col > 8)
+			throw new IllegalArgumentException("col out of range: " + col);
+		PosCheck posCheck = new PosCheck();
+		posCheck.piece = piece;
+		posCheck.cx = (col - 1) * SQUAREDIM + SQUAREDIM / 2;
+		posCheck.cy = (row - 1) * SQUAREDIM + SQUAREDIM / 2;
+		for (PosCheck _posCheck : posChecks)
+			if (posCheck.cx == _posCheck.cx && posCheck.cy == _posCheck.cy)
 				try {
-					throw new Exception("square at (" + row + "," +
-					                                   col + ") is occupied");
+					throw new Exception("square at (" + row + "," + col + ") is occupied");
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-	      posChecks.add(posCheck);
+		posChecks.add(posCheck);
 	}
-	   @Override
-	   public Dimension getPreferredSize()
-	   {
-	      return dimPrefSize;
-	   }
 
-	   @Override
-	   protected void paintComponent(Graphics g)
-	   {
-	
-	      paintCheckerBoard(g);
-	      for (PosCheck posCheck: posChecks)
-	         if (posCheck != BoardPanel.this.posCheck)
-	            posCheck.piece.draw(g, posCheck.cx, posCheck.cy);
+	@Override
+	public Dimension getPreferredSize() {
+		return dimPrefSize;
+	}
 
-//	       Draw dragged checker last so that it appears over any underlying 
-//	       checker.
+	@Override
+	protected void paintComponent(Graphics g) {
 
-	      if (posCheck != null)
-	         posCheck.piece.draw(g, posCheck.cx, posCheck.cy);
-	   }
+		paintCheckerBoard(g);
+		for (PosCheck posCheck : posChecks)
+			if (posCheck != BoardPanel.this.posCheck)
+				posCheck.piece.draw(g, posCheck.cx, posCheck.cy);
 
-	
-	   private void paintCheckerBoard(Graphics g)
-	   {
-	      ((Graphics2D) g).setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-	                                        RenderingHints.VALUE_ANTIALIAS_ON);
+		// Draw dragged checker last so that it appears over any underlying
+		// checker.
 
-//	       Paint checkerboard.
+		if (posCheck != null)
+			posCheck.piece.draw(g, posCheck.cx, posCheck.cy);
+	}
 
-	      for (int row = 0; row < 8; row++)
-	      {
-	         g.setColor(((row & 1) != 0) ? Color.BLACK : Color.WHITE);
-	         for (int col = 0; col < 8; col++)
-	         {
-	            g.fillRect(col * SQUAREDIM, row * SQUAREDIM, SQUAREDIM, SQUAREDIM);
-	            g.setColor((g.getColor() == Color.BLACK) ? Color.WHITE : Color.BLACK);
-	         }
-	      }
-	   }
+	private void paintCheckerBoard(Graphics g) {
+		((Graphics2D) g).setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+		// Paint checkerboard.
+
+		for (int row = 0; row < 8; row++) {
+			g.setColor(((row & 1) != 0) ? Color.DARK_GRAY : Color.WHITE);
+			for (int col = 0; col < 8; col++) {
+				g.fillRect(col * SQUAREDIM, row * SQUAREDIM, SQUAREDIM, SQUAREDIM);
+				g.setColor((g.getColor() == Color.DARK_GRAY) ? Color.WHITE : Color.DARK_GRAY);
+			}
+		}
+	}
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void mouseExited(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void mousePressed(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 }

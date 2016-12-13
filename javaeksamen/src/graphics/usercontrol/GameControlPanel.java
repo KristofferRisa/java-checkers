@@ -3,9 +3,9 @@ package graphics.usercontrol;
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Dimension;
-import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
+import java.awt.MenuBar;
+import java.awt.MenuItem;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,10 +17,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-import datamodels.GameDataTransferObject;
 import game.board.Postion;
 import network.Client;
-import network.Server;
 import network.data.Move;
 
 
@@ -42,13 +40,8 @@ public class GameControlPanel extends JPanel implements ActionListener  {
 		
 		setDimensions();
 
-		addActionListeners();
 	}
 
-	private void addActionListeners() {
-		closeButton.addActionListener(this);
-		msgButton.addActionListener(this);
-	}
 
 	private void setupComponets() {
 		JTextField t = new JTextField("test");		
@@ -65,11 +58,19 @@ public class GameControlPanel extends JPanel implements ActionListener  {
 		textArea = new JTextArea();
 		msgButton = new JButton("Send melding til klient!");
 		closeButton = new JButton("Lukk meg!");
-//		setLayout(new GridBagLayout());
-//		add(label);
-//		add(textArea);
-//		add(closeButton);
-//		add(msgButton);
+
+		setLayout(new GridBagLayout());
+		add(label);
+		add(textArea);
+		add(closeButton);
+		add(msgButton);
+		
+	}
+	
+
+	private void setMenuBar(MenuBar mbar) {
+		// TODO Auto-generated method stub
+		
 	}
 
 	private void setDimensions() {
@@ -100,7 +101,7 @@ public class GameControlPanel extends JPanel implements ActionListener  {
 			System.exit(0);
 		}
 		if (e.getSource() == msgButton) {
-			System.out.println("forsøker å sende game til klient!");
+			System.out.println("forsÃ¸ker Ã¥ sende game til klient!");
 			Move move = new Move();
 			move.fromPostion = new Postion(1, 2);
 			klient.send(move);
