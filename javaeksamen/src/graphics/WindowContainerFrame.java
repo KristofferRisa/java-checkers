@@ -48,8 +48,12 @@ public class WindowContainerFrame extends JFrame {
 		boardWindow = new BoardPanel();
 		remove(startPanel);
 		
-		boardWindow.add(new Piece(CheckerType.BLACK_KING),1,1);
+		//boardWindow.add(new Piece(CheckerType.BLACK_KING),1,1);
+         
+		leggUtSvarteBrikker();
+		leggUtHviteBrikker();
 		
+
 		
 		GridBagConstraints gc = new GridBagConstraints();
 		gc.anchor = GridBagConstraints.LINE_START;
@@ -76,6 +80,49 @@ public class WindowContainerFrame extends JFrame {
 		add(gameview,gc);
 		pack();
 	}
+
+	private void leggUtSvarteBrikker() {
+		
+		for (int i = 1; i <= 8; i++) {
+
+			if (i % 2 == 0) {
+				boardWindow.add(new Piece(CheckerType.BLACK_REGULAR), 1, i);
+			}
+		}
+		
+		for (int i = 1; i <= 8; i++) {
+
+			if (i % 2 != 0) {
+				boardWindow.add(new Piece(CheckerType.BLACK_REGULAR), 2, i);
+				
+				
+			}
+			
+		}
+	}
+	
+	private void leggUtHviteBrikker() {
+		
+		for (int i = 1; i <= 8; i++) {
+
+			if (i % 2 == 0) {
+				boardWindow.add(new Piece(CheckerType.WHITE_REGULAR), 7, i);
+			}
+		}
+		
+		for (int i = 1; i <= 8; i++) {
+
+			if (i % 2 != 0) {
+				boardWindow.add(new Piece(CheckerType.WHITE_REGULAR), 8, i);
+				
+				
+			}
+			
+		}
+	}
+	
+	
+
 	
 	private void configureFrame() {
 		setTitle("Checkers 1.0!! (java eksamen)");
