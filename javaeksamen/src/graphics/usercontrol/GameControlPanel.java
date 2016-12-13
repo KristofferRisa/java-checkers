@@ -1,9 +1,10 @@
 package graphics.usercontrol;
 
 import java.awt.Dimension;
-import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
+import java.awt.Menu;
+import java.awt.MenuBar;
+import java.awt.MenuItem;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -16,7 +17,6 @@ import javax.swing.JTextArea;
 import datamodels.GameDataTransferObject;
 import game.board.Postion;
 import network.Client;
-import network.Server;
 import network.data.Move;
 
 
@@ -49,6 +49,8 @@ public class GameControlPanel extends JPanel implements ActionListener  {
 	private void addActionListeners() {
 		closeButton.addActionListener(this);
 		msgButton.addActionListener(this);
+		menuClose.addActionListener(this);
+		menuNew.addActionListener(this);
 	}
 
 	private void setupComponets() {
@@ -61,6 +63,21 @@ public class GameControlPanel extends JPanel implements ActionListener  {
 		add(textArea);
 		add(closeButton);
 		add(msgButton);
+		
+		MenuBar mbar = new Menubar();
+		Menu m = new Menu ("Filmeny");
+		MenuItem menuClose = new MenuItem ("Avslutt");
+		MenuItem menuNew = new MenuItem ("New");
+		m.add(menuClose);
+		m.add(menuNew);
+		mbar.add(m);
+		setMenuBar (mbar);
+	}
+	
+
+	private void setMenuBar(MenuBar mbar) {
+		// TODO Auto-generated method stub
+		
 	}
 
 	private void setDimensions() {
@@ -101,6 +118,8 @@ public class GameControlPanel extends JPanel implements ActionListener  {
 
 	private JButton msgButton;
 	private JButton closeButton;
+	private MenuItem menuClose; 
+	private MenuItem menuNew;
 
 	private static final long serialVersionUID = 7542084159328657810L;
 

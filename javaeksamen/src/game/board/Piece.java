@@ -2,11 +2,12 @@ package game.board;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Color;
 
 
 public class Piece {
 	
-	public final static int DIMENSION = 50;
+	private final static int DIMENSION = 50;
 	
 	private CheckerType checkerType;
 	
