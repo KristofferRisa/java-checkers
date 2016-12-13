@@ -17,30 +17,10 @@ public class Checker {
 			
 		starterClient();
 		
+		showBoard();
 	}
 
-	private void startGame() {
-		debug.log("_checker: start nytt Game");
-		Game game = new Game(server,ruleEngine,debug);
-		game.start();
-	}
-
-	private void starterServer() {
-		if(input.isServer){
-			//Start server
-			server = new Server(debug);
-			server.start();	
-			startGame();
-		}
-	}
-
-	private void starterClient() {
-		debug.log("Starter ny klient");
-		String ip = "127.0.0.1";
-		int port = 1337;
-		klient = new Client(ip, port, input, debug);
-		klient.connectServer();
-
+	private void showBoard() {
 		if(klient.isConnected){
 			debug.log("_chekers: Viser brett");
 			guiManager.showBoard(klient);
@@ -60,6 +40,22 @@ public class Checker {
 		debug.log("ferdig, avslutter aplikasjon");
 		System.exit(0);
 		//game.start();
+	}
+	
+	private void starterServer() {
+		if(input.isServer){
+			//Start server
+			server = new Server(debug);
+			server.start();	
+		}
+	}
+
+	private void starterClient() {
+		debug.log("Starter ny klient");
+		String ip = "127.0.0.1";
+		int port = 1337;
+		klient = new Client(ip, port, input, debug);
+		klient.connect();
 		
 	}
 

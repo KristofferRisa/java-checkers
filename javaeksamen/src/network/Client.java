@@ -24,7 +24,7 @@ public class Client {
 		this.userInput = userInput;
 	}
 	
-	public void connectServer(){
+	public void connect(){
 		try {			
 			Debug.log("_klient: Forsøker å kople til server");
 			
@@ -75,6 +75,7 @@ public class Client {
 			output.writeObject(move);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 		

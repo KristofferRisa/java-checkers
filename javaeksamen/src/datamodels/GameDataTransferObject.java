@@ -1,7 +1,6 @@
 package datamodels;
 
 import java.io.Serializable;
-import game.Game;
 import game.Player;
 
 /***
@@ -23,7 +22,6 @@ public class GameDataTransferObject implements Serializable{
 	}
 		
 	private static final long serialVersionUID = 4555028078803373326L;
-	public Game game;
 	public Player player1;
 	public Player player2;
 	public String msg;

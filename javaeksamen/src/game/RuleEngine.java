@@ -15,8 +15,6 @@ public class RuleEngine extends Thread {
 	
 	public RuleEngine(DebugWindowFrame d){
 		
-		isServer = false;
-		
 		Debug = d;
 		
 		Debug.log("Starter!");
@@ -30,7 +28,6 @@ public class RuleEngine extends Thread {
 	public Player player2;	
 	
 	public GameDetails gameDetails;
-	public Boolean isServer;
 
 	public void update(Move move1) {
 		// TODO Auto-generated method stub

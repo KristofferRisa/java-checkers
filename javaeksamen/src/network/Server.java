@@ -13,7 +13,6 @@ import com.sun.org.apache.xml.internal.resolver.helpers.Debug;
 
 import datamodels.GameDataTransferObject;
 import game.Checker;
-import game.Game;
 import game.RuleEngine;
 import graphics.DebugWindowFrame;
 import network.data.Move;
@@ -24,11 +23,12 @@ public class Server extends Thread {
 	public ClientManager client1;
 	private GameDataTransferObject dataTransferObject;
 	public Server(DebugWindowFrame debug){
-		Debug = debug;
-		isConnected = false;
-		dataTransferObject = new GameDataTransferObject();
-		client1 = new ClientManager(dataTransferObject,1,Debug);
-    	client2 = new ClientManager(dataTransferObject,2,Debug);
+		this.ruleEngine = new RuleEngine(debug);
+		this.Debug = debug;
+		this.isConnected = false;
+		this.dataTransferObject = new GameDataTransferObject();
+		this.client1 = new ClientManager(dataTransferObject,1,Debug);
+    	this.client2 = new ClientManager(dataTransferObject,2,Debug);
 	}
 	
 	public void run(){
@@ -52,16 +52,28 @@ public class Server extends Thread {
 	    			Debug.log("_server: starter klient 1");
 	    			client1.socket = socket;
 	    			client1.start();
-	    		} else if(client2.isClientConneted == false && client2.socket == null){
+	    		} else {
 	    			Debug.log("_server: starter klient 2");
 	    			client2.socket = socket;
 	    			client2.start();
-	    		} else {
-	    			ObjectOutputStream output = new ObjectOutputStream(socket.getOutputStream());
-	    			output.writeObject(new GameDataTransferObject("ERROR"));
-	    			output.flush();
-	    		}
+	    			isActive = true;
+	    			break;
+	    		} 
 	    		
+			}
+	    	
+	    	while(isActive){
+				//Spillet kan starte - annen hver tur
+				
+				client1.send(dataTransferObject);
+				Move move1 = client1.recive();
+				
+				ruleEngine.update(move1);
+				
+				client2.send(dataTransferObject);
+				Move move2 = client2.recive();
+				
+				ruleEngine.update(move2);
 			}
 	    	
 	    } catch (IOException e) {
@@ -76,6 +88,8 @@ public class Server extends Thread {
 	}	
 
 	public boolean isConnected;
+	private RuleEngine ruleEngine;
+	private boolean isActive;
 	private DebugWindowFrame Debug;
 	
 }
