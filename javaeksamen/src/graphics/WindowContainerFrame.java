@@ -1,8 +1,12 @@
 package graphics;
 
 import java.awt.Dimension;
+
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Menu;
+import java.awt.MenuBar;
+import java.awt.MenuItem;
 import java.awt.Toolkit;
 import javax.swing.JFrame;
 
@@ -91,11 +95,12 @@ public class WindowContainerFrame extends JFrame {
 		setVisible(true);
 	}
 	
+
+	
 	public StartPanel startPanel;
 	private BoardPanel boardWindow;
 	public Server server;
 	private static final long serialVersionUID = -3425445318104341180L;
-
 
 	
 }
