@@ -1,5 +1,7 @@
 package graphics.usercontrol;
 
+import java.awt.BorderLayout;
+import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.GridBagLayout;
 import java.awt.MenuBar;
@@ -9,9 +11,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
 
 import game.board.Postion;
 import network.Client;
@@ -23,19 +27,14 @@ public class GameControlPanel extends JPanel implements ActionListener  {
 
 	private Client klient;
 	private JTextArea textArea;
-
+	private GameDataTransferObject data;
 
 	public GameControlPanel(Client klient){
 		this.klient = klient;
+		this.data = klient.data;
 		setupGameView();
 	}
 	
-	public GameControlPanel(){
-
-
-		setupGameView();
-	}
-
 	private void setupGameView() {
 		setupComponets();
 		
@@ -45,10 +44,21 @@ public class GameControlPanel extends JPanel implements ActionListener  {
 
 
 	private void setupComponets() {
-		JLabel label = new JLabel("Checkers 1.0");
+		JTextField t = new JTextField("test");		
+		JButton sendButton = new JButton("send");
+		JLabel playerName = new JLabel(data.player1.name);
+		JPanel cmdPanel = new JPanel();
+		cmdPanel.setLayout(new BorderLayout());
+		cmdPanel.add(t,BorderLayout.CENTER);
+		cmdPanel.add(sendButton, BorderLayout.EAST);
+		
+		add(cmdPanel, BorderLayout.SOUTH);
+
+		
 		textArea = new JTextArea();
 		msgButton = new JButton("Send melding til klient!");
 		closeButton = new JButton("Lukk meg!");
+
 		setLayout(new GridBagLayout());
 		add(label);
 		add(textArea);
@@ -91,7 +101,7 @@ public class GameControlPanel extends JPanel implements ActionListener  {
 			System.exit(0);
 		}
 		if (e.getSource() == msgButton) {
-			System.out.println("forsøker å sende game til klient!");
+			System.out.println("forsÃ¸ker Ã¥ sende game til klient!");
 			Move move = new Move();
 			move.fromPostion = new Postion(1, 2);
 			klient.send(move);

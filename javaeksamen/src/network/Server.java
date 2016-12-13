@@ -9,6 +9,8 @@ import java.io.PrintStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import com.sun.org.apache.xml.internal.resolver.helpers.Debug;
+
 import datamodels.GameDataTransferObject;
 import game.Checker;
 import game.Game;
@@ -19,18 +21,19 @@ import network.data.Move;
 
 public class Server extends Thread {
 	
-	private ClientManager client2;
-	private ClientManager client1;
-	public Server(RuleEngine ruleEngine){
-		Debug = new DebugWindowFrame("checkers server logg");
+	public ClientManager client2;
+	public ClientManager client1;
+	public Server(DebugWindowFrame debug){
+		Debug = debug;
 		isConnected = false;
-		game = new Game();
-		this.ruleEngine = ruleEngine;
+		client1 = new ClientManager(Debug);
+    	client2 = new ClientManager(Debug);
 	}
 	
 	public void run(){
 		ServerSocket server = null;
-	    try {
+	   
+		try {
 	    	Debug.log("_server: Starter server");
 	        server = new ServerSocket(1337);
 	    }catch ( IOException ioe){
@@ -41,17 +44,15 @@ public class Server extends Thread {
 	    	Socket socket;
 	    	Debug.log("_server: venter på klient");
 	    	
-	    	//Instansierer 2 klient objekter 
-	    	client1 = new ClientManager(Debug);
-	    	client2 = new ClientManager(Debug);
-	    	
 	    	while( (socket = server.accept()) != null){
 	    		Debug.log("_server: klar for å ta imot klienter");
 	    		
 	    		if(client1.isClientConneted == false && client1.socket == null){
+	    			Debug.log("_server: starter klient 1");
 	    			client1.socket = socket;
 	    			client1.start();
 	    		} else if(client2.isClientConneted == false && client2.socket == null){
+	    			Debug.log("_server: starter klient 2");
 	    			client2.socket = socket;
 	    			client2.start();
 	    		} else {
@@ -59,26 +60,8 @@ public class Server extends Thread {
 	    			helper.sendObject(socket, new GameDataTransferObject("ERROR"));
 	    		}
 	    		
-	    			
-	        		while(game.isActive){
-	        			//Spillet kan starte - annen hver tur
-	        			GameDataTransferObject data = new GameDataTransferObject();
-	        			data.game = game;
-	        			
-	        			klient1.send(data);
-	        			Move move1 = klient1.recive();
-	        			
-	        			ruleEngine.update(move1);
-	        			
-	        			klient2.send(data);
-	        			Move move2 = klient2.recive();
-	        			
-	        			ruleEngine.update(move2);
-	        		}
-	        		
-	        	
-	    		
 			}
+	    	
 	    } catch (IOException e) {
 	    	Debug.log("_server: Unable to process client request");
 	        e.printStackTrace();
@@ -92,11 +75,5 @@ public class Server extends Thread {
 
 	public boolean isConnected;
 	private DebugWindowFrame Debug;
-	private ObjectInputStream input;
-	private ObjectOutputStream output;
-	private Game game;
-	private ClientManager klient1;
-	private ClientManager klient2;
-	private RuleEngine ruleEngine;
 	
 }

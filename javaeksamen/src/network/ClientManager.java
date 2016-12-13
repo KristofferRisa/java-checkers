@@ -20,6 +20,7 @@ public class ClientManager extends Thread {
 	private ObjectInputStream input;
 	private Move move;
 	public boolean isClientConneted;
+	public GameDataTransferObject data;
 	public ClientManager(DebugWindowFrame d){
 		Debug = d;
 		isClientConneted = false;
@@ -32,15 +33,23 @@ public class ClientManager extends Thread {
 							
 				output = new ObjectOutputStream(socket.getOutputStream());
 				
-				GameDataTransferObject data = new GameDataTransferObject("OK");
+				data = new GameDataTransferObject("OK");
+				
 				output.writeObject(data);
+				
+				Debug.log("_klientbehandler: Sendt OK melding til klient!" + data.msg);
+				
 				input = new ObjectInputStream(socket.getInputStream());
 			
-				data = (GameDataTransferObject)input.readObject();
+				GameDataTransferObject dataRecived = (GameDataTransferObject)input.readObject();
 				
-				if(data.msg == "OK"){
-					Debug.log("_clientManager: Fikk melding fra klient. msg = " + data.msg);
+				Debug.log("_clientManager: Mottatt melding fra klient. data.msg = " + data.msg);
+				
+				if(dataRecived.msg.equals("OK")){
+					Debug.log("_clientManager: Fikk melding fra klient. msg = " + dataRecived.msg);
 					isClientConneted = true;
+				} else {
+					Debug.log("_clientManager: Noe feilet med handshake. data.msg = " + dataRecived.msg);
 				}
 					
 		} catch(Exception e) {
