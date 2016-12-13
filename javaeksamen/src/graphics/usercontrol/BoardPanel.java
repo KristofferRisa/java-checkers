@@ -207,11 +207,11 @@ public class BoardPanel extends JPanel implements MouseListener {
 
 	      for (int row = 0; row < 8; row++)
 	      {
-	         g.setColor(((row & 1) != 0) ? Color.BLACK : Color.WHITE);
+	         g.setColor(((row & 1) != 0) ? Color.DARK_GRAY : Color.WHITE);
 	         for (int col = 0; col < 8; col++)
 	         {
 	            g.fillRect(col * SQUAREDIM, row * SQUAREDIM, SQUAREDIM, SQUAREDIM);
-	            g.setColor((g.getColor() == Color.BLACK) ? Color.WHITE : Color.BLACK);
+	            g.setColor((g.getColor() == Color.DARK_GRAY) ? Color.WHITE : Color.DARK_GRAY);
 	         }
 	      }
 	   }
