@@ -1,16 +1,17 @@
-package Board;
+package game.board;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Color;
 
 
-public final class Checker {
+public class Piece {
 	
 	private final static int DIMENSION = 50;
 	
 	private CheckerType checkerType;
 	
-	public Checker(CheckerType checkerType)
+	public Piece(CheckerType checkerType)
 	{
 		this.checkerType = checkerType;
 	}
@@ -44,5 +45,6 @@ public final class Checker {
 	   {
 	      return DIMENSION;
 	   }
-
+	   
 }
+
