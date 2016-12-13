@@ -43,15 +43,9 @@ public class GameControlPanel extends JPanel implements ActionListener  {
 		
 		setDimensions();
 
-		addActionListeners();
+		
 	}
 
-	private void addActionListeners() {
-		closeButton.addActionListener(this);
-		msgButton.addActionListener(this);
-		menuClose.addActionListener(this);
-		menuNew.addActionListener(this);
-	}
 
 	private void setupComponets() {
 		JLabel label = new JLabel("Checkers 1.0");
@@ -63,15 +57,6 @@ public class GameControlPanel extends JPanel implements ActionListener  {
 		add(textArea);
 		add(closeButton);
 		add(msgButton);
-		
-		MenuBar mbar = new Menubar();
-		Menu m = new Menu ("Filmeny");
-		MenuItem menuClose = new MenuItem ("Avslutt");
-		MenuItem menuNew = new MenuItem ("New");
-		m.add(menuClose);
-		m.add(menuNew);
-		mbar.add(m);
-		setMenuBar (mbar);
 	}
 	
 
