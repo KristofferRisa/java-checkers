@@ -21,9 +21,11 @@ public class ClientManager extends Thread {
 	private Move move;
 	public boolean isClientConneted;
 	public GameDataTransferObject data;
-	public ClientManager(DebugWindowFrame d){
+	
+	public ClientManager(GameDataTransferObject data, DebugWindowFrame d){
 		Debug = d;
 		isClientConneted = false;
+		this.data = data;
 	}
 	
 	public void run(){
@@ -33,7 +35,7 @@ public class ClientManager extends Thread {
 							
 				output = new ObjectOutputStream(socket.getOutputStream());
 				
-				data = new GameDataTransferObject("OK");
+				data.msg = "OK";
 				
 				output.writeObject(data);
 				
@@ -43,15 +45,31 @@ public class ClientManager extends Thread {
 			
 				GameDataTransferObject dataRecived = (GameDataTransferObject)input.readObject();
 				
+				if(dataRecived.player1 != null){
+					data.player1 = dataRecived.player1;
+				} 
+				if(dataRecived.player2 != null){
+					data.player2 = dataRecived.player2;
+				}
+				
 				Debug.log("_clientManager: Mottatt melding fra klient. data.msg = " + data.msg);
 				
-				if(dataRecived.msg.equals("OK")){
-					Debug.log("_clientManager: Fikk melding fra klient. msg = " + dataRecived.msg);
+				if(data.msg.equals("OK")){
+					Debug.log("_clientManager: Fikk melding fra klient. msg = " + data.msg);
 					isClientConneted = true;
 				} else {
-					Debug.log("_clientManager: Noe feilet med handshake. data.msg = " + dataRecived.msg);
+					Debug.log("_clientManager: Noe feilet med handshake. data.msg = " + data.msg);
 				}
-					
+				
+				while(data.player2.name == null){
+					Debug.log("_clientManager: Venter på spiller 2");
+					sleep(1100);
+					//Venter på spiller 2 
+					// må sende info om spiller 2 til spiller1 
+				}
+				
+				output.writeObject(data);
+				
 		} catch(Exception e) {
 			
 			Debug.log("_klientbehandler: " + e.getMessage());

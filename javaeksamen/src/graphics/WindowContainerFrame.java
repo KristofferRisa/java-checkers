@@ -60,7 +60,7 @@ public class WindowContainerFrame extends JFrame {
 	public UserInput showUserInput(){
 		startPanel = new StartPanel(this);
 		add(startPanel);
-		
+		repaint();
 		while(startPanel.isVisible()){
 			
 			try {
@@ -86,8 +86,6 @@ public class WindowContainerFrame extends JFrame {
 		
 
 		setLayout(new BorderLayout());
-
-		
 		
 		boardWindow.setPreferredSize(new Dimension(800,600));
 		add(boardWindow,BorderLayout.CENTER);
@@ -95,7 +93,7 @@ public class WindowContainerFrame extends JFrame {
 		gameControls = new GameControlPanel(klient);
 		
 		add(gameControls,BorderLayout.SOUTH);
-		pack();
+		repaint();
 	}
 
 	private void leggUtSvarteBrikker() {

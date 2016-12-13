@@ -27,11 +27,11 @@ public class GameControlPanel extends JPanel implements ActionListener  {
 
 	private Client klient;
 	private JTextArea textArea;
-	private GameDataTransferObject data;
+//	private GameDataTransferObject data;
 
 	public GameControlPanel(Client klient){
 		this.klient = klient;
-		this.data = klient.data;
+//		this.data = klient.data;
 		setupGameView();
 	}
 	
@@ -46,7 +46,7 @@ public class GameControlPanel extends JPanel implements ActionListener  {
 	private void setupComponets() {
 		JTextField t = new JTextField("test");		
 		JButton sendButton = new JButton("send");
-		JLabel playerName = new JLabel(data.player1.name);
+//		JLabel playerName = new JLabel(data.player1.name);
 		JPanel cmdPanel = new JPanel();
 		cmdPanel.setLayout(new BorderLayout());
 		cmdPanel.add(t,BorderLayout.CENTER);
@@ -60,7 +60,7 @@ public class GameControlPanel extends JPanel implements ActionListener  {
 		closeButton = new JButton("Lukk meg!");
 
 		setLayout(new GridBagLayout());
-		add(label);
+//		add(label);
 		add(textArea);
 		add(closeButton);
 		add(msgButton);

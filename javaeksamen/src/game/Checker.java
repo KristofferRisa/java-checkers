@@ -17,24 +17,6 @@ public class Checker extends Thread {
 			
 		starterClient();
 		
-		while(klient.isConnected == true){
-			debug.log("_chekers: Viser brett");
-			guiManager.showBoard(klient);
-			
-			while(guiManager.gameControls.isVisible()){
-				
-				try {
-						sleep(2000);
-				} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}		
-		}
-		debug.log("ferdig, avslutter aplikasjon");
-		System.exit(0);
-		//game.start();
-		
 	}
 
 	private void startGame() {
@@ -69,7 +51,39 @@ public class Checker extends Thread {
 				debug.log(e.getMessage());
 				e.printStackTrace();
 			}
+		}
+		while(klient.data == null
+				|| klient.data.player1.name == null
+				|| klient.data.player2.name == null){
+			//Sjekker om det er blitt utvekslet data mellom klienten og at det finnes både player 1 og player2
+			try {
+				
+				debug.log("_checker: waiting for oponent.");
+				sleep(1000);
+			} catch (InterruptedException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
+
+
+		debug.log("_chekers: Viser brett");
+		guiManager.showBoard(klient);
+		
+		while(guiManager.gameControls.isVisible()){
+			
+			try {
+					sleep(2000);
+			} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}		
+		
+		debug.log("ferdig, avslutter aplikasjon");
+		System.exit(0);
+		//game.start();
+		
 	}
 
 	private void openGuiManagerAndStartUserInput() {

@@ -6,11 +6,9 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.net.Socket;
-
 import datamodels.GameDataTransferObject;
 import datamodels.UserInput;
 import graphics.DebugWindowFrame;
-import helpers.Network;
 import network.data.Move;
 
 public class Client extends Thread {
@@ -29,13 +27,14 @@ public class Client extends Thread {
 			Debug.log("_klient: Forsøker å kople til server");
 			
 			socket = new Socket(ip, port);
+			ObjectInputStream input = new ObjectInputStream(socket.getInputStream());
+			ObjectOutputStream output = new ObjectOutputStream(socket.getOutputStream());
 			
 			Debug.log("_client: Socket opprettet, " + socket.isConnected());
 			
-			Network helper = new Network();
-			
 			Debug.log("_client: Venter på handshake fra server");
-			data = helper.readGameData(socket);
+			
+			data = (GameDataTransferObject)input.readObject();
 			
 			if(data.msg.equals("OK")){
 				
@@ -49,18 +48,25 @@ public class Client extends Thread {
 				
 				Debug.log("_client: Tilkoplet server. melding fra server = " + data.msg);
 				
-				helper.sendObject(socket, data);
-				isConnected = true;
+				output.writeObject(data);
+
 				
+				isConnected = true;
+				data =(GameDataTransferObject)input.readObject();
 				while(true){
+					
+					
 					System.out.println("client er aktiv");
 					sleep(1000);
+					
 				}
 			} else {
 				isConnected = false;
 				Debug.log("_client: " + data.msg);
 				System.out.println(data.msg);
 			}
+			
+			
 			
 			
 		} catch (Exception e) {

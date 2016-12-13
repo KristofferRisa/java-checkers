@@ -22,7 +22,9 @@ public class Game extends Thread {
 	
 	public void run() {
 		while(server.client1.isClientConneted == false 
-				&& server.client2.isClientConneted == false){
+				|| server.client1.data == null
+				|| server.client2.isClientConneted == false
+				|| server.client2.data == null){
 			try {
 				debug.log("Venter på klienter. Status klient 1: " + server.client1.isClientConneted + ". Status klient 2 " + server.client2.isClientConneted );
 				sleep(2000);
@@ -31,6 +33,7 @@ public class Game extends Thread {
 				e.printStackTrace();
 			}
 		}
+		
 		data.player1 = server.client1.data.player1;
 		data.player2 = server.client2.data.player2;
 //		data.game = game;

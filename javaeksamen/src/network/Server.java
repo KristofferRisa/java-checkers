@@ -16,18 +16,19 @@ import game.Checker;
 import game.Game;
 import game.RuleEngine;
 import graphics.DebugWindowFrame;
-import helpers.Network;
 import network.data.Move;
 
 public class Server extends Thread {
 	
 	public ClientManager client2;
 	public ClientManager client1;
+	private GameDataTransferObject dataTransferObject;
 	public Server(DebugWindowFrame debug){
 		Debug = debug;
 		isConnected = false;
-		client1 = new ClientManager(Debug);
-    	client2 = new ClientManager(Debug);
+		dataTransferObject = new GameDataTransferObject();
+		client1 = new ClientManager(dataTransferObject,Debug);
+    	client2 = new ClientManager(dataTransferObject,Debug);
 	}
 	
 	public void run(){
@@ -56,8 +57,9 @@ public class Server extends Thread {
 	    			client2.socket = socket;
 	    			client2.start();
 	    		} else {
-	    			helpers.Network helper = new Network();
-	    			helper.sendObject(socket, new GameDataTransferObject("ERROR"));
+	    			ObjectOutputStream output = new ObjectOutputStream(socket.getOutputStream());
+	    			output.writeObject(new GameDataTransferObject("ERROR"));
+	    			output.flush();
 	    		}
 	    		
 			}
