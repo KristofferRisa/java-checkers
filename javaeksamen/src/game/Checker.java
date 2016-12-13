@@ -46,7 +46,9 @@ public class Checker extends Thread {
 
 	private void starterClient() {
 		debug.log("Starter ny klient");
-		klient = new Client(debug);
+		String ip = "127.0.0.1";
+		int port = 1337;
+		klient = new Client(ip, port, debug);
 		klient.start();
 
 		while(klient.isConnected == false){
