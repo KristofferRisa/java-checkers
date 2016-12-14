@@ -10,8 +10,8 @@ import java.net.Socket;
 
 import datamodels.GameDataTransferObject;
 import game.Checker;
+import game.board.Move;
 import graphics.DebugWindowFrame;
-import network.data.Move;
 
 public class ClientManager extends Thread {
 	public Socket socket;
@@ -37,6 +37,7 @@ public class ClientManager extends Thread {
 							
 				output = new ObjectOutputStream(socket.getOutputStream());
 				
+				data.clientId = clientId;
 				data.msg = "OK";
 				
 				output.writeObject(data);

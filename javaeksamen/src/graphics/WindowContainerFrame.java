@@ -18,7 +18,7 @@ import javax.swing.JMenuItem;
 import datamodels.UserInput;
 import game.board.CheckerType;
 import game.board.Piece;
-import graphics.usercontrol.BoardPanel;
+import graphics.usercontrol.Board;
 import graphics.usercontrol.GameControlPanel;
 import graphics.usercontrol.StartPanel;
 import graphics.usercontrol.UserInfoPanel;
@@ -75,18 +75,17 @@ public class WindowContainerFrame extends JFrame {
 			}
 			
 		}
+		remove(startPanel);
 		add(waitLabel);
 		repaint();
 		return startPanel.getUserInputData();
 	}
 
 	public void showBoard(Client klient){
-		boardpanel = new BoardPanel(klient);
+		boardpanel = new Board(klient);
 		
 		setLayout(new BorderLayout());
-		
-		remove(startPanel);
-		
+				
 		//TODO: Oppdater med riktig brukerinfo
 		UserInfoPanel user1 = new UserInfoPanel("Test bruker", "IP");
 		
@@ -168,7 +167,7 @@ public class WindowContainerFrame extends JFrame {
 	}
 	
 	public StartPanel startPanel;
-	private BoardPanel boardpanel;
+	private Board boardpanel;
 	public Server server;
 	private static final long serialVersionUID = -3425445318104341180L;
 
