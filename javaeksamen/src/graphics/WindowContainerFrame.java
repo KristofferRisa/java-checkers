@@ -89,8 +89,6 @@ public class WindowContainerFrame extends JFrame {
 		startPanel = new StartPanel(this);
 		add(startPanel);
 		JLabel waitLabel = new JLabel("Waiting for player 2");
-		JLabel portLabel = new JLabel("Type in port");
-		add(portLabel);
 		repaint();
 		while(startPanel.isVisible()){
 			
