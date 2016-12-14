@@ -50,7 +50,7 @@ public class StartPanel extends JPanel implements ActionListener {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		ipField = new JTextField(10);
+		ipField = new JTextField("Enter IP here ");
 		nameField = new JTextField(10);
 		btnServer = new JButton("Create New Online Game");
 		btnJoin = new JButton("Join Online Game/Enter IP");

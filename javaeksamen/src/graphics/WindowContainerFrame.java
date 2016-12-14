@@ -60,7 +60,7 @@ public class WindowContainerFrame extends JFrame {
         });
 	}
 
-	public UserInput showUserInput() throws UnknownHostException{
+	public UserInput showUserInput() {
 		startPanel = new StartPanel(this);
 		add(startPanel);
 		JLabel waitLabel = new JLabel("Waiting for player 2");

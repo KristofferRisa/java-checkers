@@ -13,12 +13,7 @@ import network.data.Move;
 public class Checker {
 
 	public Checker(){
-		try {
-			openGuiManagerAndStartUserInput();
-		} catch (UnknownHostException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		openGuiManagerAndStartUserInput();
 		
 		starterServer();
 			
@@ -66,7 +61,7 @@ public class Checker {
 		
 	}
 
-	private void openGuiManagerAndStartUserInput() throws UnknownHostException {
+	private void openGuiManagerAndStartUserInput() {
 		debug = new DebugWindowFrame();
 		
 		guiManager = new WindowContainerFrame();
