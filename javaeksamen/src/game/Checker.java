@@ -18,29 +18,6 @@ public class Checker {
 		starterClient();
 		
 		showBoard();
-<<<<<<< HEAD
-=======
-	}
-
-	private void showBoard() {
-		
-		
-		if(klient.isConnected){
-			debug.log("_chekers: Viser brett");
-			guiManager.showBoard(klient);
-			
-			while(guiManager.gameControls.isVisible()){
-				
-				try {
-						Thread.sleep(2000);
-				} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}		
-			
-		}
->>>>>>> mphotfix
 		
 		debug.log("ferdig, avslutter aplikasjon");
 		
@@ -50,9 +27,6 @@ public class Checker {
 	
 	
 	private void starterServer() {
-		
-		
-			
 		
 		if(input.isServer){
 			//Start server

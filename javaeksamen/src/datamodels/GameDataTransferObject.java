@@ -30,6 +30,7 @@ public class GameDataTransferObject implements Serializable{
 	public Move move;
 	public Move lastMove;
 	public int clientId;
+	public int turn;
 	
 	
 }

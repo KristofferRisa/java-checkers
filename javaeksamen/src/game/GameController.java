@@ -42,8 +42,16 @@ public class GameController {
 	}
 
 	public GameDataTransferObject validate(GameDataTransferObject dataTransferObject) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		//TODO: Legg til mer validering
+		
+		//Oppdatere spillers turn
+		turn = (dataTransferObject.turn == 1) ? 2 : 1;
+		dataTransferObject.turn = turn;
+		
+		
+		
+		return dataTransferObject;
 	}
 	
 
