@@ -55,15 +55,8 @@ public class WindowContainerFrame extends JFrame {
 		menu.add(showDebug);
 
 		menu.add(portItem);
-<<<<<<< HEAD
-
 		menu.add(closeMenuItem);
 		menu.setFont(new Font("Arial", Font.PLAIN, (int) screenWidth /150));
-=======
-		menu.add(closeMenuItem);
-		
-		menu.setFont(new Font("Arial", Font.PLAIN, (int) screenWidth / 150));
->>>>>>> refs/remotes/origin/master
 		newGame.setFont(new Font("Arial", Font.PLAIN, (int) screenWidth / 150));
 		showDebug.setFont(new Font("Arial", Font.PLAIN, (int) screenWidth / 150));
 		showDebug.addActionListener(new ActionListener() {
