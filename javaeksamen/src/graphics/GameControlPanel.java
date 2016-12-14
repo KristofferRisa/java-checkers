@@ -1,4 +1,4 @@
-package graphics.usercontrol;
+package graphics;
 
 import java.awt.BorderLayout;
 import java.awt.Container;
@@ -17,8 +17,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-import game.board.Move;
-import game.board.Postion;
+import game.Move;
+import game.Postion;
 import network.Client;
 
 

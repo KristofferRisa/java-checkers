@@ -1,10 +1,10 @@
 package game;
 
 import java.net.UnknownHostException;
-import datamodels.GameDataTransferObject;
+import datamodels.GameDataDTO;
 import datamodels.UserInput;
-import graphics.DebugWindowFrame;
-import graphics.WindowContainerFrame;
+import graphics.DebugWindow;
+import graphics.MainWindow;
 import network.Client;
 import network.Server;
 
@@ -45,9 +45,9 @@ public class Checker {
 	}
 
 	private void openUserInputPanel() {
-		debug = new DebugWindowFrame();
+		debug = new DebugWindow();
 		
-		guiManager = new WindowContainerFrame();
+		guiManager = new MainWindow();
 	
 		input = guiManager.showUserInput();
 
@@ -78,9 +78,9 @@ public class Checker {
 	
 	public String gameType;
 	
-	private DebugWindowFrame debug;
+	private DebugWindow debug;
 
-	private WindowContainerFrame guiManager;
+	private MainWindow guiManager;
 	
 	private Server server;
 

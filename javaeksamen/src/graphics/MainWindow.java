@@ -21,16 +21,13 @@ import javax.swing.JMenuItem;
 import javax.swing.KeyStroke;
 
 import datamodels.UserInput;
-import game.board.CheckerType;
-import game.board.Piece;
-import graphics.usercontrol.Board;
-import graphics.usercontrol.GameControlPanel;
-import graphics.usercontrol.StartPanel;
-import graphics.usercontrol.UserInfoPanel;
+import game.Board;
+import game.CheckerType;
+import game.Piece;
 import network.Client;
 import network.Server;
 
-public class WindowContainerFrame extends JFrame {
+public class MainWindow extends JFrame {
 
 	public GameControlPanel gameControls;
 	
@@ -39,7 +36,7 @@ public class WindowContainerFrame extends JFrame {
 	int screenHeight = d.height;
 	int screenWidth = d.width;
 	
-	public WindowContainerFrame(){
+	public MainWindow(){
 		configureFrame();
 		addMenu();
 	}
@@ -197,6 +194,5 @@ public class WindowContainerFrame extends JFrame {
 	private Board boardpanel;
 	public Server server;
 	private static final long serialVersionUID = -3425445318104341180L;
-
 	
 }

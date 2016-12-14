@@ -1,4 +1,4 @@
-package graphics.usercontrol;
+package game;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -14,11 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
-import game.board.CheckerType;
-import game.board.Move;
-import game.board.Piece;
-import game.board.Postion;
-import mouseListener.BoardMouseListener;
 import network.Client;
 
 public class Board extends JPanel  {

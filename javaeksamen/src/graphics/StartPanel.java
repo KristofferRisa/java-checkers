@@ -1,4 +1,4 @@
-package graphics.usercontrol;
+package graphics;
 
 import java.awt.Color;
 import java.awt.Desktop;

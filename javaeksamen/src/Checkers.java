@@ -3,7 +3,7 @@ import game.GameController;
 
 public class Checkers {
 	public static void main(String[] args){
-		new Checker();
+		new CheckersPanel();
 	}
 	
 }

@@ -12,19 +12,19 @@ import java.net.Socket;
 
 import com.sun.org.apache.xml.internal.resolver.helpers.Debug;
 
-import datamodels.GameDataTransferObject;
+import datamodels.GameDataDTO;
 import game.Checker;
 import game.GameController;
-import game.board.Move;
-import graphics.DebugWindowFrame;
+import game.Move;
+import graphics.DebugWindow;
 
 public class Server extends Thread {
 
-	public Server(DebugWindowFrame debug) {
+	public Server(DebugWindow debug) {
 		this.gameController = new GameController(debug);
 		this.Debug = debug;
 		this.isConnected = false;
-		this.dataTransferObject = new GameDataTransferObject();
+		this.dataTransferObject = new GameDataDTO();
 		this.client1 = new ClientManager(dataTransferObject, 1, Debug);
 		this.client2 = new ClientManager(dataTransferObject, 2, Debug);
 	}
@@ -92,9 +92,9 @@ public class Server extends Thread {
 
 	public boolean isConnected;
 	private GameController gameController;
-	private DebugWindowFrame Debug;
+	private DebugWindow Debug;
 	public ClientManager client2;
 	public ClientManager client1;
-	private GameDataTransferObject dataTransferObject;
+	private GameDataDTO dataTransferObject;
 
 }

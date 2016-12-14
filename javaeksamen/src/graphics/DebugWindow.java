@@ -14,23 +14,23 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-import datamodels.GameDataTransferObject;
-import game.board.Move;
+import datamodels.GameDataDTO;
+import game.Move;
 import network.Client;
 import network.Server;
 
-public class DebugWindowFrame extends JFrame implements ActionListener {
+public class DebugWindow extends JFrame implements ActionListener {
 
 	private Server srv;
 	private Client k;
 	
-	public DebugWindowFrame(String title) {		
+	public DebugWindow(String title) {		
 		addComponents();
 		setupFrame(title);
 		log("Ferdig med oppsett");
 	}
 	
-	public DebugWindowFrame() {		
+	public DebugWindow() {		
 		addComponents();
 		setupFrame("Checkers debug");
 		log("Ferdig med oppsett");
