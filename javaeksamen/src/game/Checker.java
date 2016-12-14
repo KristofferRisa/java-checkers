@@ -1,5 +1,7 @@
 package game;
 
+import java.net.UnknownHostException;
+
 import datamodels.GameDataTransferObject;
 import datamodels.UserInput;
 import game.board.Move;

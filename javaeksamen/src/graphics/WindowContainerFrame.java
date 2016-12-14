@@ -8,6 +8,7 @@ import java.awt.GridBagLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.net.UnknownHostException;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -59,7 +60,7 @@ public class WindowContainerFrame extends JFrame {
         });
 	}
 
-	public UserInput showUserInput(){
+	public UserInput showUserInput() {
 		startPanel = new StartPanel(this);
 		add(startPanel);
 		JLabel waitLabel = new JLabel("Waiting for player 2");
