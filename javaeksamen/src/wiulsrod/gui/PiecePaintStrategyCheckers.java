@@ -1,99 +1,151 @@
-package wiulsrod.gui;
+package graphics.usercontrol;
 
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Point;
-import java.awt.geom.Rectangle2D;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
+import java.awt.Toolkit;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.JComponent;
+import javax.swing.JPanel;
+import game.board.CheckerType;
+import game.board.Move;
+import game.board.Piece;
+import game.board.Postion;
+import mouseListener.BoardMouseListener;
+import network.Client;
 
-import wiulsrod.model.Board;
-import wiulsrod.model.Checker;
-import wiulsrod.model.CheckerSide;
-import wiulsrod.model.Piece;
-import wiulsrod.model.Board.Square;
+public class Board extends JPanel  {
+	// dimension of checkerboard square (25% bigger than checker)
+	private final static int SQUAREDIM = (int) (Piece.getDimension() * 1.25);
 
-public class PiecePaintStrategyCheckers implements PiecePaintStrategy {
-    private final Board board;
+	// dimension of checkerboard (width of 8 squares)
 
-    // The rules say that pieces go on the dark squares.
-    // But then the black pieces do not show up as well.
-    private final boolean piecesOnDark = true;
+	private final int BOARDDIM = 8 * SQUAREDIM;
 
-    public PiecePaintStrategyCheckers(Board b) {
-        board = b;
-    }
+	// preferred size of Board component
 
-    @Override
-    public Color getColorForPoint(Point point) {
-        Square square = board.getSquare(point);
+	private Dimension dimPrefSize;
 
-        // The official rules say pieces go on dark.
-        if (square.equalsType(Square.NOT_IN_PLAY)) {
-            if (piecesOnDark) {
-                return Color.WHITE;
-            } else {
-                return Color.BLACK;
-            }
-        } else if (square.equalsType(Square.IN_PLAY)) {
-            if (piecesOnDark) {
-                return Color.BLACK;
-            } else {
-                return Color.WHITE;
-            }
-        } else {
-            throw new RuntimeException("cannot get color for point=" + point + " square=" + square);
-        }
-    }
-    public Checker getChecker(Piece piece) {
-        return (Checker) piece;
-    }
+	// dragging flag -- set to true when user presses mouse button over checker
+	// and cleared to false when user releases mouse button
 
-    public Color getColorForPiece(Piece piece) {
-        return getColorForChecker(getChecker(piece));
-    }
+	private boolean inDrag = false;
 
-    public Color getColorForChecker(Checker piece) {
-        if (piece.isSide(CheckerSide.BLACK)) {
-            return Color.BLACK;
-        } else if (piece.isSide(CheckerSide.RED)) {
-            return Color.RED;
-        } else {
-            throw new RuntimeException("cannot get color for piece=" + piece + " side=" + piece.getSide());
-        }
-    }
+	// displacement between drag start coordinates and checker center
+	// coordinates
 
-    public Color getColorForPieceBorder() {
-        return Color.WHITE;
-    }
+	private int deltax;
+	
+	private int deltay;
 
-    public Color getColorForKingMarker() {
-        return Color.WHITE;
-    }
+	// reference to positioned checker at start of drag
 
-    @Override
-    public void draw(int cx, int cy, Piece piece, Graphics g, int squareSize, int pieceSize) {
+	private PosCheck posCheck;
 
-        final int x = cx - pieceSize / 2;
-        final int y = cy - pieceSize / 2;
+	// center location of checker at start of drag
 
-        g.setColor(getColorForPiece(piece));
-        g.fillOval(x,  y, pieceSize, pieceSize);
-        g.setColor(getColorForPieceBorder());
-        g.drawOval(x,  y, pieceSize, pieceSize);
+	private int oldcx, oldcy;
 
-        if (getChecker(piece).isKing()) {
-            Color c = getColorForKingMarker();
-            g.setColor(c);
-            final String marker = "K";
+	// list of Checker objects and their initial positions
 
-            // adjust cx, cy for size of the "K"
-            java.awt.FontMetrics fm = g.getFontMetrics(g.getFont());
-            Rectangle2D bounds = fm.getStringBounds(marker, g);
-            int width = (int) bounds.getWidth();
-            int height = (int) bounds.getHeight();
-            int atx = cx - (width / 2);
-            int aty = cy + (height / 3); // TODO: /2 seems "too low"
-            g.drawString(marker, atx, aty);
-        }
-    }
+	private List<PosCheck> posChecks;
 
+	private Client client;
+
+	public Board(Client client) {
+		// SquarePanel squarePanel = new SquarePanel();
+		// add(squarePanel);
+		this.client = client;
+		setVisible(true);
+
+		posChecks = new ArrayList<>();
+		dimPrefSize = new Dimension(BOARDDIM, BOARDDIM);
+
+		addMouseListener(new BoardMouseListener(this));
+
+		// Attach a mouse motion listener to the applet. That listener listens
+		// for mouse drag events.
+
+		addMouseMotionListener(new MouseMotionListener() {
+			@Override
+			public void mouseDragged(MouseEvent me) {
+				if (inDrag) {
+					// Update location of checker center.
+
+					posCheck.cx = me.getX() - deltax;
+					posCheck.cy = me.getY() - deltay;
+										
+					repaint();
+				}
+			}
+
+			@Override
+			public void mouseMoved(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+
+	}
+
+	public void add(Piece piece, int row, int col) {
+		if (row < 1 || row > 8)
+			throw new IllegalArgumentException("row out of range: " + row);
+		if (col < 1 || col > 8)
+			throw new IllegalArgumentException("col out of range: " + col);
+		PosCheck posCheck = new PosCheck();
+		posCheck.piece = piece;
+		posCheck.cx = (col - 1) * SQUAREDIM + SQUAREDIM / 2;
+		posCheck.cy = (row - 1) * SQUAREDIM + SQUAREDIM / 2;
+		for (PosCheck _posCheck : posChecks)
+			if (posCheck.cx == _posCheck.cx && posCheck.cy == _posCheck.cy)
+				try {
+					throw new Exception("square at (" + row + "," + col + ") is occupied");
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+		posChecks.add(posCheck);
+	}
+
+	@Override
+	public Dimension getPreferredSize() {
+		return dimPrefSize;
+	}
+
+	@Override
+	protected void paintComponent(Graphics g) {
+
+		paintCheckerBoard(g);
+		for (PosCheck posCheck : posChecks)
+			if (posCheck != Board.this.posCheck)
+				posCheck.piece.draw(g, posCheck.cx, posCheck.cy);
+
+		// Draw dragged checker last so that it appears over any underlying
+		// checker.
+
+		if (posCheck != null)
+			posCheck.piece.draw(g, posCheck.cx, posCheck.cy);
+	}
+
+	private void paintCheckerBoard(Graphics g) {
+		((Graphics2D) g).setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+		// Paint checkerboard.
+
+		for (int row = 0; row < 8; row++) {
+			g.setColor(((row & 1) != 0) ? Color.DARK_GRAY : Color.WHITE);
+			for (int col = 0; col < 8; col++) {
+				g.fillRect(col * SQUAREDIM, row * SQUAREDIM, SQUAREDIM, SQUAREDIM);
+				g.setColor((g.getColor() == Color.DARK_GRAY) ? Color.WHITE : Color.DARK_GRAY);
+			}
+		}
+	}
 }
