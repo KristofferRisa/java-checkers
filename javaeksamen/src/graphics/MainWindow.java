@@ -137,7 +137,7 @@ public class MainWindow extends JFrame {
 		
 		//add(boardpanel,BorderLayout.CENTER);
 	
-		board = new BoardPanel();
+		board = new BoardPanel(klient);
 		add(board);
 		
 		

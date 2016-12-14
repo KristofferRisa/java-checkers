@@ -11,12 +11,15 @@ import network.Server;
 public class Checker {
 
 	public Checker(){
-		openUserInputPanel();
+		debug = new DebugWindow();
+		guiManager = new MainWindow();
 		
-		starterServer();
-			
+//		openUserInputPanel();
+//		
+//		starterServer();
+//			
 		starterClient();
-		
+
 		showBoard();
 		
 		debug.log("ferdig, avslutter aplikasjon");
@@ -40,15 +43,14 @@ public class Checker {
 		String ip = "127.0.0.1";
 		int port = 1337;
 		klient = new Client(ip, port, input, debug);
-		klient.connect();
+		//klient.connect();
+		//TODO: While debuging board game!
+		klient.isConnected = true;
 		
 	}
 
 	private void openUserInputPanel() {
-		debug = new DebugWindow();
 		
-		guiManager = new MainWindow();
-	
 		input = guiManager.showUserInput();
 
 		debug.log("Player = " + input.name);
@@ -63,8 +65,6 @@ public class Checker {
 		if(klient.isConnected){
 			debug.log("_chekers: Viser brett");
 			guiManager.showBoard(klient);
-			
-			
 			
 			while(guiManager.gameControls.isVisible()){				
 				try {
