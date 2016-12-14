@@ -1,39 +1,67 @@
 package graphics;
 
+import java.awt.BorderLayout;
 import java.awt.Dimension;
-
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.Menu;
-import java.awt.MenuBar;
-import java.awt.MenuItem;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 
 import datamodels.UserInput;
-import game.Checker;
-import game.RuleEngine;
 import game.board.CheckerType;
 import game.board.Piece;
 import graphics.usercontrol.BoardPanel;
 import graphics.usercontrol.GameControlPanel;
 import graphics.usercontrol.StartPanel;
+import graphics.usercontrol.UserInfoPanel;
 import network.Client;
 import network.Server;
 
 public class WindowContainerFrame extends JFrame {
 
-	public GameControlPanel gameview;
+	public GameControlPanel gameControls;
+	
+	Toolkit tk = Toolkit.getDefaultToolkit();
+	Dimension d = tk.getScreenSize();
+	int screenHeight = d.height;
+	int screenWidth = d.width;
 	
 	public WindowContainerFrame(){
 		configureFrame();
+		addMenu();
 	}
 	
+	private void addMenu() {
+		JMenuBar menubar = new JMenuBar();
+		JMenu menu = new JMenu("Meny");
+		JMenuItem closeMenuItem = new JMenuItem("Close");
+		JMenuItem newGame = new JMenuItem("New Game");
+		setJMenuBar(menubar);
+		menubar.add(menu);
+		menu.add(newGame);
+		menu.add(closeMenuItem);
+		menu.setFont(new Font("Arial", Font.PLAIN, (int) screenWidth / 150));
+		newGame.setFont(new Font("Arial", Font.PLAIN, (int) screenWidth / 150));
+		closeMenuItem.setFont(new Font("Arial", Font.PLAIN, (int) screenWidth / 150));
+		closeMenuItem.addActionListener(new ActionListener() {
+			@Override
+            public void actionPerformed(ActionEvent e) {
+                System.exit(0);
+            }
+        });
+	}
+
 	public UserInput showUserInput(){
 		startPanel = new StartPanel(this);
 		add(startPanel);
-		pack();
-		
+		repaint();
 		while(startPanel.isVisible()){
 			
 			try {
@@ -49,40 +77,36 @@ public class WindowContainerFrame extends JFrame {
 	}
 
 	public void showBoard(Client klient){
-		boardWindow = new BoardPanel();
+		boardpanel = new BoardPanel(klient);
+		
+		setLayout(new BorderLayout());
+		
 		remove(startPanel);
 		
-		//boardWindow.add(new Piece(CheckerType.BLACK_KING),1,1);
-         
+		//TODO: Oppdater med riktig brukerinfo
+		UserInfoPanel user1 = new UserInfoPanel("Test bruker", "IP");
+		
+		add(user1, BorderLayout.NORTH);
+		
 		leggUtSvarteBrikker();
+		
 		leggUtHviteBrikker();
-		
-
-		
-		GridBagConstraints gc = new GridBagConstraints();
-		gc.anchor = GridBagConstraints.LINE_START;
 				
-		gc.weightx = 0;
-		gc.weighty = 0;
+		boardpanel.setPreferredSize(new Dimension(800,600));
 		
-		gc.gridx = 0;
-		gc.gridy = 0;
+		add(boardpanel,BorderLayout.CENTER);
+	
+		//TODO: Oppdater med riktig brukerinfo
+		UserInfoPanel user2 = new UserInfoPanel("TEST TEST", "Localhost");
 		
-		boardWindow.setPreferredSize(new Dimension(800,600));
-		add(boardWindow,gc);
+		add(user2, BorderLayout.SOUTH);
 		
+		gameControls = new GameControlPanel(klient);
 		
-		gc.gridx = 0;
-		gc.gridy = 1;
+		//add(gameControls,BorderLayout.SOUTH);
 		
-		gc.gridx = 0;
-		gc.gridy = 1;
-		
-		
-		gameview = new GameControlPanel(klient);
-		
-		add(gameview,gc);
 		pack();
+		repaint();
 	}
 
 	private void leggUtSvarteBrikker() {
@@ -90,14 +114,14 @@ public class WindowContainerFrame extends JFrame {
 		for (int i = 1; i <= 8; i++) {
 
 			if (i % 2 == 0) {
-				boardWindow.add(new Piece(CheckerType.BLACK_REGULAR), 1, i);
+				boardpanel.add(new Piece(CheckerType.BLACK_REGULAR), 1, i);
 			}
 		}
 		
 		for (int i = 1; i <= 8; i++) {
 
 			if (i % 2 != 0) {
-				boardWindow.add(new Piece(CheckerType.BLACK_REGULAR), 2, i);
+				boardpanel.add(new Piece(CheckerType.BLACK_REGULAR), 2, i);
 				
 				
 			}
@@ -110,24 +134,21 @@ public class WindowContainerFrame extends JFrame {
 		for (int i = 1; i <= 8; i++) {
 
 			if (i % 2 == 0) {
-				boardWindow.add(new Piece(CheckerType.WHITE_REGULAR), 7, i);
+				boardpanel.add(new Piece(CheckerType.WHITE_REGULAR), 7, i);
 			}
 		}
 		
 		for (int i = 1; i <= 8; i++) {
 
 			if (i % 2 != 0) {
-				boardWindow.add(new Piece(CheckerType.WHITE_REGULAR), 8, i);
+				boardpanel.add(new Piece(CheckerType.WHITE_REGULAR), 8, i);
 				
 				
 			}
 			
 		}
 	}
-	
-	
 
-	
 	private void configureFrame() {
 		setTitle("Checkers 1.0!! (java eksamen)");
 		
@@ -135,17 +156,15 @@ public class WindowContainerFrame extends JFrame {
 		
 		int height = screenSize.height;
 		int width = screenSize.width;
-		setSize(height,width/2);
+		setSize(height/2,width/4);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLayout(new GridBagLayout());
 		setLocationRelativeTo(null);
 		setVisible(true);
 	}
 	
-
-	
 	public StartPanel startPanel;
-	private BoardPanel boardWindow;
+	private BoardPanel boardpanel;
 	public Server server;
 	private static final long serialVersionUID = -3425445318104341180L;
 
