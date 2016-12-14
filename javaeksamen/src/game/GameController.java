@@ -46,8 +46,8 @@ public class GameController {
 		//TODO: Legg til mer validering
 		
 		//Oppdatere spillers turn
-		turn = (dataTransferObject.turn == 1) ? 2 : 1;
-		dataTransferObject.turn = turn;
+		turn = (dataTransferObject.clientIdTurn == 1) ? 2 : 1;
+		dataTransferObject.clientIdTurn = turn;
 		
 		
 		

@@ -14,6 +14,7 @@ public class GameDataTransferObject implements Serializable{
 	public GameDataTransferObject(){
 		player1 = new Player();
 		player2 = new Player();
+		clientIdTurn = 1;
 	}
 	
 	public GameDataTransferObject(String msg){
@@ -30,7 +31,7 @@ public class GameDataTransferObject implements Serializable{
 	public Move move;
 	public Move lastMove;
 	public int clientId;
-	public int turn;
+	public int clientIdTurn; //starter på 1
 	
 	
 }
