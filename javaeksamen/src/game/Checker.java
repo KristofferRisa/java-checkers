@@ -21,6 +21,8 @@ public class Checker {
 	}
 
 	private void showBoard() {
+		
+		
 		if(klient.isConnected){
 			debug.log("_chekers: Viser brett");
 			guiManager.showBoard(klient);
@@ -43,6 +45,10 @@ public class Checker {
 	}
 	
 	private void starterServer() {
+		
+		
+			
+		
 		if(input.isServer){
 			//Start server
 			server = new Server(debug);
