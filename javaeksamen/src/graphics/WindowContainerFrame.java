@@ -10,6 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -61,6 +62,7 @@ public class WindowContainerFrame extends JFrame {
 	public UserInput showUserInput(){
 		startPanel = new StartPanel(this);
 		add(startPanel);
+		JLabel waitLabel = new JLabel("Waiting for player 2");
 		repaint();
 		while(startPanel.isVisible()){
 			
@@ -73,6 +75,8 @@ public class WindowContainerFrame extends JFrame {
 			}
 			
 		}
+		add(waitLabel);
+		repaint();
 		return startPanel.getUserInputData();
 	}
 
