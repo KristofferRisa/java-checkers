@@ -112,7 +112,9 @@ public class WindowContainerFrame extends JFrame {
 		remove(startPanel);
 		add(waitLabel);
 		repaint();
+		setVisible(true);
 		return startPanel.getUserInputData();
+		
 		
 	}
 
