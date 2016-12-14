@@ -51,14 +51,15 @@ public class WindowContainerFrame extends JFrame {
 		JMenuItem closeMenuItem = new JMenuItem("Close");
 		JMenuItem newGame = new JMenuItem("New Game");
 		JMenuItem showDebug = new JMenuItem("Show Debug");
-		JMenuItem subMenu = new JMenu ("Port");
+		JMenuItem portItem= new JMenuItem ("Change port");
 
 		
 		setJMenuBar(menubar);
 		menubar.add(menu);
 		menu.add(newGame);
 		menu.add(showDebug);
-		menu.add(subMenu);
+		menu.add(portItem);
+		
 		
 		menu.add(closeMenuItem);
 		menu.setFont(new Font("Arial", Font.PLAIN, (int) screenWidth / 150));
@@ -71,6 +72,15 @@ public class WindowContainerFrame extends JFrame {
                 System.exit(0);
             }
         });
+		
+		portItem.setFont(new Font("Arial", Font.PLAIN, (int) screenWidth / 150));
+		portItem.addActionListener(new ActionListener() {
+			@Override
+            public void actionPerformed(ActionEvent e) {
+                startPanel.showPortfield();
+            }
+        });
+		
 		
 	
 	}

@@ -27,6 +27,9 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 
+import com.sun.javafx.scene.layout.region.Margins.Converter;
+import com.sun.xml.internal.bind.v2.runtime.unmarshaller.InterningXmlVisitor;
+
 import datamodels.UserInput;
 import game.Checker;
 import game.Player;
@@ -37,6 +40,8 @@ public class StartPanel extends JPanel implements ActionListener {
 	private JFrame frame;
 
 	private UserInput userInput;
+
+	private JLabel changePort;
 
 	public UserInput getUserInputData(){
 		if(userInput != null){
@@ -63,8 +68,12 @@ public class StartPanel extends JPanel implements ActionListener {
 		btnJoin = new JButton("Join Online Game/Enter IP");
 		btnLocal = new JButton("Test Game Locally");
 		btnWhatIP = new JButton("What's my IP?");
-		JLabel changePort = new JLabel("Change port ");
+		
+		changePort = new JLabel("Change port ");
+		
 		portField = new JTextField("55660");
+		changePort.setVisible(false);
+		portField.setVisible(false);
 		
 		
 
@@ -198,22 +207,22 @@ public class StartPanel extends JPanel implements ActionListener {
 	
 	
 
+	public void showPortfield() {
+		changePort.setVisible(true);
+		
+		portField.setVisible(true);
+				
+	}
+
+	
 	public void actionPerformed(ActionEvent e) {
 
 		
 		if (e.getSource() == btnServer) {
-			userInput = new UserInput();
-			userInput.name = nameField.getText();
-			userInput.isServer = true;
-			frame.getContentPane().repaint();
-			setVisible(false);
+			getValuesFromUserInterface(true);
 		}
 		if (e.getSource() == btnJoin) {
-			userInput = new UserInput();
-			userInput.name = nameField.getText();
-			userInput.isServer = false;
-			frame.getContentPane().repaint();
-			setVisible(false);
+			getValuesFromUserInterface(false);
 		}		
 		if (e.getSource() == btnWhatIP) {
 			try {
@@ -227,6 +236,15 @@ public class StartPanel extends JPanel implements ActionListener {
 		}
 		
 	
+	}
+
+	private void getValuesFromUserInterface(Boolean b) {
+		userInput = new UserInput();
+		userInput.name = nameField.getText();
+		userInput.portNumber = Integer.parseInt(portField.getText());
+		userInput.isServer = b;
+		frame.getContentPane().repaint();
+		setVisible(false);
 	}
 	
 	private JTextField nameField;
