@@ -8,8 +8,8 @@ import java.io.OutputStream;
 import java.net.Socket;
 import datamodels.GameDataTransferObject;
 import datamodels.UserInput;
+import game.board.Move;
 import graphics.DebugWindowFrame;
-import network.data.Move;
 
 public class Client {
 
@@ -29,6 +29,7 @@ public class Client {
 			Debug.log("_klient: Forsøker å kople til server");
 			
 			socket = new Socket(ip, port);
+			
 			input = new ObjectInputStream(socket.getInputStream());
 			output = new ObjectOutputStream(socket.getOutputStream());
 			
@@ -38,8 +39,9 @@ public class Client {
 			
 			data = (GameDataTransferObject)input.readObject();
 			
-			if(data.msg.equals("OK")){
-				
+			if(data.msg.equals("OK")){				
+				//Legger til spill info til data 
+				// transfer object
 				if(userInput.isServer){
 					data.player1.isHuman = true;
 					data.player1.name = userInput.name;
@@ -51,10 +53,8 @@ public class Client {
 				Debug.log("_client: Tilkoplet server. melding fra server = " + data.msg);
 				
 				output.writeObject(data);
-
-				isConnected = true;
-				
 				data =(GameDataTransferObject)input.readObject();
+				isConnected = true;
 				
 			} else {
 				isConnected = false;

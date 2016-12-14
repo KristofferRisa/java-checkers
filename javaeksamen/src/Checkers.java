@@ -1,5 +1,5 @@
 import game.Checker;
-import game.RuleEngine;
+import game.GameController;
 
 public class Checkers {
 	public static void main(String[] args){

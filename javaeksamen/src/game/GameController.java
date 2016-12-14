@@ -1,19 +1,19 @@
 package game;
 
+import game.board.Move;
 import graphics.DebugWindowFrame;
 import graphics.WindowContainerFrame;
 import network.Client;
 import network.Server;
-import network.data.Move;
 
-public class RuleEngine extends Thread {
+public class GameController {
 	
 
 	public boolean isActive;
 	private WindowContainerFrame gui;
 	private static DebugWindowFrame Debug;
 	
-	public RuleEngine(DebugWindowFrame d){
+	public GameController(DebugWindowFrame d){
 		
 		Debug = d;
 		
@@ -23,12 +23,18 @@ public class RuleEngine extends Thread {
 
 	}
 	
+	public void startGame(){
+		this.isActive = true;
+	}
+	
 	public Player player1;
 	
 	public Player player2;	
 	
-	public GameDetails gameDetails;
-
+	//TODO: Legge inn måte for holde styr på alle koordinater 
+	// 		til brikken
+	public String Pices;
+	
 	public void update(Move move1) {
 		// TODO Auto-generated method stub
 		

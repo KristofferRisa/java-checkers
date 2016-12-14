@@ -13,17 +13,14 @@ import com.sun.org.apache.xml.internal.resolver.helpers.Debug;
 
 import datamodels.GameDataTransferObject;
 import game.Checker;
-import game.RuleEngine;
+import game.GameController;
+import game.board.Move;
 import graphics.DebugWindowFrame;
-import network.data.Move;
 
 public class Server extends Thread {
-	
-	public ClientManager client2;
-	public ClientManager client1;
-	private GameDataTransferObject dataTransferObject;
+
 	public Server(DebugWindowFrame debug){
-		this.ruleEngine = new RuleEngine(debug);
+		this.gameController = new GameController(debug);
 		this.Debug = debug;
 		this.isConnected = false;
 		this.dataTransferObject = new GameDataTransferObject();
@@ -32,6 +29,7 @@ public class Server extends Thread {
 	}
 	
 	public void run(){
+		//Starter Server
 		ServerSocket server = null;
 	   
 		try {
@@ -41,6 +39,7 @@ public class Server extends Thread {
 	    	Debug.log("_server: Kunne ikke lage Server socket");
 	    }
 	    	    
+		//Venter på klienter i server.accept()
 	    try{
 	    	Socket socket;
 	    	Debug.log("_server: venter på klient");
@@ -48,7 +47,8 @@ public class Server extends Thread {
 	    	while( (socket = server.accept()) != null){
 	    		Debug.log("_server: klar for å ta imot klienter");
 	    		
-	    		if(client1.isClientConneted == false && client1.socket == null){
+	    		if(client1.isClientConneted == false 
+	    				&& client1.socket == null){
 	    			Debug.log("_server: starter klient 1");
 	    			client1.socket = socket;
 	    			client1.start();
@@ -56,24 +56,9 @@ public class Server extends Thread {
 	    			Debug.log("_server: starter klient 2");
 	    			client2.socket = socket;
 	    			client2.start();
-	    			isActive = true;
+	    			gameController.startGame();
 	    			break;
-	    		} 
-	    		
-			}
-	    	
-	    	while(isActive){
-				//Spillet kan starte - annen hver tur
-				
-				client1.send(dataTransferObject);
-				Move move1 = client1.recive();
-				
-				ruleEngine.update(move1);
-				
-				client2.send(dataTransferObject);
-				Move move2 = client2.recive();
-				
-				ruleEngine.update(move2);
+	    		} 	    		
 			}
 	    	
 	    } catch (IOException e) {
@@ -84,12 +69,28 @@ public class Server extends Thread {
 	    	Debug.log("_server: " + e.getMessage());
 			e.printStackTrace();
 		}		
-	    Debug.log("_server: Klient frakoplet");
-	}	
 
+	    //Starter spill
+	    while(gameController.isActive){
+			//Spillet kan starte - annen hver tur
+			
+			client1.send(dataTransferObject);
+			Move move1 = client1.recive();
+			
+			gameController.update(move1);
+			
+			client2.send(dataTransferObject);
+			Move move2 = client2.recive();
+			
+			gameController.update(move2);
+		}
+	    
+	}	
 	public boolean isConnected;
-	private RuleEngine ruleEngine;
-	private boolean isActive;
+	private GameController gameController;
 	private DebugWindowFrame Debug;
+	public ClientManager client2;
+	public ClientManager client1;
+	private GameDataTransferObject dataTransferObject;
 	
 }
