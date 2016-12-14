@@ -1,5 +1,7 @@
 package game;
 
+import java.net.UnknownHostException;
+
 import datamodels.GameDataTransferObject;
 import datamodels.UserInput;
 import graphics.DebugWindowFrame;
@@ -11,7 +13,12 @@ import network.data.Move;
 public class Checker {
 
 	public Checker(){
-		openGuiManagerAndStartUserInput();
+		try {
+			openGuiManagerAndStartUserInput();
+		} catch (UnknownHostException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		starterServer();
 			
@@ -59,7 +66,7 @@ public class Checker {
 		
 	}
 
-	private void openGuiManagerAndStartUserInput() {
+	private void openGuiManagerAndStartUserInput() throws UnknownHostException {
 		debug = new DebugWindowFrame();
 		
 		guiManager = new WindowContainerFrame();
