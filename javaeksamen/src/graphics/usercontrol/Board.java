@@ -15,12 +15,13 @@ import java.util.List;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 import game.board.CheckerType;
+import game.board.Move;
 import game.board.Piece;
 import game.board.Postion;
+import mouseListener.BoardMouseListener;
 import network.Client;
-import network.data.Move;
 
-public class BoardPanel extends JPanel implements MouseListener {
+public class Board extends JPanel  {
 	// dimension of checkerboard square (25% bigger than checker)
 	private final static int SQUAREDIM = (int) (Piece.getDimension() * 1.25);
 
@@ -58,7 +59,7 @@ public class BoardPanel extends JPanel implements MouseListener {
 
 	private Client client;
 
-	public BoardPanel(Client client) {
+	public Board(Client client) {
 		// SquarePanel squarePanel = new SquarePanel();
 		// add(squarePanel);
 		this.client = client;
@@ -67,82 +68,7 @@ public class BoardPanel extends JPanel implements MouseListener {
 		posChecks = new ArrayList<>();
 		dimPrefSize = new Dimension(BOARDDIM, BOARDDIM);
 
-		addMouseListener(new MouseListener() {
-			@Override
-			public void mousePressed(MouseEvent me) {
-				// Obtain mouse coordinates at time of press.
-
-				int x = me.getX();
-				int y = me.getY();
-
-				// Locate positioned checker under mouse press.
-
-				for (PosCheck posCheck : posChecks)
-					if (Piece.contains(x, y, posCheck.cx, posCheck.cy)) {
-						BoardPanel.this.posCheck = posCheck;
-						oldcx = posCheck.cx;
-						oldcy = posCheck.cy;
-						deltax = x - posCheck.cx;
-						deltay = y - posCheck.cy;
-						inDrag = true;
-						return;
-					}
-			}
-
-			@Override
-			public void mouseReleased(MouseEvent me) {
-				// When mouse released, clear inDrag (to
-				// indicate no drag in progress) if inDrag is
-				// already set.
-
-				if (inDrag)
-					inDrag = false;
-				else
-					return;
-
-				// Snap checker to center of square.
-
-				int x = me.getX();
-				int y = me.getY();
-				posCheck.cx = (x - deltax) / SQUAREDIM * SQUAREDIM + SQUAREDIM / 2;
-				posCheck.cy = (y - deltay) / SQUAREDIM * SQUAREDIM + SQUAREDIM / 2;
-
-				// Do not move checker onto an occupied square.
-
-				for (PosCheck posCheck : posChecks)
-					if (posCheck != BoardPanel.this.posCheck 
-						&& posCheck.cx == BoardPanel.this.posCheck.cx
-							&& posCheck.cy == BoardPanel.this.posCheck.cy) {
-						BoardPanel.this.posCheck.cx = oldcx;
-						BoardPanel.this.posCheck.cy = oldcy;
-						
-						
-					}
-				client.send(new Move(new Postion(oldcx, oldcy), new Postion(BoardPanel.this.posCheck.cx, BoardPanel.this.posCheck.cy)));
-				
-				posCheck = null;
-				repaint();
-			}
-
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void mouseExited(MouseEvent e) {
-				// TODO Auto-generated method stub
-
-			}
-
-		});
+		addMouseListener(new BoardMouseListener(this));
 
 		// Attach a mouse motion listener to the applet. That listener listens
 		// for mouse drag events.
@@ -163,7 +89,7 @@ public class BoardPanel extends JPanel implements MouseListener {
 			@Override
 			public void mouseMoved(MouseEvent arg0) {
 				// TODO Auto-generated method stub
-
+				
 			}
 		});
 
@@ -199,7 +125,7 @@ public class BoardPanel extends JPanel implements MouseListener {
 
 		paintCheckerBoard(g);
 		for (PosCheck posCheck : posChecks)
-			if (posCheck != BoardPanel.this.posCheck)
+			if (posCheck != Board.this.posCheck)
 				posCheck.piece.draw(g, posCheck.cx, posCheck.cy);
 
 		// Draw dragged checker last so that it appears over any underlying
@@ -221,35 +147,5 @@ public class BoardPanel extends JPanel implements MouseListener {
 				g.setColor((g.getColor() == Color.DARK_GRAY) ? Color.WHITE : Color.DARK_GRAY);
 			}
 		}
-	}
-
-	@Override
-	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
-
 	}
 }
