@@ -46,22 +46,16 @@ public class WindowContainerFrame extends JFrame {
 		JMenuItem closeMenuItem = new JMenuItem("Close");
 		JMenuItem newGame = new JMenuItem("New Game");
 		JMenuItem showDebug = new JMenuItem("Show Debug");
-<<<<<<< HEAD
-=======
+
 		JMenuItem portItem= new JMenuItem ("Change port");
 
-		
->>>>>>> refs/remotes/origin/master
 		setJMenuBar(menubar);
 		menubar.add(menu);
 		menu.add(newGame);
 		menu.add(showDebug);
-<<<<<<< HEAD
-=======
+
 		menu.add(portItem);
-		
-		
->>>>>>> refs/remotes/origin/master
+
 		menu.add(closeMenuItem);
 		menu.setFont(new Font("Arial", Font.PLAIN, (int) screenWidth /150));
 		newGame.setFont(new Font("Arial", Font.PLAIN, (int) screenWidth / 150));
