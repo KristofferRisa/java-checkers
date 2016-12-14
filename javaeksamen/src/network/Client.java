@@ -14,6 +14,7 @@ public class Client {
 	private UserInput userInput;
 	private ObjectInputStream input;
 	private ObjectOutputStream output;
+	
 	public Client(String ip, int port, UserInput userInput, DebugWindowFrame d){
 		this.ip = ip;
 		this.port = port;
@@ -22,6 +23,7 @@ public class Client {
 		this.userInput = userInput;
 	}
 	
+
 	public void connect(){
 		try {			
 			Debug.log("_klient: Forsøker å kople til server");

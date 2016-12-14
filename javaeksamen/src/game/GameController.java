@@ -1,5 +1,6 @@
 package game;
 
+import datamodels.GameDataTransferObject;
 import game.board.Move;
 import graphics.DebugWindowFrame;
 import graphics.WindowContainerFrame;
@@ -33,10 +34,16 @@ public class GameController {
 	//TODO: Legge inn måte for holde styr på alle koordinater 
 	// 		til brikken
 	public String Pices;
+	public int turn;
 	
 	public void update(Move move1) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	public GameDataTransferObject validate(GameDataTransferObject dataTransferObject) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 

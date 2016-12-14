@@ -1,15 +1,11 @@
 package network;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.OutputStream;
-import java.io.PrintStream;
 import java.net.Socket;
 
 import datamodels.GameDataTransferObject;
-import game.Checker;
 import game.board.Move;
 import graphics.DebugWindowFrame;
 
@@ -95,9 +91,9 @@ public class ClientManager extends Thread {
 		}
 	}
 	
-	public Move recive(){
+	public GameDataTransferObject recive(){
 		try {
-			return (Move)input.readObject();
+			return (GameDataTransferObject)input.readObject();
 		} catch (ClassNotFoundException | IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
