@@ -55,7 +55,7 @@ public class StartPanel extends JPanel implements ActionListener {
 
 		this.frame = frame;
 		JLabel nameLabel = new JLabel("Username: ");
-		nameField = new JTextField(10);
+		nameField = new JTextField("Enter a username");
 		JLabel ipLabel = null;
 		try {
 			ipLabel = new JLabel(InetAddress.getLocalHost().getHostAddress());
@@ -64,13 +64,13 @@ public class StartPanel extends JPanel implements ActionListener {
 			e.printStackTrace();
 		}
 		btnServer = new JButton("Create New Online Game");
-		
-		ipField = new JTextField("Enter IP here ");
+		ipField = new JTextField("Enter IP here ", 10);
 		btnJoin = new JButton("Join Online Game/Enter IP");
 		btnLocal = new JButton("Test Game Locally");
 		btnWhatIP = new JButton("?");
 		changePort = new JLabel("Change port ");
 		portField = new JTextField("55660");
+		// Added together in a panel for better GUI
 		JPanel p = new JPanel();
 		p.add(ipField);
 		p.add(btnWhatIP);
@@ -92,6 +92,13 @@ public class StartPanel extends JPanel implements ActionListener {
 		gc.gridx = 1;
 		gc.gridy = 0;
 		add(nameField, gc);
+		//Remove text when mouse click on Username Field
+		nameField.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				nameField.setText("");
+			}
+		});
 		// Get IP Label 
 		gc.gridx = 0;
 		gc.gridy = 2;
@@ -101,9 +108,11 @@ public class StartPanel extends JPanel implements ActionListener {
 		gc.gridy = 2;
 		add(btnServer, gc);
 		// Enter IP and What is my IP button
+
 		gc.gridx = 0;
 		gc.gridy = 3;
 		add(p, gc);
+		
 		//Remove text when mouse click on IP Field
 		ipField.addMouseListener(new MouseAdapter() {
 			@Override
