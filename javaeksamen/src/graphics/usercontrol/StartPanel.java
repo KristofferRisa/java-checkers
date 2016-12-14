@@ -47,6 +47,7 @@ public class StartPanel extends JPanel implements ActionListener {
 	}
 	
 	public StartPanel(JFrame frame) {
+
 		this.frame = frame;
 		JLabel nameLabel = new JLabel("Username: ");
 		JLabel ipLabel = null;
@@ -124,6 +125,7 @@ public class StartPanel extends JPanel implements ActionListener {
 		
 		btnServer.addActionListener(this);
 		btnJoin.addActionListener(this);
+		btnWhatIP.addActionListener(this);
 		
 		// Puts relative sizes on all JComponents
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -183,15 +185,28 @@ public class StartPanel extends JPanel implements ActionListener {
 			userInput = new UserInput();
 			userInput.name = nameField.getText();
 			userInput.isServer = true;
+			frame.getContentPane().repaint();
+			setVisible(false);
 		}
 		if (e.getSource() == btnJoin) {
 			userInput = new UserInput();
 			userInput.name = nameField.getText();
 			userInput.isServer = false;
-		}			
+			frame.getContentPane().repaint();
+			setVisible(false);
+		}		
+		if (e.getSource() == btnWhatIP) {
+			try {
+				URI uri = new URI("http://www.whatsmyip.org/");
+				Desktop dt = Desktop.getDesktop();
+				dt.browse(uri);
+			} catch (IOException | URISyntaxException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
 		
-		frame.getContentPane().repaint();
-		setVisible(false);
+	
 	}
 	
 	private JTextField nameField;
