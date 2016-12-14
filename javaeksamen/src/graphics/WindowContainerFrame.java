@@ -43,20 +43,15 @@ public class WindowContainerFrame extends JFrame {
 	private void addMenu() {
 		JMenuBar menubar = new JMenuBar();
 		JMenu menu = new JMenu("Menu");
-		JMenuItem subMenu = new JMenu ("Port");
 		JMenuItem closeMenuItem = new JMenuItem("Close");
 		JMenuItem newGame = new JMenuItem("New Game");
 		JMenuItem showDebug = new JMenuItem("Show Debug");
-		JMenuItem port1 = new JMenuItem("Portnummer: ");
 		setJMenuBar(menubar);
 		menubar.add(menu);
-		menu.add(subMenu);
-		subMenu.add(port1);
 		menu.add(newGame);
 		menu.add(showDebug);
 		menu.add(closeMenuItem);
 		menu.setFont(new Font("Arial", Font.PLAIN, (int) screenWidth /150));
-		subMenu.setFont(new Font("Arial", Font.PLAIN, (int) screenWidth / 150));
 		newGame.setFont(new Font("Arial", Font.PLAIN, (int) screenWidth / 150));
 		showDebug.setFont(new Font("Arial", Font.PLAIN, (int) screenWidth / 150));
 		showDebug.addActionListener(new ActionListener() {
@@ -79,6 +74,8 @@ public class WindowContainerFrame extends JFrame {
 		startPanel = new StartPanel(this);
 		add(startPanel);
 		JLabel waitLabel = new JLabel("Waiting for player 2");
+		JLabel portLabel = new JLabel("Type in port");
+		add(portLabel);
 		repaint();
 		while(startPanel.isVisible()){
 			
