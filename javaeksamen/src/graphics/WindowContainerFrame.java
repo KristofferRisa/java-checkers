@@ -52,8 +52,7 @@ public class WindowContainerFrame extends JFrame {
 		JMenuItem newGame = new JMenuItem("New Game");
 		JMenuItem showDebug = new JMenuItem("Show Debug");
 		JMenuItem subMenu = new JMenu ("Port");
-		subMenu.setMnemonic(KeyEvent.VK_C);
-		JMenuItem port1 = new JMenuItem("Portnummer: ");
+
 		
 		setJMenuBar(menubar);
 		menubar.add(menu);
@@ -80,6 +79,8 @@ public class WindowContainerFrame extends JFrame {
 		startPanel = new StartPanel(this);
 		add(startPanel);
 		JLabel waitLabel = new JLabel("Waiting for player 2");
+		JLabel portLabel = new JLabel("Type in port");
+		add(portLabel);
 		repaint();
 		while(startPanel.isVisible()){
 			
