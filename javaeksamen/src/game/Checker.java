@@ -56,6 +56,7 @@ public class Checker {
 		String status = (input.isServer == true) ? "on" : "off";
 		
 		debug.log("Server status: " + status);
+		
 	}
 	
 	private void showBoard() {
