@@ -18,7 +18,6 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import game.Move;
-import game.Postion;
 import network.Client;
 
 

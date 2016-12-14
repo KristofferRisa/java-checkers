@@ -14,14 +14,15 @@ import com.sun.org.apache.xml.internal.resolver.helpers.Debug;
 
 import datamodels.GameDataDTO;
 import game.Checker;
-import game.GameController;
+import game.CheckersEngine;
 import game.Move;
 import graphics.DebugWindow;
 
 public class Server extends Thread {
 
+	private CheckersEngine checkersEngine;
 	public Server(DebugWindow debug) {
-		this.gameController = new GameController(debug);
+		this.checkersEngine = new CheckersEngine();
 		this.Debug = debug;
 		this.isConnected = false;
 		this.dataTransferObject = new GameDataDTO();
@@ -56,7 +57,7 @@ public class Server extends Thread {
 					Debug.log("_server: starter klient 2");
 					client2.socket = socket;
 					client2.start();
-					gameController.startGame();
+					checkersEngine.startGame();
 					break;
 				}
 			}
@@ -71,19 +72,22 @@ public class Server extends Thread {
 		}
 
 		// Starter spill
-		while (gameController.isActive) {
+		while (checkersEngine.isActive) {
 
-			while (gameController.turn == 1) {
+			while (dataTransferObject.clientIdTurn == 1) {
 
 				dataTransferObject = client1.recive();
-				dataTransferObject = gameController.validate(dataTransferObject);
+				dataTransferObject = checkersEngine.validate(dataTransferObject);
 				client1.send(dataTransferObject);
+			
 			}
 
-			while (gameController.turn == 2) {
+			while (dataTransferObject.clientIdTurn == 2) {
+				
 				dataTransferObject = client2.recive();
-				dataTransferObject = gameController.validate(dataTransferObject);
+				dataTransferObject = checkersEngine.validate(dataTransferObject);
 				client2.send(dataTransferObject);
+				
 			}
 
 		}
@@ -91,7 +95,6 @@ public class Server extends Thread {
 	}
 
 	public boolean isConnected;
-	private GameController gameController;
 	private DebugWindow Debug;
 	public ClientManager client2;
 	public ClientManager client1;

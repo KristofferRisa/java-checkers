@@ -52,16 +52,16 @@ class CheckersPanel extends JPanel implements ActionListener, MouseListener {
           // Constructor.  Create the buttons and lable.  Listen for mouse
           // clicks and for clicks on the buttons.  Create the board and
           // start the first game.
-      setBackground(Color.black);
-      addMouseListener(this);
-      setFont(new  Font("Serif", Font.BOLD, 14));
-      resignButton = new Button("Resign");
-      resignButton.addActionListener(this);
-      newGameButton = new Button("New Game");
-      newGameButton.addActionListener(this);
-      message = new Label("",Label.CENTER);
-      board = new CheckersEngine();
-      doNewGame();
+	      setBackground(Color.black);
+	      addMouseListener(this);
+	      setFont(new  Font("Serif", Font.BOLD, 14));
+	      resignButton = new Button("Resign");
+	      resignButton.addActionListener(this);
+	      newGameButton = new Button("New Game");
+	      newGameButton.addActionListener(this);
+	      message = new Label("",Label.CENTER);
+	      board = new CheckersEngine();
+	      doNewGame();
    }
    
 

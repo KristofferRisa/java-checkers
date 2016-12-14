@@ -52,7 +52,6 @@ public class StartPanel extends JPanel implements ActionListener {
 	}
 	
 	public StartPanel(JFrame frame) {
-
 		this.frame = frame;
 		JLabel nameLabel = new JLabel("Username: ");
 		nameField = new JTextField(10);

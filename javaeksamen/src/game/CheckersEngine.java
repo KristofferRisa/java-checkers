@@ -2,6 +2,8 @@ package game;
 
 import java.util.Vector;
 
+import datamodels.GameDataDTO;
+
 public class CheckersEngine {
 
       // An object of this class holds data about a game of checkers.
@@ -23,6 +25,8 @@ public class CheckersEngine {
              BLACK_KING = 4;
 
    private int[][] board;  // board[r][c] is the contents of row r, column c.  
+
+public boolean isActive;
    
 
    public CheckersEngine() {
@@ -268,6 +272,16 @@ public class CheckersEngine {
       }
       
    }  // end canMove()
+
+public void startGame() {
+	// TODO Auto-generated method stub
+	isActive = true;
+}
+
+public GameDataDTO validate(GameDataDTO dataTransferObject) {
+	// TODO Auto-generated method stub
+	return null;
+}
    
 
 }

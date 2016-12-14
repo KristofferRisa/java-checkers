@@ -63,6 +63,8 @@ public class Checker {
 			debug.log("_chekers: Viser brett");
 			guiManager.showBoard(klient);
 			
+			
+			
 			while(guiManager.gameControls.isVisible()){				
 				try {
 					//Venter på 

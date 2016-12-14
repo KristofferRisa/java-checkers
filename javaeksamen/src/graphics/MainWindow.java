@@ -21,7 +21,6 @@ import javax.swing.JMenuItem;
 import javax.swing.KeyStroke;
 
 import datamodels.UserInput;
-import game.Board;
 import game.CheckerType;
 import game.Piece;
 import network.Client;
@@ -35,6 +34,8 @@ public class MainWindow extends JFrame {
 	Dimension d = tk.getScreenSize();
 	int screenHeight = d.height;
 	int screenWidth = d.width;
+
+	private BoardPanel board;
 	
 	public MainWindow(){
 		configureFrame();
@@ -84,8 +85,10 @@ public class MainWindow extends JFrame {
 
 	public UserInput showUserInput() {
 		startPanel = new StartPanel(this);
+				
 		add(startPanel);
 		JLabel waitLabel = new JLabel("Waiting for player 2");
+		
 		repaint();
 		while(startPanel.isVisible()){
 			
@@ -106,7 +109,7 @@ public class MainWindow extends JFrame {
 
 
 	public void showBoard(Client klient){
-		boardpanel = new Board(klient);
+//		boardpanel = new Board(klient);
 		
 		setLayout(new BorderLayout());
 				
@@ -115,16 +118,27 @@ public class MainWindow extends JFrame {
 		
 		add(user1, BorderLayout.NORTH);
 		
-		postBlackBricks();
+//		postBlackBricks();
+//		
+//		postHviteBricks();
 		
-		postHviteBricks();
-				
-		boardpanel.setPreferredSize(new Dimension(800,600));
 		
-		add(boardpanel,BorderLayout.CENTER);
+		
+		//boardpanel.setPreferredSize(new Dimension(800,600));
+		
+		
+		
+		//add(boardpanel,BorderLayout.CENTER);
 	
+		board = new BoardPanel();
+		add(board);
+		
+		
+		
+		//add(new CheckersPanel());
 		//TODO: Oppdater med riktig brukerinfo
 		UserInfoPanel user2 = new UserInfoPanel("TEST TEST", "Localhost");
+		
 		
 		add(user2, BorderLayout.SOUTH);
 		
@@ -141,14 +155,15 @@ public class MainWindow extends JFrame {
 		for (int i = 1; i <= 8; i++) {
 
 			if (i % 2 == 0) {
-				boardpanel.add(new Piece(CheckerType.BLACK_REGULAR), 1, i);
+				
+//				boardpanel.add(new Piece(CheckerType.BLACK_REGULAR), 1, i);
 			}
 		}
 		
 		for (int i = 1; i <= 8; i++) {
 
 			if (i % 2 != 0) {
-				boardpanel.add(new Piece(CheckerType.BLACK_REGULAR), 2, i);
+//				boardpanel.add(new Piece(CheckerType.BLACK_REGULAR), 2, i);
 				
 				
 			}
@@ -161,14 +176,14 @@ public class MainWindow extends JFrame {
 		for (int i = 1; i <= 8; i++) {
 
 			if (i % 2 == 0) {
-				boardpanel.add(new Piece(CheckerType.WHITE_REGULAR), 7, i);
+//				boardpanel.add(new Piece(CheckerType.WHITE_REGULAR), 7, i);
 			}
 		}
 		
 		for (int i = 1; i <= 8; i++) {
 
 			if (i % 2 != 0) {
-				boardpanel.add(new Piece(CheckerType.WHITE_REGULAR), 8, i);
+//				boardpanel.add(new Piece(CheckerType.WHITE_REGULAR), 8, i);
 				
 				
 			}
@@ -191,7 +206,6 @@ public class MainWindow extends JFrame {
 	}
 	
 	public StartPanel startPanel;
-	private Board boardpanel;
 	public Server server;
 	private static final long serialVersionUID = -3425445318104341180L;
 	
