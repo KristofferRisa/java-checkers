@@ -9,6 +9,8 @@ import java.awt.GridBagLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.MissingResourceException;
 
 import javax.swing.BorderFactory;
@@ -41,6 +43,14 @@ public class StartPanel extends JPanel implements ActionListener {
 	public StartPanel(JFrame frame) {
 		this.frame = frame;
 		JLabel nameLabel = new JLabel("Username: ");
+		JLabel ipLabel = null;
+		try {
+			ipLabel = new JLabel(InetAddress.getLocalHost().getHostAddress());
+		} catch (UnknownHostException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		ipField = new JTextField(10);
 		nameField = new JTextField(10);
 		btnServer = new JButton("Create New Online Game");
 		btnJoin = new JButton("Join Online Game/Enter IP");
@@ -59,6 +69,10 @@ public class StartPanel extends JPanel implements ActionListener {
 		gc.gridy = 0;
 		add(nameLabel, gc);
 		
+		gc.gridx = 0;
+		gc.gridy = 2;
+		add(ipLabel, gc);
+		
 		gc.fill = 1;
 		
 		gc.gridx = 1;
@@ -75,6 +89,11 @@ public class StartPanel extends JPanel implements ActionListener {
 		gc.gridy = 3;
 		add(btnJoin, gc);
 		
+		// Enter IP Text Field
+		gc.gridx = 0;
+		gc.gridy = 3;
+		add(ipField, gc);
+		
 		// Third button - Test Game -------------------
 		gc.gridx = 1;
 		gc.gridy = 4;
@@ -88,6 +107,7 @@ public class StartPanel extends JPanel implements ActionListener {
 		int width = screenSize.width;
 		if (width <= 1366) {
 			nameLabel.setFont(getFont().deriveFont(new Float(16)));
+			ipLabel.setFont(getFont().deriveFont(new Float(16)));
 			nameField.setFont(getFont().deriveFont(new Float(16)));
 			nameField.setFont(getFont().deriveFont(new Float(16)));
 			btnServer.setFont(getFont().deriveFont(new Float(16)));
@@ -101,6 +121,7 @@ public class StartPanel extends JPanel implements ActionListener {
 		} else if (width >= 1367 && width <= 2001) {
 
 			nameLabel.setFont(getFont().deriveFont(new Float(26)));
+			ipLabel.setFont(getFont().deriveFont(new Float(26)));
 			nameField.setFont(getFont().deriveFont(new Float(26)));
 			btnServer.setFont(getFont().deriveFont(new Float(26)));
 			btnJoin.setFont(getFont().deriveFont(new Float(26)));
@@ -114,6 +135,7 @@ public class StartPanel extends JPanel implements ActionListener {
 		else {
 
 			nameLabel.setFont(getFont().deriveFont(new Float(36)));
+			ipLabel.setFont(getFont().deriveFont(new Float(36)));
 			nameField.setFont(getFont().deriveFont(new Float(36)));
 			btnServer.setFont(getFont().deriveFont(new Float(36)));
 			btnJoin.setFont(getFont().deriveFont(new Float(36)));
@@ -143,6 +165,8 @@ public class StartPanel extends JPanel implements ActionListener {
 	}
 	
 	private JTextField nameField;
+	
+	private JTextField ipField;
 
 	private JButton btnServer;
 
