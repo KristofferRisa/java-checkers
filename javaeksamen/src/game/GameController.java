@@ -8,7 +8,6 @@ import network.Server;
 
 public class GameController {
 	
-
 	public boolean isActive;
 	private WindowContainerFrame gui;
 	private static DebugWindowFrame Debug;
