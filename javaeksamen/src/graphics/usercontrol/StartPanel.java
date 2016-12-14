@@ -63,6 +63,8 @@ public class StartPanel extends JPanel implements ActionListener {
 		btnJoin = new JButton("Join Online Game/Enter IP");
 		btnLocal = new JButton("Test Game Locally");
 		btnWhatIP = new JButton("What's my IP?");
+		JLabel changePort = new JLabel("Change port ");
+		portField = new JTextField("55660");
 		
 		
 
@@ -122,6 +124,15 @@ public class StartPanel extends JPanel implements ActionListener {
 		gc.gridy = 4;
 		add(btnWhatIP, gc);
 		
+		// Port Label -------------------
+		gc.gridx = 0;
+		gc.gridy = 5;
+		
+		add(changePort, gc);
+		// Port textfield -------------------
+		gc.gridx = 1;
+		gc.gridy = 5;
+		add(portField, gc);
 		
 		btnServer.addActionListener(this);
 		btnJoin.addActionListener(this);
@@ -139,6 +150,9 @@ public class StartPanel extends JPanel implements ActionListener {
 			btnServer.setFont(getFont().deriveFont(new Float(16)));
 			btnJoin.setFont(getFont().deriveFont(new Float(16)));
 			btnLocal.setFont(getFont().deriveFont(new Float(16)));
+			changePort.setFont(getFont().deriveFont(new Float(16)));
+			portField.setFont(getFont().deriveFont(new Float(16)));
+			ipField.setFont(getFont().deriveFont(new Float(16)));
 
 			setBorder(BorderFactory.createTitledBorder(null,
 					"Checkers Java 1.0!", TitledBorder.CENTER,
@@ -152,6 +166,9 @@ public class StartPanel extends JPanel implements ActionListener {
 			btnServer.setFont(getFont().deriveFont(new Float(26)));
 			btnJoin.setFont(getFont().deriveFont(new Float(26)));
 			btnLocal.setFont(getFont().deriveFont(new Float(26)));
+			changePort.setFont(getFont().deriveFont(new Float(26)));
+			portField.setFont(getFont().deriveFont(new Float(26)));
+			ipField.setFont(getFont().deriveFont(new Float(26)));
 
 			setBorder(BorderFactory.createTitledBorder(null,
 					"Checkers Java 1.0!", TitledBorder.CENTER,
@@ -166,6 +183,9 @@ public class StartPanel extends JPanel implements ActionListener {
 			btnServer.setFont(getFont().deriveFont(new Float(36)));
 			btnJoin.setFont(getFont().deriveFont(new Float(36)));
 			btnLocal.setFont(getFont().deriveFont(new Float(36)));
+			changePort.setFont(getFont().deriveFont(new Float(36)));
+			portField.setFont(getFont().deriveFont(new Float(36)));
+			ipField.setFont(getFont().deriveFont(new Float(36)));
 
 			setBorder(BorderFactory.createTitledBorder(null,
 					"Checkers Java 1.0!", TitledBorder.CENTER,
@@ -220,6 +240,8 @@ public class StartPanel extends JPanel implements ActionListener {
 	private JButton btnLocal;
 	
 	private JButton btnWhatIP;
+	
+	private JTextField portField;
 
 	private static final long serialVersionUID = -3671918994272350809L;
 
