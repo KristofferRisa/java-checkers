@@ -66,7 +66,8 @@ public class Checker {
 			debug.log("_chekers: Viser brett");
 			guiManager.showBoard(klient);
 			
-			while(guiManager.gameControls.isVisible()){				
+			//while(guiManager.gameControls.isVisible()){				
+			while(true){
 				try {
 					//Venter på 
 						Thread.sleep(1000);

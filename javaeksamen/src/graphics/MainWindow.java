@@ -28,8 +28,6 @@ import network.Server;
 
 public class MainWindow extends JFrame {
 
-	public GameControlPanel gameControls;
-	
 	Toolkit tk = Toolkit.getDefaultToolkit();
 	Dimension d = tk.getScreenSize();
 	int screenHeight = d.height;
@@ -149,54 +147,12 @@ public class MainWindow extends JFrame {
 		
 		add(user2, BorderLayout.SOUTH);
 		
-		gameControls = new GameControlPanel(klient);
-		
-		//add(gameControls,BorderLayout.SOUTH);
+		setResizable(false);
 		
 		pack();
 		repaint();
-		
-	}
 
-	private void postBlackBricks() {
 		
-		for (int i = 1; i <= 8; i++) {
-
-			if (i % 2 == 0) {
-				
-//				boardpanel.add(new Piece(CheckerType.BLACK_REGULAR), 1, i);
-			}
-		}
-		
-		for (int i = 1; i <= 8; i++) {
-
-			if (i % 2 != 0) {
-//				boardpanel.add(new Piece(CheckerType.BLACK_REGULAR), 2, i);
-				
-				
-			}
-			
-		}
-	}
-	
-	private void postHviteBricks() {
-		
-		for (int i = 1; i <= 8; i++) {
-
-			if (i % 2 == 0) {
-//				boardpanel.add(new Piece(CheckerType.WHITE_REGULAR), 7, i);
-			}
-		}
-		
-		for (int i = 1; i <= 8; i++) {
-
-			if (i % 2 != 0) {
-//				boardpanel.add(new Piece(CheckerType.WHITE_REGULAR), 8, i);
-				
-				
-			}
-			
-		}
 	}
 
 	private void configureFrame() {

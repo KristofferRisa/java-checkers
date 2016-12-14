@@ -6,6 +6,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
 import java.util.List;
@@ -65,8 +66,86 @@ public class BoardPanel extends JPanel {
 
 			postBlackBricks();
 			postHviteBricks();
-//			addMouseListener(new BoardMouseListener(this));
+			addMouseListener(new MouseListener() {
+				@Override
+				public void mousePressed(MouseEvent me) {
+					// Obtain mouse coordinates at time of press.
 
+					int x = me.getX();
+					int y = me.getY();
+					
+					System.out.println("Current pos: X= " + x + " Y="+y);
+
+					// Locate positioned checker under mouse press.
+
+					for (PosCheck posCheck : posChecks)
+						if (Piece.contains(x, y, posCheck.cx, posCheck.cy)) {
+							BoardPanel.this.posCheck = posCheck;
+							oldcx = posCheck.cx;
+							oldcy = posCheck.cy;
+							deltax = x - posCheck.cx;
+							deltay = y - posCheck.cy;
+							inDrag = true;
+							return;
+						}
+				}
+
+				@Override
+				public void mouseReleased(MouseEvent me) {
+					// When mouse released, clear inDrag (to
+					// indicate no drag in progress) if inDrag is
+					// already set.
+
+					if (inDrag)
+						inDrag = false;
+					else
+						return;
+
+					// Snap checker to center of square.
+
+					int x = me.getX();
+					int y = me.getY();
+					
+					posCheck.cx = (x - deltax) / SQUAREDIM * SQUAREDIM + SQUAREDIM / 2;
+					posCheck.cy = (y - deltay) / SQUAREDIM * SQUAREDIM + SQUAREDIM / 2;
+
+					// Do not move checker onto an occupied square.
+
+					for (PosCheck posCheck : posChecks)
+						if (posCheck != BoardPanel.this.posCheck 
+							&& posCheck.cx == BoardPanel.this.posCheck.cx
+								&& posCheck.cy == BoardPanel.this.posCheck.cy) {
+							BoardPanel.this.posCheck.cx = oldcx;
+							BoardPanel.this.posCheck.cy = oldcy;
+							
+							
+						}
+					
+					posCheck = null;
+					repaint();
+				}
+
+				@Override
+				public void mouseClicked(MouseEvent arg0) {
+					// TODO Auto-generated method stub
+					
+				}
+
+				@Override
+				public void mouseEntered(MouseEvent arg0) {
+					// TODO Auto-generated method stub
+					
+				}
+
+				@Override
+				public void mouseExited(MouseEvent arg0) {
+					// TODO Auto-generated method stub
+					
+				}
+
+				
+
+			});
 			// Attach a mouse motion listener to the applet. That listener listens
 			// for mouse drag events.
 
