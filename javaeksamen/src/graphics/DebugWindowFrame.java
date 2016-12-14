@@ -15,9 +15,9 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import datamodels.GameDataTransferObject;
+import game.board.Move;
 import network.Client;
 import network.Server;
-import network.data.Move;
 
 public class DebugWindowFrame extends JFrame implements ActionListener {
 

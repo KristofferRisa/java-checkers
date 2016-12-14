@@ -7,9 +7,14 @@ import java.awt.GridBagLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import java.awt.event.KeyEvent;
 
+import java.net.UnknownHostException;
+
+
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -18,7 +23,7 @@ import javax.swing.KeyStroke;
 import datamodels.UserInput;
 import game.board.CheckerType;
 import game.board.Piece;
-import graphics.usercontrol.BoardPanel;
+import graphics.usercontrol.Board;
 import graphics.usercontrol.GameControlPanel;
 import graphics.usercontrol.StartPanel;
 import graphics.usercontrol.UserInfoPanel;
@@ -71,9 +76,10 @@ public class WindowContainerFrame extends JFrame {
 	
 	}
 
-	public UserInput showUserInput(){
+	public UserInput showUserInput() {
 		startPanel = new StartPanel(this);
 		add(startPanel);
+		JLabel waitLabel = new JLabel("Waiting for player 2");
 		repaint();
 		while(startPanel.isVisible()){
 			
@@ -86,16 +92,18 @@ public class WindowContainerFrame extends JFrame {
 			}
 			
 		}
+		remove(startPanel);
+		add(waitLabel);
+		repaint();
 		return startPanel.getUserInputData();
 	}
 
-	public void showBoard(Client client){
-		boardpanel = new BoardPanel(client);
+
+	public void showBoard(Client klient){
+		boardpanel = new Board(klient);
 		
 		setLayout(new BorderLayout());
-		
-		remove(startPanel);
-		
+				
 		//TODO: Oppdater med riktig brukerinfo
 		UserInfoPanel user1 = new UserInfoPanel("Test user", "IP");
 		
@@ -177,7 +185,7 @@ public class WindowContainerFrame extends JFrame {
 	}
 	
 	public StartPanel startPanel;
-	private BoardPanel boardpanel;
+	private Board boardpanel;
 	public Server server;
 	private static final long serialVersionUID = -3425445318104341180L;
 
