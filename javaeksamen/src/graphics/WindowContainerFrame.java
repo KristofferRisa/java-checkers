@@ -3,16 +3,17 @@ package graphics;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.KeyStroke;
 
 import datamodels.UserInput;
 import game.board.CheckerType;
@@ -38,17 +39,27 @@ public class WindowContainerFrame extends JFrame {
 		addMenu();
 	}
 	
+
 	private void addMenu() {
 		JMenuBar menubar = new JMenuBar();
-		JMenu menu = new JMenu("Meny");
+		JMenu menu = new JMenu("Menu");
 		JMenuItem closeMenuItem = new JMenuItem("Close");
 		JMenuItem newGame = new JMenuItem("New Game");
+		JMenuItem showDebug = new JMenuItem("Show Debug");
+		JMenuItem subMenu = new JMenu ("Port");
+		subMenu.setMnemonic(KeyEvent.VK_C);
+		JMenuItem port1 = new JMenuItem("Portnummer: ");
+		
 		setJMenuBar(menubar);
 		menubar.add(menu);
 		menu.add(newGame);
+		menu.add(showDebug);
+		menu.add(subMenu);
+		
 		menu.add(closeMenuItem);
 		menu.setFont(new Font("Arial", Font.PLAIN, (int) screenWidth / 150));
 		newGame.setFont(new Font("Arial", Font.PLAIN, (int) screenWidth / 150));
+		showDebug.setFont(new Font("Arial", Font.PLAIN, (int) screenWidth / 150));
 		closeMenuItem.setFont(new Font("Arial", Font.PLAIN, (int) screenWidth / 150));
 		closeMenuItem.addActionListener(new ActionListener() {
 			@Override
@@ -56,6 +67,8 @@ public class WindowContainerFrame extends JFrame {
                 System.exit(0);
             }
         });
+		
+	
 	}
 
 	public UserInput showUserInput(){
@@ -76,21 +89,21 @@ public class WindowContainerFrame extends JFrame {
 		return startPanel.getUserInputData();
 	}
 
-	public void showBoard(Client klient){
-		boardpanel = new BoardPanel(klient);
+	public void showBoard(Client client){
+		boardpanel = new BoardPanel(client);
 		
 		setLayout(new BorderLayout());
 		
 		remove(startPanel);
 		
 		//TODO: Oppdater med riktig brukerinfo
-		UserInfoPanel user1 = new UserInfoPanel("Test bruker", "IP");
+		UserInfoPanel user1 = new UserInfoPanel("Test user", "IP");
 		
 		add(user1, BorderLayout.NORTH);
 		
-		leggUtSvarteBrikker();
+		postBlackBricks();
 		
-		leggUtHviteBrikker();
+		postHviteBricks();
 				
 		boardpanel.setPreferredSize(new Dimension(800,600));
 		
@@ -101,7 +114,7 @@ public class WindowContainerFrame extends JFrame {
 		
 		add(user2, BorderLayout.SOUTH);
 		
-		gameControls = new GameControlPanel(klient);
+		gameControls = new GameControlPanel(client);
 		
 		//add(gameControls,BorderLayout.SOUTH);
 		
@@ -109,7 +122,7 @@ public class WindowContainerFrame extends JFrame {
 		repaint();
 	}
 
-	private void leggUtSvarteBrikker() {
+	private void postBlackBricks() {
 		
 		for (int i = 1; i <= 8; i++) {
 
@@ -129,7 +142,7 @@ public class WindowContainerFrame extends JFrame {
 		}
 	}
 	
-	private void leggUtHviteBrikker() {
+	private void postHviteBricks() {
 		
 		for (int i = 1; i <= 8; i++) {
 
@@ -150,7 +163,7 @@ public class WindowContainerFrame extends JFrame {
 	}
 
 	private void configureFrame() {
-		setTitle("Checkers 1.0!! (java eksamen)");
+		setTitle("Checkers 1.0 - OBJ2000");
 		
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		
