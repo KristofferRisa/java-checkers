@@ -1,10 +1,8 @@
 package network;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.OutputStream;
 import java.net.Socket;
 import datamodels.GameDataTransferObject;
 import datamodels.UserInput;
@@ -69,18 +67,26 @@ public class Client {
 		}
 	}
 
-	public void send(Move move) {
+	public void send(GameDataTransferObject data) {
 		// TODO Auto-generated method stub
 		try {
-			output.writeObject(move);
+			output.writeObject(data);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			
 			e.printStackTrace();
 		}
 		
 	}
 	
+	public GameDataTransferObject recive(){
+		try {
+			return (GameDataTransferObject)input.readObject();
+		} catch (ClassNotFoundException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
 
 	private DebugWindowFrame Debug;
 	private String ip;
