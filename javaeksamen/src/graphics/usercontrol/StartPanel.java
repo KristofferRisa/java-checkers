@@ -3,6 +3,7 @@ package graphics.usercontrol;
 import java.awt.Color;
 import java.awt.Desktop;
 import java.awt.Dimension;
+import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Frame;
 import java.awt.GridBagConstraints;
@@ -196,7 +197,10 @@ public class StartPanel extends JPanel implements ActionListener {
 					"Checkers Java 1.0!", TitledBorder.CENTER,
 					TitledBorder.TOP, new Font("", Font.PLAIN, 30)));
 		}
+		
 		setVisible(true);
+		
+
 	}
 	
 

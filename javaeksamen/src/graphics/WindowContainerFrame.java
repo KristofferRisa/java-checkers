@@ -59,17 +59,23 @@ public class WindowContainerFrame extends JFrame {
 		menu.add(newGame);
 		menu.add(showDebug);
 		menu.add(portItem);
-		
-		
 		menu.add(closeMenuItem);
+		
 		menu.setFont(new Font("Arial", Font.PLAIN, (int) screenWidth / 150));
 		newGame.setFont(new Font("Arial", Font.PLAIN, (int) screenWidth / 150));
 		showDebug.setFont(new Font("Arial", Font.PLAIN, (int) screenWidth / 150));
 		closeMenuItem.setFont(new Font("Arial", Font.PLAIN, (int) screenWidth / 150));
+		
 		closeMenuItem.addActionListener(new ActionListener() {
 			@Override
             public void actionPerformed(ActionEvent e) {
                 System.exit(0);
+            }
+        });
+		showDebug.addActionListener(new ActionListener() {
+			@Override
+            public void actionPerformed(ActionEvent e) {
+				//ADD CLOSE AND OPEN DEBUG WINDOW HERE
             }
         });
 		
@@ -87,7 +93,9 @@ public class WindowContainerFrame extends JFrame {
 
 	public UserInput showUserInput() {
 		startPanel = new StartPanel(this);
+		
 		add(startPanel);
+		setVisible(true);
 		JLabel waitLabel = new JLabel("Waiting for player 2");
 		repaint();
 		while(startPanel.isVisible()){
@@ -105,6 +113,7 @@ public class WindowContainerFrame extends JFrame {
 		add(waitLabel);
 		repaint();
 		return startPanel.getUserInputData();
+		
 	}
 
 
@@ -137,6 +146,7 @@ public class WindowContainerFrame extends JFrame {
 		
 		pack();
 		repaint();
+		
 	}
 
 	private void postBlackBricks() {
@@ -181,21 +191,22 @@ public class WindowContainerFrame extends JFrame {
 
 	private void configureFrame() {
 		setTitle("Checkers 1.0 - OBJ2000");
-		
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		
 		int height = screenSize.height;
 		int width = screenSize.width;
-		setSize(height/2,width/4);
+		setSize(height/1,width/2);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLayout(new GridBagLayout());
 		setLocationRelativeTo(null);
 		setVisible(true);
+		
 	}
 	
 	public StartPanel startPanel;
 	private Board boardpanel;
 	public Server server;
+	
 	private static final long serialVersionUID = -3425445318104341180L;
 
 	
