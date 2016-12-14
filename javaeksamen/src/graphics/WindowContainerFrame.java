@@ -122,7 +122,7 @@ public class WindowContainerFrame extends JFrame {
 		
 		add(user2, BorderLayout.SOUTH);
 		
-		gameControls = new GameControlPanel(client);
+		gameControls = new GameControlPanel(klient);
 		
 		//add(gameControls,BorderLayout.SOUTH);
 		
