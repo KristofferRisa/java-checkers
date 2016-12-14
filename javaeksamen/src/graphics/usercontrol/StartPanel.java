@@ -1,6 +1,7 @@
 package graphics.usercontrol;
 
 import java.awt.Color;
+import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Frame;
@@ -9,7 +10,12 @@ import java.awt.GridBagLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.io.IOException;
 import java.net.InetAddress;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.UnknownHostException;
 import java.util.MissingResourceException;
 
@@ -36,7 +42,7 @@ public class StartPanel extends JPanel implements ActionListener {
 		if(userInput != null){
 			return userInput;
 		}
-		//TODO: add exception handling
+		
 		throw new MissingResourceException("Missing userinput data", getName(), "UserInput");
 	}
 	
@@ -47,7 +53,7 @@ public class StartPanel extends JPanel implements ActionListener {
 		try {
 			ipLabel = new JLabel(InetAddress.getLocalHost().getHostAddress());
 		} catch (UnknownHostException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 		ipField = new JTextField("Enter IP here ");
@@ -55,8 +61,11 @@ public class StartPanel extends JPanel implements ActionListener {
 		btnServer = new JButton("Create New Online Game");
 		btnJoin = new JButton("Join Online Game/Enter IP");
 		btnLocal = new JButton("Test Game Locally");
+		btnWhatIP = new JButton("What's my IP?");
+		
 		
 
+		
 		setLayout(new GridBagLayout());
 
 		GridBagConstraints gc = new GridBagConstraints();
@@ -69,6 +78,7 @@ public class StartPanel extends JPanel implements ActionListener {
 		gc.gridy = 0;
 		add(nameLabel, gc);
 		
+		// IP Label - Create Game -------------------
 		gc.gridx = 0;
 		gc.gridy = 2;
 		add(ipLabel, gc);
@@ -94,10 +104,24 @@ public class StartPanel extends JPanel implements ActionListener {
 		gc.gridy = 3;
 		add(ipField, gc);
 		
+		ipField.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				ipField.setText("");
+			}
+		});
+		
 		// Third button - Test Game -------------------
 		gc.gridx = 1;
 		gc.gridy = 4;
 		add(btnLocal, gc);
+		
+		// What's my IP - Button -------------------
+		gc.gridx = 0;
+		gc.gridy = 4;
+		add(btnWhatIP, gc);
+		
+		
 		btnServer.addActionListener(this);
 		btnJoin.addActionListener(this);
 		
@@ -147,9 +171,14 @@ public class StartPanel extends JPanel implements ActionListener {
 		}
 		setVisible(true);
 	}
+	
+
+	
+	
 
 	public void actionPerformed(ActionEvent e) {
 
+		
 		if (e.getSource() == btnServer) {
 			userInput = new UserInput();
 			userInput.name = nameField.getText();
@@ -159,7 +188,8 @@ public class StartPanel extends JPanel implements ActionListener {
 			userInput = new UserInput();
 			userInput.name = nameField.getText();
 			userInput.isServer = false;
-		}		
+		}			
+		
 		frame.getContentPane().repaint();
 		setVisible(false);
 	}
@@ -173,6 +203,8 @@ public class StartPanel extends JPanel implements ActionListener {
 	private JButton btnJoin;
 
 	private JButton btnLocal;
+	
+	private JButton btnWhatIP;
 
 	private static final long serialVersionUID = -3671918994272350809L;
 
