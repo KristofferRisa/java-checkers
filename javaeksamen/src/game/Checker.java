@@ -4,21 +4,16 @@ import java.net.UnknownHostException;
 
 import datamodels.GameDataTransferObject;
 import datamodels.UserInput;
+import game.board.Move;
 import graphics.DebugWindowFrame;
 import graphics.WindowContainerFrame;
 import network.Client;
 import network.Server;
-import network.data.Move;
 
 public class Checker {
 
 	public Checker(){
-		try {
-			openGuiManagerAndStartUserInput();
-		} catch (UnknownHostException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		openGuiManagerAndStartUserInput();
 		
 		starterServer();
 			
@@ -72,12 +67,12 @@ public class Checker {
 		
 	}
 
-	private void openGuiManagerAndStartUserInput() throws UnknownHostException {
+	private void openGuiManagerAndStartUserInput() {
 		debug = new DebugWindowFrame();
 		
 		guiManager = new WindowContainerFrame();
 		
-		ruleEngine = new RuleEngine(debug);
+		ruleEngine = new GameController(debug);
 		
 		input = guiManager.showUserInput();
 
@@ -100,7 +95,7 @@ public class Checker {
 
 	private UserInput input;
 
-	private RuleEngine ruleEngine;
+	private GameController ruleEngine;
 
 
 }

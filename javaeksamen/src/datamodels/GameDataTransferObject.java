@@ -2,6 +2,7 @@ package datamodels;
 
 import java.io.Serializable;
 import game.Player;
+import game.board.Move;
 
 /***
  * A Data transfer object class that holds all that data that is being transmitted to the clients and back to the server. 
@@ -25,4 +26,10 @@ public class GameDataTransferObject implements Serializable{
 	public Player player1;
 	public Player player2;
 	public String msg;
+	public String ip;
+	public Move move;
+	public Move lastMove;
+	public int clientId;
+	
+	
 }

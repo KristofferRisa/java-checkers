@@ -15,12 +15,12 @@ import java.util.List;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 import game.board.CheckerType;
+import game.board.Move;
 import game.board.Piece;
 import game.board.Postion;
 import network.Client;
-import network.data.Move;
 
-public class BoardPanel extends JPanel implements MouseListener {
+public class Board extends JPanel implements MouseListener {
 	// dimension of checkerboard square (25% bigger than checker)
 	private final static int SQUAREDIM = (int) (Piece.getDimension() * 1.25);
 
@@ -58,7 +58,7 @@ public class BoardPanel extends JPanel implements MouseListener {
 
 	private Client client;
 
-	public BoardPanel(Client client) {
+	public Board(Client client) {
 		// SquarePanel squarePanel = new SquarePanel();
 		// add(squarePanel);
 		this.client = client;
@@ -79,7 +79,7 @@ public class BoardPanel extends JPanel implements MouseListener {
 
 				for (PosCheck posCheck : posChecks)
 					if (Piece.contains(x, y, posCheck.cx, posCheck.cy)) {
-						BoardPanel.this.posCheck = posCheck;
+						Board.this.posCheck = posCheck;
 						oldcx = posCheck.cx;
 						oldcy = posCheck.cy;
 						deltax = x - posCheck.cx;
@@ -110,15 +110,15 @@ public class BoardPanel extends JPanel implements MouseListener {
 				// Do not move checker onto an occupied square.
 
 				for (PosCheck posCheck : posChecks)
-					if (posCheck != BoardPanel.this.posCheck 
-						&& posCheck.cx == BoardPanel.this.posCheck.cx
-							&& posCheck.cy == BoardPanel.this.posCheck.cy) {
-						BoardPanel.this.posCheck.cx = oldcx;
-						BoardPanel.this.posCheck.cy = oldcy;
+					if (posCheck != Board.this.posCheck 
+						&& posCheck.cx == Board.this.posCheck.cx
+							&& posCheck.cy == Board.this.posCheck.cy) {
+						Board.this.posCheck.cx = oldcx;
+						Board.this.posCheck.cy = oldcy;
 						
 						
 					}
-				client.send(new Move(new Postion(oldcx, oldcy), new Postion(BoardPanel.this.posCheck.cx, BoardPanel.this.posCheck.cy)));
+				client.send(new Move(new Postion(oldcx, oldcy), new Postion(Board.this.posCheck.cx, Board.this.posCheck.cy)));
 				
 				posCheck = null;
 				repaint();
@@ -199,7 +199,7 @@ public class BoardPanel extends JPanel implements MouseListener {
 
 		paintCheckerBoard(g);
 		for (PosCheck posCheck : posChecks)
-			if (posCheck != BoardPanel.this.posCheck)
+			if (posCheck != Board.this.posCheck)
 				posCheck.piece.draw(g, posCheck.cx, posCheck.cy);
 
 		// Draw dragged checker last so that it appears over any underlying
