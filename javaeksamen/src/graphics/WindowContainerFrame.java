@@ -56,9 +56,20 @@ public class WindowContainerFrame extends JFrame {
 
 		menu.add(portItem);
 
+
+
 		menu.add(closeMenuItem);
 		menu.setFont(new Font("Arial", Font.PLAIN, (int) screenWidth /150));
+
+
+		newGame.setFont(new Font("Arial", Font.PLAIN, (int) screenWidth / 150));
+
+
+		menu.add(closeMenuItem);
+		menu.setFont(new Font("Arial", Font.PLAIN, (int) screenWidth /150));
+
 		new Font("Arial", Font.PLAIN, (int) screenWidth / 150);
+
 		showDebug.setFont(new Font("Arial", Font.PLAIN, (int) screenWidth / 150));
 		showDebug.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
