@@ -1,24 +1,19 @@
 package graphics.usercontrol;
 
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
-import java.awt.Toolkit;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.JComponent;
+
 import javax.swing.JPanel;
-import game.board.CheckerType;
-import game.board.Move;
+
 import game.board.Piece;
-import game.board.Postion;
-import mouseListener.BoardMouseListener;
 import network.Client;
 
 public class Board extends JPanel  {
@@ -58,6 +53,8 @@ public class Board extends JPanel  {
 	private List<PosCheck> posChecks;
 
 	private Client client;
+	
+	
 
 	public Board(Client client) {
 		// SquarePanel squarePanel = new SquarePanel();
@@ -68,7 +65,81 @@ public class Board extends JPanel  {
 		posChecks = new ArrayList<>();
 		dimPrefSize = new Dimension(BOARDDIM, BOARDDIM);
 
-		addMouseListener(new BoardMouseListener(this));
+		
+
+		///
+		
+		addMouseListener(new MouseListener() {
+			@Override
+			public void mousePressed(MouseEvent me) {
+				// Obtain mouse coordinates at time of press.
+
+				int x = me.getX();
+				int y = me.getY();
+
+				// Locate positioned checker under mouse press.
+
+				for (PosCheck posCheck : posChecks)
+					if (Piece.contains(x, y, posCheck.cx, posCheck.cy)) {
+						Board.this.posCheck = posCheck;
+						oldcx = posCheck.cx;
+						oldcy = posCheck.cy;
+						deltax = x - posCheck.cx;
+						deltay = y - posCheck.cy;
+						inDrag = true;
+						return;
+					}
+			}
+
+			@Override
+			public void mouseReleased(MouseEvent me) {
+				// When mouse released, clear inDrag (to
+				// indicate no drag in progress) if inDrag is
+				// already set.
+
+				if (inDrag)
+					inDrag = false;
+				else
+					return;
+
+				// Snap checker to center of square.
+
+				int x = me.getX();
+				int y = me.getY();
+				posCheck.cx = (x - deltax) / SQUAREDIM * SQUAREDIM + SQUAREDIM / 2;
+				posCheck.cy = (y - deltay) / SQUAREDIM * SQUAREDIM + SQUAREDIM / 2;
+
+				// Do not move checker onto an occupied square.
+
+				for (PosCheck posCheck : posChecks)
+					if (posCheck != Board.this.posCheck && posCheck.cx == Board.this.posCheck.cx
+							&& posCheck.cy == Board.this.posCheck.cy) {
+						Board.this.posCheck.cx = oldcx;
+						Board.this.posCheck.cy = oldcy;
+					}
+				posCheck = null;
+				repaint();
+			}
+
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+
+			}
+
+		});
 
 		// Attach a mouse motion listener to the applet. That listener listens
 		// for mouse drag events.
@@ -81,7 +152,6 @@ public class Board extends JPanel  {
 
 					posCheck.cx = me.getX() - deltax;
 					posCheck.cy = me.getY() - deltay;
-										
 					repaint();
 				}
 			}
@@ -89,7 +159,7 @@ public class Board extends JPanel  {
 			@Override
 			public void mouseMoved(MouseEvent arg0) {
 				// TODO Auto-generated method stub
-				
+
 			}
 		});
 
