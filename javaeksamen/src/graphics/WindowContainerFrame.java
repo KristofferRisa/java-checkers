@@ -56,6 +56,7 @@ public class WindowContainerFrame extends JFrame {
 
 		menu.add(portItem);
 <<<<<<< HEAD
+<<<<<<< HEAD
 		menu.add(closeMenuItem);
 		menu.setFont(new Font("Arial", Font.PLAIN, (int) screenWidth /150));
 =======
@@ -66,6 +67,12 @@ public class WindowContainerFrame extends JFrame {
 
 >>>>>>> refs/remotes/origin/master
 		newGame.setFont(new Font("Arial", Font.PLAIN, (int) screenWidth / 150));
+=======
+
+		menu.add(closeMenuItem);
+		menu.setFont(new Font("Arial", Font.PLAIN, (int) screenWidth /150));
+new Font("Arial", Font.PLAIN, (int) screenWidth / 150));
+>>>>>>> 73ea8e8e8fe718927b7ddfbc34a3b1b81bc36ed5
 		showDebug.setFont(new Font("Arial", Font.PLAIN, (int) screenWidth / 150));
 		showDebug.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
