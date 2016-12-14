@@ -7,18 +7,13 @@ import java.awt.GridBagLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
-import java.awt.event.KeyEvent;
-
-import java.net.UnknownHostException;
-
+import java.net.ServerSocket;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import javax.swing.KeyStroke;
 
 import datamodels.UserInput;
 import game.board.CheckerType;
@@ -51,19 +46,27 @@ public class WindowContainerFrame extends JFrame {
 		JMenuItem closeMenuItem = new JMenuItem("Close");
 		JMenuItem newGame = new JMenuItem("New Game");
 		JMenuItem showDebug = new JMenuItem("Show Debug");
+
 		JMenuItem portItem= new JMenuItem ("Change port");
 
-		
 		setJMenuBar(menubar);
 		menubar.add(menu);
 		menu.add(newGame);
 		menu.add(showDebug);
+
 		menu.add(portItem);
+
+
 		menu.add(closeMenuItem);
-		
-		menu.setFont(new Font("Arial", Font.PLAIN, (int) screenWidth / 150));
+		menu.setFont(new Font("Arial", Font.PLAIN, (int) screenWidth /150));
+
 		newGame.setFont(new Font("Arial", Font.PLAIN, (int) screenWidth / 150));
 		showDebug.setFont(new Font("Arial", Font.PLAIN, (int) screenWidth / 150));
+		showDebug.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				DebugWindowFrame debugWindowFrame = new DebugWindowFrame();
+			}
+		});
 		closeMenuItem.setFont(new Font("Arial", Font.PLAIN, (int) screenWidth / 150));
 		
 		closeMenuItem.addActionListener(new ActionListener() {
