@@ -1,22 +1,11 @@
 package network;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.PrintStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-import com.sun.org.apache.xml.internal.resolver.helpers.Debug;
-
 import datamodels.GameDataDTO;
-import game.Checker;
-import game.Move;
 import game.PostionValidator;
-import graphics.BoardPanel;
 import graphics.DebugWindow;
 
 public class Server extends Thread {
