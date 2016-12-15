@@ -1,8 +1,10 @@
 package datamodels;
 
 import java.io.Serializable;
+import java.util.List;
 
 import game.PostionValidator;
+import game.Move;
 import game.Player;
 
 /***
@@ -29,10 +31,15 @@ public class GameDataDTO implements Serializable{
 	public Player player2;
 	public String msg;
 	public String ip;
-	public PostionValidator move;
-	public PostionValidator lastMove;
+	public Move move;
 	public int clientId;
 	public int clientIdTurn; //starter på 1
+	public List<PostionValidator> pieces;
+	public PostionValidator postionValidator;
+	public void setMove(Move move2) {
+
+		this.move = move2;
+	}
 	
 	
 }
