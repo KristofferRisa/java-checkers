@@ -1,5 +1,6 @@
 package graphics;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Desktop;
 import java.awt.Dimension;
@@ -64,7 +65,7 @@ public class StartPanel extends JPanel implements ActionListener {
 			e.printStackTrace();
 		}
 		btnServer = new JButton("Create New Online Game");
-		ipField = new JTextField("Enter IP here ", 10);
+		ipField = new JTextField("Enter IP here ");
 		btnJoin = new JButton("Join Online Game/Enter IP");
 		btnLocal = new JButton("Test Game Locally");
 		btnWhatIP = new JButton("?");
@@ -73,8 +74,9 @@ public class StartPanel extends JPanel implements ActionListener {
 		JLabel localipLabel = new JLabel("127.0.0.1");
 		// Added together in a panel for better GUI
 		JPanel p = new JPanel();
-		p.add(ipField);
-		p.add(btnWhatIP);
+		p.setLayout(new BorderLayout());
+		p.add(ipField, BorderLayout.CENTER);
+		p.add(btnWhatIP, BorderLayout.EAST);
 		changePort.setVisible(false);
 		portField.setVisible(false);
 		btnWhatIP.setToolTipText("Open whatsmyip.org");
