@@ -1,6 +1,7 @@
 package graphics;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagLayout;
@@ -14,6 +15,7 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JPanel;
 
 import datamodels.UserInput;
 import game.board.CheckerType;
@@ -46,16 +48,27 @@ public class WindowContainerFrame extends JFrame {
 		JMenuItem closeMenuItem = new JMenuItem("Close");
 		JMenuItem newGame = new JMenuItem("New Game");
 		JMenuItem showDebug = new JMenuItem("Show Debug");
-
 		JMenuItem portItem= new JMenuItem ("Change port");
+		JMenuItem toggelMouse= new JMenuItem ("Mouse off");
 
 		setJMenuBar(menubar);
 		menubar.add(menu);
 		menu.add(newGame);
 		menu.add(showDebug);
-
 		menu.add(portItem);
-
+		
+		menu.add(toggelMouse);
+		toggelMouse.setFont(new Font("Arial", Font.PLAIN, (int) screenWidth /150));
+		toggelMouse.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				setEnabled(false);
+				//boardpanel(startPanel, false);
+				//for (Component c : getComponents()) {
+                //    c.setEnabled(false);
+                //}
+            
+			}
+		});
 
 
 		menu.add(closeMenuItem);
@@ -212,6 +225,19 @@ public class WindowContainerFrame extends JFrame {
 		setLocationRelativeTo(null);
 		setVisible(true);
 		
+	}
+	void setPanelEnabled(JPanel panel, Boolean isEnabled) {
+	    panel.setEnabled(isEnabled);
+
+	    Component[] components = panel.getComponents();
+
+	    for(int i = 0; i < components.length; i++) {
+	        if(components[i].getClass().getName() == "javax.swing.JPanel") {
+	            setPanelEnabled((JPanel) components[i], isEnabled);
+	        }
+
+	        components[i].setEnabled(isEnabled);
+	    }
 	}
 	
 	public StartPanel startPanel;

@@ -76,6 +76,8 @@ public class StartPanel extends JPanel implements ActionListener {
 		JPanel p = new JPanel();
 		p.add(ipField);
 		p.add(btnWhatIP);
+		
+		
 		changePort.setVisible(false);
 		portField.setVisible(false);
 		btnWhatIP.setToolTipText("Open whatsmyip.org");
@@ -110,12 +112,9 @@ public class StartPanel extends JPanel implements ActionListener {
 		gc.gridy = 2;
 		add(btnServer, gc);
 		// Enter IP and What is my IP button
-
 		gc.gridx = 0;
 		gc.gridy = 3;
 		add(p, gc);
-		
-		
 		//Remove text when mouse click on IP Field
 		ipField.addMouseListener(new MouseAdapter() {
 			@Override
@@ -157,7 +156,6 @@ public class StartPanel extends JPanel implements ActionListener {
 			
 			nameLabel.setFont(getFont().deriveFont(new Float(16)));
 			ipLabel.setFont(getFont().deriveFont(new Float(16)));
-			nameField.setFont(getFont().deriveFont(new Float(16)));
 			nameField.setFont(getFont().deriveFont(new Float(16)));
 			btnServer.setFont(getFont().deriveFont(new Float(16)));
 			btnJoin.setFont(getFont().deriveFont(new Float(16)));
