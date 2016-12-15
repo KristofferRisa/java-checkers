@@ -20,7 +20,7 @@ public class Checker {
 		
 		starterClient();
 
-		showBoard();
+		showBoard(input);
 		
 		debug.log("ferdig, avslutter aplikasjon");
 		
@@ -33,7 +33,7 @@ public class Checker {
 		
 		if(input.isServer){
 			//Start server
-			server = new Server(debug);
+			server = new Server();
 			server.start();	
 		}
 	}
@@ -42,8 +42,7 @@ public class Checker {
 		debug.log("Starter ny klient");
 		String ip = "127.0.0.1";
 		int port = 1337;
-		klient = new Client(ip, port, input, debug);
-		klient.connect();
+		client = new Client(input);
 	}
 
 	private void openUserInputPanel() {
@@ -58,33 +57,9 @@ public class Checker {
 		
 	}
 	
-	private void showBoard() {
-		if(klient.isConnected){
-			GameDataDTO dat = klient.getGameData();
-			debug.log("_chekers: Viser brett");
-			guiManager.showBoard(klient);
-			guiManager.board.refresh(dat);
-			
-			//while(guiManager.gameControls.isVisible()){				
-			GameDataDTO continuesData;
-			while((continuesData = klient.recive()) != null){
-				try {
-//					if(!dat.equals(continuesData)){
-//						
-//						
-//					}
-					guiManager.board.refresh(dat);
-					guiManager.board.data = dat;
-					System.out.println("Mottatt data from server!" + klient.clientId);
-					
-					Thread.sleep(1000);
-				} catch (InterruptedException e) {
-					debug.log("_checker: error = " + e.getMessage());
-					e.printStackTrace();
-				}
-			}		
-			
-		}
+	private void showBoard(UserInput input2) {
+
+			guiManager.showBoard(client, input2);
 	}
 	
 	public String gameType;
@@ -95,7 +70,7 @@ public class Checker {
 	
 	private Server server;
 
-	private Client klient;
+	private Client client;
 
 	private UserInput input;
 	

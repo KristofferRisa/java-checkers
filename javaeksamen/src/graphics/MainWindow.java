@@ -16,17 +16,13 @@ import javax.swing.JMenuItem;
 
 import datamodels.UserInput;
 import network.Client;
-import network.Server;
+
 
 public class MainWindow extends JFrame {
 
-	Toolkit tk = Toolkit.getDefaultToolkit();
-	Dimension d = tk.getScreenSize();
-	int screenHeight = d.height;
-	int screenWidth = d.width;
+	private int screenWidth;
+	private BoardPanel board;
 
-	public BoardPanel board;
-	
 	public MainWindow(){
 		configureFrame();
 		addMenu();
@@ -116,36 +112,19 @@ public class MainWindow extends JFrame {
 	}
 
 
-	public void showBoard(Client klient){
-//		boardpanel = new Board(klient);
-		
+	public void showBoard(Client client, UserInput input2){
 		setLayout(new BorderLayout());
 				
 		//TODO: Oppdater med riktig brukerinfo
-		UserInfoPanel user1 = new UserInfoPanel("Test user", "IP");
-		
+		UserInfoPanel user1 = new UserInfoPanel(input2.name, input2.ipAdress);
+
 		add(user1, BorderLayout.NORTH);
-		
-//		postBlackBricks();
-//		
-//		postHviteBricks();
-		
-		
-		
-		//boardpanel.setPreferredSize(new Dimension(800,600));
-		
-		
-		
-		//add(boardpanel,BorderLayout.CENTER);
-	
-		board = new BoardPanel(klient);
+		board = new BoardPanel(client);
 		add(board);
-		
-		
 		
 		//add(new CheckersPanel());
 		//TODO: Oppdater med riktig brukerinfo
-		UserInfoPanel user2 = new UserInfoPanel("TEST TEST", "Localhost");
+		UserInfoPanel user2 = new UserInfoPanel(input2.name, input2.ipAdress);
 		
 		
 		add(user2, BorderLayout.SOUTH);
@@ -153,8 +132,18 @@ public class MainWindow extends JFrame {
 		setResizable(false);
 		pack();
 		repaint();
-
 		
+		while(board.isVisible()){
+			
+			try {
+				System.out.println("The game is on");
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+			
 	}
 
 	private void configureFrame() {
@@ -172,8 +161,7 @@ public class MainWindow extends JFrame {
 	}
 	
 	public StartPanel startPanel;
-	public Server server;
-	
+
 	private static final long serialVersionUID = -3425445318104341180L;
 	
 }

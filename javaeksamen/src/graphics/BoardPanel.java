@@ -10,35 +10,28 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.swing.JPanel;
-
-import com.sun.org.apache.xml.internal.resolver.helpers.Debug;
 
 import datamodels.GameDataDTO;
 import game.CheckerType;
 import game.Move;
-import game.Piece;
 import game.PostionValidator;
+import game.Piece;
 import network.Client;
-import network.ClientManager;
-import network.Server;
 
 public class BoardPanel extends JPanel {
-	
-	public GameDataDTO data;
-	private Client client;
 	
 	public BoardPanel(Client client) {
 		// SquarePanel squarePanel = new SquarePanel();
 		// add(squarePanel);
 		setVisible(true);
 
-		this.client = client;
+		pieces = new ArrayList<>();
 		dimPrefSize = new Dimension(BOARDDIM, BOARDDIM);
 		
 		move = new Move();
 		
+		addPieces();
 		
 		addMouseListener(new MouseListener() {
 			@Override
@@ -50,9 +43,6 @@ public class BoardPanel extends JPanel {
 				
 				move.oldPostionCol = x/SQUAREDIM;
 				move.oldPostionRow = y/SQUAREDIM;
-				
-				System.out.println("BoardPanel: clientId = " + data.clientId);
-				System.out.println("BoardPanel: turnId = " + data.clientIdTurn);
 				
 				System.out.println("Current COL=" + move.oldPostionCol +" ROW=" + move.oldPostionRow + "(pos: X= " + x + " Y="+y + ")");
 				
@@ -80,34 +70,9 @@ public class BoardPanel extends JPanel {
 				int y = me.getY();
 				
 				System.out.println("Current COL=" + x/SQUAREDIM +" ROW=" + y/SQUAREDIM + "(pos: X= " + x + " Y="+y + ")");
-				
-				if (move.isMoving) {
-					if (data == null || data.clientId != data.clientIdTurn) {
-						System.err.println("data er null eller clientId er ulik turnid");
-						System.err.println("Data er: " + data);
-						//System.err.println("ClientId er:" + data.clientId);
-						//System.err.println("ClientIdTurn:" +data.clientIdTurn);
-						//System.out.println(data.clientIdTurn);
-						
-						BoardPanel.this.postionValidator.cx = move.oldcx;
-						BoardPanel.this.postionValidator.cy = move.oldcy;
-					
-						move.isMoving = false;
-						postionValidator = null;
-						
-						data.pieces = pieces;
-						data.postionValidator = BoardPanel.this.postionValidator;
-						data.setMove(move);
-						
-						client.send(data);
-						
-						repaint();
-						
-						return;
-					}
+
+				if (move.isMoving)
 					move.isMoving = false;
-				}
-					
 				else
 					return;
 
@@ -115,33 +80,17 @@ public class BoardPanel extends JPanel {
 				postionValidator.cx = (x - move.deltax) / SQUAREDIM * SQUAREDIM + SQUAREDIM / 2;
 				postionValidator.cy = (y - move.deltay) / SQUAREDIM * SQUAREDIM + SQUAREDIM / 2;
 
-				//data = null;
-				
-				//data = client.recive();
-
+				GameDataDTO data = new GameDataDTO();
+				data.move.oldcx = move.oldcx;
+				data.move.oldcy = move.oldcy;
 				data.pieces = pieces;
 				data.postionValidator = BoardPanel.this.postionValidator;
 				data.setMove(move);
-				
-				client.send(data);
+				data = client.send(data);
+	
+				postionValidator = null;
 				
 				repaint();
-							
-				
-				
-//				paintComponent(getGraphics());
-//				data.pieces = pieces;
-//				data.postionValidator = BoardPanel.this.postionValidator;
-//				data.setMove(move);
-//				
-//				client.send(data);
-				
-//				repaint();
-				
-				//MOTTA OK eller FEIL!
-				//				data = client.recive();
-				
-				
 			}
 
 			@Override
@@ -185,7 +134,7 @@ public class BoardPanel extends JPanel {
 				
 			}
 		});
-		
+
 	}
 
 	public void add(Piece piece, int row, int col) {
@@ -226,7 +175,6 @@ public class BoardPanel extends JPanel {
 	protected void paintComponent(Graphics g) {
 
 		paintCheckerBoard(g);
-	
 		for (PostionValidator _move : pieces){
 			if (_move != BoardPanel.this.postionValidator){
 				_move.piece.draw(g, _move.cx, _move.cy);
@@ -304,29 +252,6 @@ public class BoardPanel extends JPanel {
 	
 	// list of Checker objects and their initial positions
 	private List<PostionValidator> pieces;
-	
-	public void refresh(GameDataDTO dataFromServer){
-		
-		if(dataFromServer.postionValidator != null){
-
-			BoardPanel.this.postionValidator = dataFromServer.postionValidator;
-				
-		}
-		
-		pieces = dataFromServer.pieces;
-		
-		if(dataFromServer != null){
-			data = dataFromServer;
-		}
-		
-		
-		BoardPanel.this.postionValidator = data.postionValidator;
-		postionValidator = data.postionValidator;
-		// Do not move checker onto an occupied square.
-		
-//			paintComponent(getGraphics());
-		repaint();
-	}
 	
 }
 
