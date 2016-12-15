@@ -83,8 +83,8 @@ public class BoardPanel extends JPanel {
 					if (data == null || data.clientId != data.clientIdTurn) {
 						System.err.println("data er null eller clientId er ulik turnid");
 						System.err.println("Data er: " + data);
-						//System.err.println("ClientId er:" + data.clientId);
-						//System.err.println("ClientIdTurn:" +data.clientIdTurn);
+						System.err.println("ClientId er:" + data.clientId);
+						System.err.println("ClientIdTurn:" + data.clientIdTurn);
 						//System.out.println(data.clientIdTurn);
 						
 						BoardPanel.this.postionValidator.cx = move.oldcx;
