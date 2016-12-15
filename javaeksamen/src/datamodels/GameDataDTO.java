@@ -5,6 +5,7 @@ import java.util.List;
 
 import game.PostionValidator;
 import game.Move;
+import game.Piece;
 import game.Player;
 
 /***
@@ -36,6 +37,7 @@ public class GameDataDTO implements Serializable{
 	public int clientIdTurn; //starter på 1
 	public List<PostionValidator> pieces;
 	public PostionValidator postionValidator;
+	public Piece piece;
 	public void setMove(Move move2) {
 
 		this.move = move2;
