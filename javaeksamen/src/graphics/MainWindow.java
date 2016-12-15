@@ -124,7 +124,7 @@ public class MainWindow extends JFrame {
 				
 		//TODO: Oppdater med riktig brukerinfo
 		
-		UserInfoPanel user1 = new UserInfoPanel(userinput.name, userinput.ipAdress);
+		UserInfoPanel user1 = new UserInfoPanel("Test user", "IP");
 		
 		add(user1, BorderLayout.NORTH);
 		
