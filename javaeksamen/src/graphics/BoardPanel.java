@@ -49,6 +49,8 @@ public class BoardPanel extends JPanel {
 				move.oldPostionCol = x/SQUAREDIM;
 				move.oldPostionRow = y/SQUAREDIM;
 				
+				System.out.println("BoardPanel: clientId = " + data.clientId);
+				System.out.println("BoardPanel: turnId = " + data.clientIdTurn);
 				
 				System.out.println("Current COL=" + move.oldPostionCol +" ROW=" + move.oldPostionRow + "(pos: X= " + x + " Y="+y + ")");
 				
@@ -76,8 +78,6 @@ public class BoardPanel extends JPanel {
 				int y = me.getY();
 				
 				System.out.println("Current COL=" + x/SQUAREDIM +" ROW=" + y/SQUAREDIM + "(pos: X= " + x + " Y="+y + ")");
-
-				data = client.getGameData();
 				
 				if (move.isMoving) {
 					if (data == null || data.clientId != data.clientIdTurn) {
@@ -106,11 +106,17 @@ public class BoardPanel extends JPanel {
 				postionValidator.cx = (x - move.deltax) / SQUAREDIM * SQUAREDIM + SQUAREDIM / 2;
 				postionValidator.cy = (y - move.deltay) / SQUAREDIM * SQUAREDIM + SQUAREDIM / 2;
 
+				//data = null;
+				
 				data = client.recive();
+				
 				data.pieces = pieces;
+				
 				data.postionValidator = BoardPanel.this.postionValidator;
 				data.setMove(move);
+				
 				client.send(data);
+				
 				//MOTTA OK eller FEIL!
 				data = client.recive();
 				
@@ -166,6 +172,11 @@ public class BoardPanel extends JPanel {
 			}
 		});
 
+//		while(data != null && data.clientId != data.clientIdTurn){
+			data = client.recive();
+//			client.send(data);	
+//		}
+			
 	}
 
 	public void add(Piece piece, int row, int col) {
