@@ -47,9 +47,6 @@ public class StartPanel extends JPanel implements ActionListener {
 
 	private JLabel ipLabel;
 	
-	//private JTextField enteripAddress;
-	
-
 	public UserInput getUserInputData(){
 		if(userInput != null){
 			return userInput;
@@ -63,12 +60,14 @@ public class StartPanel extends JPanel implements ActionListener {
 		JLabel nameLabel = new JLabel("Username: ");
 		nameField = new JTextField("Enter a username");
 		ipLabel = null;
+		
 		try {
 			ipLabel = new JLabel(InetAddress.getLocalHost().getHostAddress());
 		} catch (UnknownHostException e) {
 			
 			e.printStackTrace();
 		}
+		
 		btnServer = new JButton("Create New Online Game");
 		ipField = new JTextField("Enter IP here ");
 		btnJoin = new JButton("Join Online Game/Enter IP");
@@ -77,14 +76,17 @@ public class StartPanel extends JPanel implements ActionListener {
 		changePort = new JLabel("Change port ");
 		portField = new JTextField("55660");
 		JLabel localipLabel = new JLabel("127.0.0.1");
+		
 		// Added together in a panel for better GUI
 		JPanel p = new JPanel();
 		p.setLayout(new BorderLayout());
 		p.add(ipField, BorderLayout.CENTER);
 		p.add(btnWhatIP, BorderLayout.EAST);
+		
 		changePort.setVisible(false);
 		portField.setVisible(false);
 		btnWhatIP.setToolTipText("Open whatsmyip.org");
+		
 		//GridBagLayot
 		setLayout(new GridBagLayout());
 		
@@ -96,6 +98,7 @@ public class StartPanel extends JPanel implements ActionListener {
 		gc.gridx = 0;
 		gc.gridy = 0;
 		add(nameLabel, gc);
+		
 		//Username Field
 		gc.gridx = 1;
 		gc.gridy = 0;
@@ -116,12 +119,9 @@ public class StartPanel extends JPanel implements ActionListener {
 		gc.gridy = 2;
 		add(btnServer, gc);
 		// Enter IP and What is my IP button
-
 		gc.gridx = 0;
 		gc.gridy = 3;
 		add(p, gc);
-		
-		
 		//Remove text when mouse click on IP Field
 		ipField.addMouseListener(new MouseAdapter() {
 			@Override
@@ -154,11 +154,11 @@ public class StartPanel extends JPanel implements ActionListener {
 		btnJoin.addActionListener(this);
 		btnWhatIP.addActionListener(this);
 		
-		
-		// Puts relative sizes on all JComponents
+		// Puts relative sizes on all 
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		int height = screenSize.height;
 		int width = screenSize.width;
+		
 		if (width <= 1366) {
 			
 			nameLabel.setFont(getFont().deriveFont(new Float(16)));
@@ -175,8 +175,8 @@ public class StartPanel extends JPanel implements ActionListener {
 			localipLabel.setFont(getFont().deriveFont(new Float(16)));
 			p.setFont(getFont().deriveFont(new Float(16)));
 			setBorder(BorderFactory.createTitledBorder(null,
-					"Checkers Java 1.0!", TitledBorder.CENTER,
-					TitledBorder.TOP, new Font("", Font.PLAIN, 10)));
+					"Checkers Java 1.0!", TitledBorder.LEFT,
+					TitledBorder.TOP, new Font("Times New Roman", Font.PLAIN, 10)));
 
 		} else if (width >= 1367 && width <= 2001) {
 
@@ -194,7 +194,7 @@ public class StartPanel extends JPanel implements ActionListener {
 			p.setFont(getFont().deriveFont(new Float(26)));
 
 			setBorder(BorderFactory.createTitledBorder(null,
-					"Checkers Java 1.0!", TitledBorder.CENTER,
+					"Checkers Java 1.0!", TitledBorder.LEFT,
 					TitledBorder.TOP, new Font("", Font.PLAIN, 20)));
 		}
 
@@ -213,16 +213,12 @@ public class StartPanel extends JPanel implements ActionListener {
 			p.setFont(getFont().deriveFont(new Float(36)));
 			
 			setBorder(BorderFactory.createTitledBorder(null,
-					"Checkers Java 1.0!", TitledBorder.CENTER,
+					"Checkers Java 1.0!", TitledBorder.LEFT,
 					TitledBorder.TOP, new Font("", Font.PLAIN, 30)));
 		}
 		
 		setVisible(true);	
 	}
-	
-
-	
-	
 
 	public void showPortfield() {
 		changePort.setVisible(true);
@@ -231,10 +227,8 @@ public class StartPanel extends JPanel implements ActionListener {
 				
 	}
 
-	
 	public void actionPerformed(ActionEvent e) {
 
-		
 		if (e.getSource() == btnServer) {
 			getValuesFromUserInterface(true);
 		}
@@ -270,8 +264,6 @@ public class StartPanel extends JPanel implements ActionListener {
 		else {
 			userInput.ipAdress = ipField.getText();
 		}
-		
-		
 			
 		frame.getContentPane().repaint();
 		setVisible(false);
