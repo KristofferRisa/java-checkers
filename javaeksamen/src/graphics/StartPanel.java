@@ -9,6 +9,7 @@ import java.awt.Font;
 import java.awt.Frame;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -93,7 +94,7 @@ public class StartPanel extends JPanel implements ActionListener {
 		GridBagConstraints gc = new GridBagConstraints();
 		gc.anchor = GridBagConstraints.LINE_START;
 		gc.fill = 1;
-		
+		gc.insets = new Insets(3,20,15,20);
 		//Username Label
 		gc.gridx = 0;
 		gc.gridy = 0;
