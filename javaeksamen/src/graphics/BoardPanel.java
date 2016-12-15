@@ -80,15 +80,18 @@ public class BoardPanel extends JPanel {
 				postionValidator.cx = (x - move.deltax) / SQUAREDIM * SQUAREDIM + SQUAREDIM / 2;
 				postionValidator.cy = (y - move.deltay) / SQUAREDIM * SQUAREDIM + SQUAREDIM / 2;
 
+				GameDataDTO data = client.recive();
+				data.pieces = pieces;
+				data.postionValidator = BoardPanel.this.postionValidator;
+				data.setMove(move);
+				client.send(data);
+				//MOTTA OK eller FEIL!
+				data = client.recive();
+				
+				BoardPanel.this.postionValidator = data.postionValidator;
+				pieces = data.pieces;
 				// Do not move checker onto an occupied square.
-				for (PostionValidator _pv : pieces)
-					if (_pv != BoardPanel.this.postionValidator 
-						&& _pv.cx == BoardPanel.this.postionValidator.cx
-							&& _pv.cy == BoardPanel.this.postionValidator.cy) {
-						BoardPanel.this.postionValidator.cx = move.oldcx;
-						BoardPanel.this.postionValidator.cy = move.oldcy;
-					
-					}
+				
 
 				postionValidator = null;
 				
