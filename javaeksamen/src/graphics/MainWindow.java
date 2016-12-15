@@ -8,21 +8,13 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import java.awt.event.KeyEvent;
-
-import java.net.UnknownHostException;
-
-
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import javax.swing.KeyStroke;
 
 import datamodels.UserInput;
-import game.CheckerType;
-import game.Piece;
 import network.Client;
 import network.Server;
 
@@ -48,6 +40,7 @@ public class MainWindow extends JFrame {
 		JMenuItem newGame = new JMenuItem("New Game");
 		JMenuItem showDebug = new JMenuItem("Show Debug");
 		JMenuItem portItem= new JMenuItem ("Change port");
+		JMenuItem disableMouse= new JMenuItem ("Mouse off");
 
 		
 		setJMenuBar(menubar);
@@ -55,6 +48,7 @@ public class MainWindow extends JFrame {
 		menu.add(newGame);
 		menu.add(showDebug);
 		menu.add(portItem);
+		menu.add(disableMouse);
 		menu.add(closeMenuItem);
 		
 		menu.setFont(new Font("Arial", Font.PLAIN, (int) screenWidth / 150));
@@ -83,6 +77,14 @@ public class MainWindow extends JFrame {
             }
         });
 		
+		disableMouse.setFont(new Font("Arial", Font.PLAIN, (int) screenWidth / 150));
+		disableMouse.addActionListener(new ActionListener() {
+			@Override
+            public void actionPerformed(ActionEvent e) {
+				//Denne er ikke bra nok.. Fryser hele frame
+                setEnabled(false);
+            }
+        });
 		
 	
 	}
@@ -148,7 +150,6 @@ public class MainWindow extends JFrame {
 		add(user2, BorderLayout.SOUTH);
 		
 		setResizable(false);
-		
 		pack();
 		repaint();
 

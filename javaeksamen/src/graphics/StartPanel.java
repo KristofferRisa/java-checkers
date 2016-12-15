@@ -70,20 +70,21 @@ public class StartPanel extends JPanel implements ActionListener {
 		btnWhatIP = new JButton("?");
 		changePort = new JLabel("Change port ");
 		portField = new JTextField("55660");
+		JLabel localipLabel = new JLabel("127.0.0.1");
 		// Added together in a panel for better GUI
 		JPanel p = new JPanel();
 		p.add(ipField);
 		p.add(btnWhatIP);
 		changePort.setVisible(false);
 		portField.setVisible(false);
+		btnWhatIP.setToolTipText("Open whatsmyip.org");
 		//GridBagLayot
 		setLayout(new GridBagLayout());
 		
 		GridBagConstraints gc = new GridBagConstraints();
 		gc.anchor = GridBagConstraints.LINE_START;
 		gc.fill = 1;
-		gc.weightx = 0.5;
-		gc.weighty = 0.5;
+		
 		//Username Label
 		gc.gridx = 0;
 		gc.gridy = 0;
@@ -113,6 +114,7 @@ public class StartPanel extends JPanel implements ActionListener {
 		gc.gridy = 3;
 		add(p, gc);
 		
+		
 		//Remove text when mouse click on IP Field
 		ipField.addMouseListener(new MouseAdapter() {
 			@Override
@@ -128,6 +130,10 @@ public class StartPanel extends JPanel implements ActionListener {
 		gc.gridx = 1;
 		gc.gridy = 4;
 		add(btnLocal, gc);
+		// Local IP Label -----
+		gc.gridx = 0;
+		gc.gridy = 4;
+		add(localipLabel, gc);
 		// Change Port Label
 		gc.gridx = 0;
 		gc.gridy = 5;
@@ -140,6 +146,7 @@ public class StartPanel extends JPanel implements ActionListener {
 		btnServer.addActionListener(this);
 		btnJoin.addActionListener(this);
 		btnWhatIP.addActionListener(this);
+		
 		
 		// Puts relative sizes on all JComponents
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -158,6 +165,7 @@ public class StartPanel extends JPanel implements ActionListener {
 			portField.setFont(getFont().deriveFont(new Float(16)));
 			ipField.setFont(getFont().deriveFont(new Float(16)));
 			btnWhatIP.setFont(getFont().deriveFont(new Float(16)));
+			localipLabel.setFont(getFont().deriveFont(new Float(16)));
 			setBorder(BorderFactory.createTitledBorder(null,
 					"Checkers Java 1.0!", TitledBorder.CENTER,
 					TitledBorder.TOP, new Font("", Font.PLAIN, 10)));
@@ -174,6 +182,7 @@ public class StartPanel extends JPanel implements ActionListener {
 			portField.setFont(getFont().deriveFont(new Float(26)));
 			ipField.setFont(getFont().deriveFont(new Float(26)));
 			btnWhatIP.setFont(getFont().deriveFont(new Float(26)));
+			localipLabel.setFont(getFont().deriveFont(new Float(26)));
 
 			setBorder(BorderFactory.createTitledBorder(null,
 					"Checkers Java 1.0!", TitledBorder.CENTER,
@@ -191,15 +200,14 @@ public class StartPanel extends JPanel implements ActionListener {
 			changePort.setFont(getFont().deriveFont(new Float(36)));
 			portField.setFont(getFont().deriveFont(new Float(36)));
 			btnWhatIP.setFont(getFont().deriveFont(new Float(36)));
+			localipLabel.setFont(getFont().deriveFont(new Float(36)));
 			
 			setBorder(BorderFactory.createTitledBorder(null,
 					"Checkers Java 1.0!", TitledBorder.CENTER,
 					TitledBorder.TOP, new Font("", Font.PLAIN, 30)));
 		}
 		
-		setVisible(true);
-		
-
+		setVisible(true);	
 	}
 	
 
