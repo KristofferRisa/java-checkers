@@ -18,25 +18,21 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 
 import datamodels.UserInput;
-import game.board.CheckerType;
-import game.board.Piece;
-import graphics.usercontrol.Board;
-import graphics.usercontrol.GameControlPanel;
-import graphics.usercontrol.StartPanel;
-import graphics.usercontrol.UserInfoPanel;
+import game.CheckerType;
+import game.Piece;
 import network.Client;
 import network.Server;
 
-public class WindowContainerFrame extends JFrame {
+public class MainWindow extends JFrame {
 
-	public GameControlPanel gameControls;
-	
 	Toolkit tk = Toolkit.getDefaultToolkit();
 	Dimension d = tk.getScreenSize();
 	int screenHeight = d.height;
 	int screenWidth = d.width;
+
+	private BoardPanel board;
 	
-	public WindowContainerFrame(){
+	public MainWindow(){
 		configureFrame();
 		addMenu();
 	}
@@ -115,10 +111,10 @@ public class WindowContainerFrame extends JFrame {
 
 	public UserInput showUserInput() {
 		startPanel = new StartPanel(this);
-		
 		add(startPanel);
 		setVisible(true);
 		JLabel waitLabel = new JLabel("Waiting for player 2");
+		
 		repaint();
 		while(startPanel.isVisible()){
 			
@@ -142,7 +138,7 @@ public class WindowContainerFrame extends JFrame {
 
 
 	public void showBoard(Client klient){
-		boardpanel = new Board(klient);
+//		boardpanel = new Board(klient);
 		
 		setLayout(new BorderLayout());
 				
@@ -151,66 +147,36 @@ public class WindowContainerFrame extends JFrame {
 		
 		add(user1, BorderLayout.NORTH);
 		
-		postBlackBricks();
+//		postBlackBricks();
+//		
+//		postHviteBricks();
 		
-		postHviteBricks();
-				
-		boardpanel.setPreferredSize(new Dimension(800,600));
 		
-		add(boardpanel,BorderLayout.CENTER);
+		
+		//boardpanel.setPreferredSize(new Dimension(800,600));
+		
+		
+		
+		//add(boardpanel,BorderLayout.CENTER);
 	
+		board = new BoardPanel(klient);
+		add(board);
+		
+		
+		
+		//add(new CheckersPanel());
 		//TODO: Oppdater med riktig brukerinfo
 		UserInfoPanel user2 = new UserInfoPanel("TEST TEST", "Localhost");
 		
+		
 		add(user2, BorderLayout.SOUTH);
 		
-		gameControls = new GameControlPanel(klient);
-		
-		//add(gameControls,BorderLayout.SOUTH);
+		setResizable(false);
 		
 		pack();
 		repaint();
-		
-	}
 
-	private void postBlackBricks() {
 		
-		for (int i = 1; i <= 8; i++) {
-
-			if (i % 2 == 0) {
-				boardpanel.add(new Piece(CheckerType.BLACK_REGULAR), 1, i);
-			}
-		}
-		
-		for (int i = 1; i <= 8; i++) {
-
-			if (i % 2 != 0) {
-				boardpanel.add(new Piece(CheckerType.BLACK_REGULAR), 2, i);
-				
-				
-			}
-			
-		}
-	}
-	
-	private void postHviteBricks() {
-		
-		for (int i = 1; i <= 8; i++) {
-
-			if (i % 2 == 0) {
-				boardpanel.add(new Piece(CheckerType.WHITE_REGULAR), 7, i);
-			}
-		}
-		
-		for (int i = 1; i <= 8; i++) {
-
-			if (i % 2 != 0) {
-				boardpanel.add(new Piece(CheckerType.WHITE_REGULAR), 8, i);
-				
-				
-			}
-			
-		}
 	}
 
 	private void configureFrame() {
@@ -241,10 +207,8 @@ public class WindowContainerFrame extends JFrame {
 	}
 	
 	public StartPanel startPanel;
-	private Board boardpanel;
 	public Server server;
 	
 	private static final long serialVersionUID = -3425445318104341180L;
-
 	
 }

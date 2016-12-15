@@ -1,22 +1,25 @@
 package game;
 
 import java.net.UnknownHostException;
-import datamodels.GameDataTransferObject;
+import datamodels.GameDataDTO;
 import datamodels.UserInput;
-import graphics.DebugWindowFrame;
-import graphics.WindowContainerFrame;
+import graphics.DebugWindow;
+import graphics.MainWindow;
 import network.Client;
 import network.Server;
 
 public class Checker {
 
 	public Checker(){
+		debug = new DebugWindow();
+		guiManager = new MainWindow();
+		
 		openUserInputPanel();
 		
 		starterServer();
-			
-		starterClient();
 		
+		starterClient();
+
 		showBoard();
 		
 		debug.log("ferdig, avslutter aplikasjon");
@@ -41,14 +44,10 @@ public class Checker {
 		int port = 1337;
 		klient = new Client(ip, port, input, debug);
 		klient.connect();
-		
 	}
 
 	private void openUserInputPanel() {
-		debug = new DebugWindowFrame();
 		
-		guiManager = new WindowContainerFrame();
-	
 		input = guiManager.showUserInput();
 
 		debug.log("Player = " + input.name);
@@ -64,7 +63,8 @@ public class Checker {
 			debug.log("_chekers: Viser brett");
 			guiManager.showBoard(klient);
 			
-			while(guiManager.gameControls.isVisible()){				
+			//while(guiManager.gameControls.isVisible()){				
+			while(true){
 				try {
 					//Venter på 
 						Thread.sleep(1000);
@@ -79,9 +79,9 @@ public class Checker {
 	
 	public String gameType;
 	
-	private DebugWindowFrame debug;
+	private DebugWindow debug;
 
-	private WindowContainerFrame guiManager;
+	private MainWindow guiManager;
 	
 	private Server server;
 

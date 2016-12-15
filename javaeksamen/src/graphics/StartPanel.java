@@ -1,4 +1,4 @@
-package graphics.usercontrol;
+package graphics;
 
 import java.awt.Color;
 import java.awt.Desktop;
@@ -53,7 +53,6 @@ public class StartPanel extends JPanel implements ActionListener {
 	}
 	
 	public StartPanel(JFrame frame) {
-
 		this.frame = frame;
 		JLabel nameLabel = new JLabel("Username: ");
 		nameField = new JTextField("Enter a username");

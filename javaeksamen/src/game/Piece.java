@@ -1,13 +1,16 @@
-package game.board;
+package game;
 
 import java.awt.Color;
 import java.awt.Graphics;
+
+import javax.swing.JComponent;
+
 import java.awt.Color;
 
 
-public class Piece {
+public class Piece extends JComponent {
 	
-	private final static int DIMENSION = 50;
+private final static int DIMENSION = 50;
 	
 	private CheckerType checkerType;
 	
@@ -35,16 +38,15 @@ public class Piece {
 	            g.drawString("K", cx, cy);
 	}
 	
-	   public static boolean contains(int x, int y, int cx, int cy)
-	   {
-	      return (cx - x) * (cx - x) + (cy - y) * (cy - y) < DIMENSION / 2 * 
-	             DIMENSION / 2;
-	   }
-	   
-	   public static int getDimension()
-	   {
-	      return DIMENSION;
-	   }
-	   
+	public static boolean contains(int x, int y, int cx, int cy)
+    {
+        return (cx - x) * (cx - x) + (cy - y) * (cy - y) < DIMENSION / 2 * 
+                DIMENSION / 2;
+    }
+
+    public static int getDimension()
+    {
+        return DIMENSION;
+    }	   
 }
 

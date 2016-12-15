@@ -1,4 +1,4 @@
-package game.board;
+package game;
 
 public enum CheckerType {
 	   BLACK_REGULAR,

@@ -1,23 +1,26 @@
 package datamodels;
 
 import java.io.Serializable;
+import java.util.List;
+
+import game.PostionValidator;
+import game.Move;
 import game.Player;
-import game.board.Move;
 
 /***
  * A Data transfer object class that holds all that data that is being transmitted to the clients and back to the server. 
  * @author krist
  *
  */
-public class GameDataTransferObject implements Serializable{
+public class GameDataDTO implements Serializable{
 	
-	public GameDataTransferObject(){
+	public GameDataDTO(){
 		player1 = new Player();
 		player2 = new Player();
 		clientIdTurn = 1;
 	}
 	
-	public GameDataTransferObject(String msg){
+	public GameDataDTO(String msg){
 		player1 = new Player();
 		player2 = new Player();
 		this.msg = msg;
@@ -29,9 +32,14 @@ public class GameDataTransferObject implements Serializable{
 	public String msg;
 	public String ip;
 	public Move move;
-	public Move lastMove;
 	public int clientId;
 	public int clientIdTurn; //starter på 1
+	public List<PostionValidator> pieces;
+	public PostionValidator postionValidator;
+	public void setMove(Move move2) {
+
+		this.move = move2;
+	}
 	
 	
 }
