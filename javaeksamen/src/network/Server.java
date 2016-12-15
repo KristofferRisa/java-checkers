@@ -5,32 +5,42 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 import datamodels.GameDataDTO;
+import datamodels.UserInput;
 import game.PostionValidator;
 import graphics.DebugWindow;
 
 public class Server extends Thread {
 
 	private CheckersEngine checkersEngine;
+<<<<<<< HEAD
 	private GameDataDTO dataFromclien1;
 	private GameDataDTO dataFromclien2;
 	public Server(DebugWindow debug) {
+=======
+	private int port;
+	public Server(DebugWindow debug, UserInput input) {
+>>>>>>> mphotfix
 		this.checkersEngine = new CheckersEngine();
 		this.Debug = debug;
 		this.isConnected = false;
 		this.dataTransferObject = new GameDataDTO();
 		this.client1 = new ClientManager(dataTransferObject,1, Debug);
 		this.client2 = new ClientManager(dataTransferObject,2, Debug);
+<<<<<<< HEAD
 		this.dataFromclien1 = new GameDataDTO();
 		this.dataFromclien2 = new GameDataDTO();
+=======
+		this.port = input.portNumber;
+>>>>>>> mphotfix
 	}
 
 	public void run() {
 		// Starter Server
 		ServerSocket server = null;
-
 		try {
 			Debug.log("_server: Starter server");
-			server = new ServerSocket(1337);
+			System.out.println(port);
+			server = new ServerSocket(port);
 		} catch (IOException ioe) {
 			Debug.log("_server: Kunne ikke lage Server socket");
 		}
