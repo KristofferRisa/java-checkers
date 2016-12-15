@@ -25,7 +25,7 @@ public class MainWindow extends JFrame {
 	int screenHeight = d.height;
 	int screenWidth = d.width;
 
-	private BoardPanel board;
+	public BoardPanel board;
 	
 	public MainWindow(){
 		configureFrame();

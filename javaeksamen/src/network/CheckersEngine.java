@@ -1,8 +1,12 @@
 package network;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Vector;
 
 import datamodels.GameDataDTO;
+import game.CheckerType;
+import game.Piece;
 import game.PostionValidator;
 
 public class CheckersEngine {
@@ -25,26 +29,94 @@ public class CheckersEngine {
              BLACK = 3,
              BLACK_KING = 4;
 
+private final static int SQUAREDIM = (int) (Piece.getDimension() * 1.25);
+	// dimension of checkerboard (width of 8 squares)
+
    private int[][] board;  // board[r][c] is the contents of row r, column c.  
 
 public boolean isActive;
 
-public int clientIdTurn;
+public static List<PostionValidator> pieces = new ArrayList<>();
+
+public static int clientIdTurn;
    
 
    public CheckersEngine() {
          // Constructor.  Create the board and set it up for a new game.
       board = new int[8][8];
       setUpGame();
+      addPieces();
    }
    
-   public void setUpGame() {
+   public void add(Piece piece, int row, int col) {
+		
+		if (row < 1 || row > 8){
+			throw new IllegalArgumentException("row out of range: " + row);
+		}
+			
+		if (col < 1 || col > 8){
+			throw new IllegalArgumentException("col out of range: " + col);
+		}
+			
+		PostionValidator pv = new PostionValidator();
+		pv.piece = piece;
+		pv.cx = (col - 1) * SQUAREDIM + SQUAREDIM / 2;
+		pv.cy = (row - 1) * SQUAREDIM + SQUAREDIM / 2;
+		
+		for (PostionValidator _validator : pieces){
+			if (pv.cx == _validator.cx && pv.cy == _validator.cy){
+				try {
+					throw new Exception("square at (" + row + "," + col + ") is occupied");
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}			
+				
+		pieces.add(pv);
+	}
+   
+   private void addPieces() {
+	 //Black pieces			
+		for (int i = 1; i <= 8; i++) {
+
+			if (i % 2 == 0) {
+				add(new Piece(CheckerType.BLACK_REGULAR), 1, i);
+			}
+		}
+		
+		for (int i = 1; i <= 8; i++) {
+
+			if (i % 2 != 0) {
+				add(new Piece(CheckerType.BLACK_REGULAR), 2, i);
+			}
+			
+		}
+		
+		//White pieces
+		for (int i = 1; i <= 8; i++) {
+
+			if (i % 2 == 0) {
+				add(new Piece(CheckerType.WHITE_REGULAR), 7, i);
+			}
+		}
+		
+		for (int i = 1; i <= 8; i++) {
+
+			if (i % 2 != 0) {
+				add(new Piece(CheckerType.WHITE_REGULAR), 8, i);
+				
+			}	
+		}
+}
+
+public void setUpGame() {
           // Set up the board with checkers in position for the beginning
           // of a game.  Note that checkers can only be found in squares
           // that satisfy  row % 2 == col % 2.  At the start of the game,
           // all such squares in the first three rows contain black squares
           // and all such squares in the last three rows contain red squares.
-	   clientIdTurn = 1;
       for (int row = 0; row < 8; row++) {
          for (int col = 0; col < 8; col++) {
             if ( row % 2 == col % 2 ) {
@@ -277,15 +349,40 @@ public int clientIdTurn;
       
    }  // end canMove()
 
-public void startGame() {
-	// TODO Auto-generated method stub
-	isActive = true;
-}
-
-public GameDataDTO validate(GameDataDTO dataTransferObject) {
-	// TODO Auto-generated method stub
-	return null;
-}
+	public void startGame() {
+		// TODO Auto-generated method stub
+		isActive = true;
+	}
+	
+	public GameDataDTO validate(GameDataDTO dataTransferObject) {
+		
+		if(dataTransferObject.move == null){
+			System.out.println("server: mangler move data klient 1 (clientID = " + dataTransferObject.clientId + ")");
+		}
+		else {
+			System.out.println("server: brikke flytte fra row " + dataTransferObject.move.oldPostionCol + " col " + dataTransferObject.move.oldPostionRow);	
+		}
+		System.out.println("server: ny melding fra klient 1 (clientID = " + dataTransferObject.clientId + ") "+ dataTransferObject.msg);
+		
+		// Do not move checker onto an occupied square.
+		for (PostionValidator _pv : dataTransferObject.pieces){
+			if (_pv != dataTransferObject.postionValidator 
+					&& _pv.cx == dataTransferObject.postionValidator.cx
+						&& _pv.cy == dataTransferObject.postionValidator.cy) {
+				//Dette skal sendes tilbaek
+				dataTransferObject.postionValidator.cx = dataTransferObject.move.oldcx;
+				dataTransferObject.postionValidator.cy = dataTransferObject.move.oldcy;
+				dataTransferObject.postionValidator = null;
+				return dataTransferObject;
+				
+			}
+		}
+		
+		CheckersEngine.pieces = dataTransferObject.pieces;
+		CheckersEngine.clientIdTurn = (clientIdTurn == 1) ? 2 : 1;
+		dataTransferObject.clientId = clientIdTurn;
+		return dataTransferObject;
+	}
    
 
 }

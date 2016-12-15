@@ -9,6 +9,7 @@ import datamodels.GameDataDTO;
 import game.Move;
 import game.PostionValidator;
 import graphics.DebugWindow;
+import sun.awt.datatransfer.DataTransferer;
 
 public class ClientManager extends Thread {
 	public Socket socket;
@@ -19,11 +20,15 @@ public class ClientManager extends Thread {
 	public boolean isClientConneted;
 	public GameDataDTO data;
 	private int clientId;
+	private CheckersEngine checkersEngine;
+	private Server server;
 	
-	public ClientManager(GameDataDTO data, int clientId, DebugWindow d){
+	public ClientManager(GameDataDTO data, int clientId, CheckersEngine checkersEngine, Server server, DebugWindow d){
 		Debug = d;
 		isClientConneted = false;
+		this.server = server;
 		this.clientId = clientId;
+		this.checkersEngine = checkersEngine;
 		this.data = data;
 	}
 	
@@ -33,18 +38,16 @@ public class ClientManager extends Thread {
 				Debug.log("_clientManager_"+clientId+": sender melding til klient");
 							
 				output = new ObjectOutputStream(socket.getOutputStream());
-				
+				input = new ObjectInputStream(socket.getInputStream());
+			
 				data.clientId = clientId;
 				data.msg = "OK";
+				data.pieces = checkersEngine.pieces;
 				
 				output.writeObject(data);
 				output.flush();
 				output.reset();
 				
-				Debug.log("_clientManager_"+clientId+": Sendt OK melding til klient!" + data.msg);
-				
-				input = new ObjectInputStream(socket.getInputStream());
-			
 				GameDataDTO dataRecived = (GameDataDTO)input.readObject();
 				
 				if(dataRecived.player1 != null){
@@ -70,15 +73,54 @@ public class ClientManager extends Thread {
 					// må sende info om spiller 2 til spiller1 
 				}
 				
-				output.writeObject(data);
+				dataRecived.pieces = checkersEngine.pieces;
+				output.writeObject(dataRecived);
 				output.flush();
 				output.reset();
 				
-//				while(true){
-//					Move move = (Move)input.readObject();
-//					Debug.log("_clientManager_"+clientId+": Mottok ett trekk fra "+clientId + ". Move: "+ move);
-//					
-//				}
+				dataRecived.clientId = clientId;
+				dataRecived.clientIdTurn = 1;
+				dataRecived.pieces = checkersEngine.pieces;
+				output.writeObject(dataRecived);
+				output.flush();
+				output.reset();
+				
+				while(checkersEngine.isActive ){
+					
+					while(CheckersEngine.clientIdTurn == clientId){
+						
+						GameDataDTO activeClient = (GameDataDTO)input.readObject();
+						Debug.log(Thread.currentThread().getId() + "_clientManager_"+clientId+": Mottok ett trekk fra "+clientId + ". Move: "+ move);
+						//Oppdater og send tilbake
+						activeClient = checkersEngine.validate(activeClient);
+						activeClient.clientIdTurn = CheckersEngine.clientIdTurn;
+						activeClient.clientId = clientId;
+						activeClient.pieces = CheckersEngine.pieces;
+						output.writeObject(activeClient);
+						output.flush();
+						output.reset();
+						
+					} while(CheckersEngine.clientIdTurn != clientId){
+						
+						Debug.log("clientManager"+clientId+": sender melding til klient" + clientId);
+						System.out.println(Thread.currentThread().getId()+"_clientManager: sender melding til klient" + clientId);
+						dataRecived.clientId = clientId;
+						dataRecived.clientIdTurn = CheckersEngine.clientIdTurn;
+						dataRecived.pieces = CheckersEngine.pieces;
+						output.writeObject(dataRecived);
+						output.flush();
+						output.reset();
+						Thread.sleep(1100);
+						
+					}
+					dataRecived.clientId = clientId;
+					dataRecived.clientIdTurn = checkersEngine.clientIdTurn;
+					output.writeObject(dataRecived);
+					output.flush();
+					output.reset();
+				}
+					
+				
 				
 		} catch(Exception e) {
 			
@@ -100,17 +142,6 @@ public class ClientManager extends Thread {
 	public GameDataDTO recive(){
 		try {
 			return (GameDataDTO)input.readObject();
-		} catch (ClassNotFoundException | IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return null;
-	}
-
-	public Move reciveMove() {
-		try {
-			Move m = (Move)input.readObject();
-			return m;
 		} catch (ClassNotFoundException | IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

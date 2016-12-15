@@ -16,7 +16,7 @@ public class Client {
 	private ObjectInputStream input;
 	private ObjectOutputStream output;
 	private GameDataDTO data;
-	private int clientId;
+	public int clientId;
 	
 	public Client(String ip, int port, UserInput userInput, DebugWindow d){
 		this.ip = ip;
@@ -57,6 +57,7 @@ public class Client {
 				output.writeObject(data);
 				
 				output.flush();
+				output.reset();
 				
 				data =(GameDataDTO)input.readObject();
 				

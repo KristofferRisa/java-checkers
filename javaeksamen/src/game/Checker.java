@@ -60,14 +60,24 @@ public class Checker {
 	
 	private void showBoard() {
 		if(klient.isConnected){
+			GameDataDTO dat = klient.getGameData();
 			debug.log("_chekers: Viser brett");
 			guiManager.showBoard(klient);
+			guiManager.board.refresh(dat);
 			
 			//while(guiManager.gameControls.isVisible()){				
-			while(true){
+			GameDataDTO continuesData;
+			while((continuesData = klient.recive()) != null){
 				try {
-					//Venter på 
-						Thread.sleep(1000);
+//					if(!dat.equals(continuesData)){
+//						
+//						
+//					}
+					guiManager.board.refresh(dat);
+					guiManager.board.data = dat;
+					System.out.println("Mottatt data from server!" + klient.clientId);
+					
+					Thread.sleep(1000);
 				} catch (InterruptedException e) {
 					debug.log("_checker: error = " + e.getMessage());
 					e.printStackTrace();

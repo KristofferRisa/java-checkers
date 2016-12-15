@@ -13,6 +13,8 @@ import java.util.List;
 
 import javax.swing.JPanel;
 
+import com.sun.org.apache.xml.internal.resolver.helpers.Debug;
+
 import datamodels.GameDataDTO;
 import game.CheckerType;
 import game.Move;
@@ -24,19 +26,19 @@ import network.Server;
 
 public class BoardPanel extends JPanel {
 	
-	GameDataDTO data;
+	public GameDataDTO data;
+	private Client client;
 	
 	public BoardPanel(Client client) {
 		// SquarePanel squarePanel = new SquarePanel();
 		// add(squarePanel);
 		setVisible(true);
 
-		pieces = new ArrayList<>();
+		this.client = client;
 		dimPrefSize = new Dimension(BOARDDIM, BOARDDIM);
 		
 		move = new Move();
 		
-		addPieces();
 		
 		addMouseListener(new MouseListener() {
 			@Override
@@ -93,7 +95,14 @@ public class BoardPanel extends JPanel {
 						move.isMoving = false;
 						postionValidator = null;
 						
+						data.pieces = pieces;
+						data.postionValidator = BoardPanel.this.postionValidator;
+						data.setMove(move);
+						
+						client.send(data);
+						
 						repaint();
+						
 						return;
 					}
 					move.isMoving = false;
@@ -108,26 +117,31 @@ public class BoardPanel extends JPanel {
 
 				//data = null;
 				
-				data = client.recive();
-				
+				//data = client.recive();
+
 				data.pieces = pieces;
-				
 				data.postionValidator = BoardPanel.this.postionValidator;
 				data.setMove(move);
 				
 				client.send(data);
 				
-				//MOTTA OK eller FEIL!
-				data = client.recive();
-				
-				BoardPanel.this.postionValidator = data.postionValidator;
-				pieces = data.pieces;
-				// Do not move checker onto an occupied square.
-				
-
-				postionValidator = null;
-				
 				repaint();
+							
+				
+				
+//				paintComponent(getGraphics());
+//				data.pieces = pieces;
+//				data.postionValidator = BoardPanel.this.postionValidator;
+//				data.setMove(move);
+//				
+//				client.send(data);
+				
+//				repaint();
+				
+				//MOTTA OK eller FEIL!
+				//				data = client.recive();
+				
+				
 			}
 
 			@Override
@@ -171,12 +185,7 @@ public class BoardPanel extends JPanel {
 				
 			}
 		});
-
-//		while(data != null && data.clientId != data.clientIdTurn){
-			data = client.recive();
-//			client.send(data);	
-//		}
-			
+		
 	}
 
 	public void add(Piece piece, int row, int col) {
@@ -217,6 +226,7 @@ public class BoardPanel extends JPanel {
 	protected void paintComponent(Graphics g) {
 
 		paintCheckerBoard(g);
+	
 		for (PostionValidator _move : pieces){
 			if (_move != BoardPanel.this.postionValidator){
 				_move.piece.draw(g, _move.cx, _move.cy);
@@ -294,6 +304,29 @@ public class BoardPanel extends JPanel {
 	
 	// list of Checker objects and their initial positions
 	private List<PostionValidator> pieces;
+	
+	public void refresh(GameDataDTO dataFromServer){
+		
+		if(dataFromServer.postionValidator != null){
+
+			BoardPanel.this.postionValidator = dataFromServer.postionValidator;
+				
+		}
+		
+		pieces = dataFromServer.pieces;
+		
+		if(dataFromServer != null){
+			data = dataFromServer;
+		}
+		
+		
+		BoardPanel.this.postionValidator = data.postionValidator;
+		postionValidator = data.postionValidator;
+		// Do not move checker onto an occupied square.
+		
+//			paintComponent(getGraphics());
+		repaint();
+	}
 	
 }
 
