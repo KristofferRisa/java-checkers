@@ -10,16 +10,21 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.swing.JPanel;
 
 import datamodels.GameDataDTO;
 import game.CheckerType;
 import game.Move;
-import game.PostionValidator;
 import game.Piece;
+import game.PostionValidator;
 import network.Client;
+import network.ClientManager;
+import network.Server;
 
 public class BoardPanel extends JPanel {
+	
+	GameDataDTO data;
 	
 	public BoardPanel(Client client) {
 		// SquarePanel squarePanel = new SquarePanel();
@@ -43,6 +48,7 @@ public class BoardPanel extends JPanel {
 				
 				move.oldPostionCol = x/SQUAREDIM;
 				move.oldPostionRow = y/SQUAREDIM;
+				
 				
 				System.out.println("Current COL=" + move.oldPostionCol +" ROW=" + move.oldPostionRow + "(pos: X= " + x + " Y="+y + ")");
 				
@@ -71,8 +77,28 @@ public class BoardPanel extends JPanel {
 				
 				System.out.println("Current COL=" + x/SQUAREDIM +" ROW=" + y/SQUAREDIM + "(pos: X= " + x + " Y="+y + ")");
 
-				if (move.isMoving)
+				data = client.getGameData();
+				
+				if (move.isMoving) {
+					if (data == null || data.clientId != data.clientIdTurn) {
+						System.err.println("data er null eller clientId er ulik turnid");
+						System.err.println("Data er: " + data);
+						//System.err.println("ClientId er:" + data.clientId);
+						//System.err.println("ClientIdTurn:" +data.clientIdTurn);
+						//System.out.println(data.clientIdTurn);
+						
+						BoardPanel.this.postionValidator.cx = move.oldcx;
+						BoardPanel.this.postionValidator.cy = move.oldcy;
+					
+						move.isMoving = false;
+						postionValidator = null;
+						
+						repaint();
+						return;
+					}
 					move.isMoving = false;
+				}
+					
 				else
 					return;
 
@@ -80,7 +106,7 @@ public class BoardPanel extends JPanel {
 				postionValidator.cx = (x - move.deltax) / SQUAREDIM * SQUAREDIM + SQUAREDIM / 2;
 				postionValidator.cy = (y - move.deltay) / SQUAREDIM * SQUAREDIM + SQUAREDIM / 2;
 
-				GameDataDTO data = client.recive();
+				data = client.recive();
 				data.pieces = pieces;
 				data.postionValidator = BoardPanel.this.postionValidator;
 				data.setMove(move);

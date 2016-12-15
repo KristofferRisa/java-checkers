@@ -28,6 +28,8 @@ public class CheckersEngine {
    private int[][] board;  // board[r][c] is the contents of row r, column c.  
 
 public boolean isActive;
+
+public int clientIdTurn;
    
 
    public CheckersEngine() {
@@ -42,6 +44,7 @@ public boolean isActive;
           // that satisfy  row % 2 == col % 2.  At the start of the game,
           // all such squares in the first three rows contain black squares
           // and all such squares in the last three rows contain red squares.
+	   clientIdTurn = 1;
       for (int row = 0; row < 8; row++) {
          for (int col = 0; col < 8; col++) {
             if ( row % 2 == col % 2 ) {
