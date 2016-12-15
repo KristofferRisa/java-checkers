@@ -34,6 +34,7 @@ public class MainWindow extends JFrame {
 	int screenWidth = d.width;
 
 	private BoardPanel board;
+	private UserInput userinput;
 	
 	public MainWindow(){
 		configureFrame();
@@ -120,7 +121,8 @@ public class MainWindow extends JFrame {
 		setLayout(new BorderLayout());
 				
 		//TODO: Oppdater med riktig brukerinfo
-		UserInfoPanel user1 = new UserInfoPanel("Test user", "IP");
+		
+		UserInfoPanel user1 = new UserInfoPanel(userinput.name, userinput.ipAdress);
 		
 		add(user1, BorderLayout.NORTH);
 		
