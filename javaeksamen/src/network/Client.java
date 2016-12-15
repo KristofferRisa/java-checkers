@@ -16,6 +16,7 @@ public class Client {
 	private ObjectInputStream input;
 	private ObjectOutputStream output;
 	private GameDataDTO data;
+	private int clientId;
 	
 	public Client(String ip, int port, UserInput userInput, DebugWindow d){
 		this.ip = ip;
@@ -39,7 +40,7 @@ public class Client {
 			Debug.log("_client: Venter på handshake fra server");
 			
 			data = (GameDataDTO)input.readObject();
-			
+			clientId = data.clientId;
 			if(data.msg.equals("OK")){				
 				//Legger til spill info til data 
 				// transfer object
@@ -77,6 +78,7 @@ public class Client {
 	public void send(GameDataDTO data) {
 		// TODO Auto-generated method stub
 		try {
+			data.clientId = clientId;
 			output.writeObject(data);
 			output.flush();
 			output.reset();
@@ -89,7 +91,8 @@ public class Client {
 	
 	public GameDataDTO recive(){
 		try {
-			return (GameDataDTO)input.readObject();
+			 data = (GameDataDTO)input.readObject();
+			 return data;
 		} catch (ClassNotFoundException | IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -75,19 +75,21 @@ public class Server extends Thread {
 		// Starter spill
 		while (checkersEngine.isActive) {
 
-			while (dataTransferObject.clientIdTurn == 1) {
+			client1.send(dataTransferObject);
+			
+			while (checkersEngine.clientIdTurn == 1) {
 
 				client1.send(dataTransferObject);
 				
 				GameDataDTO datare = client1.recive();
 				System.out.println("server: mottok data fra klient 1");
 				if(datare.move == null){
-					System.out.println("server: mangler move data klient");
+					System.out.println("server: mangler move data klient 1 (clientID = " + datare.clientId + ")");
 				}
 				else {
 					System.out.println("server: brikke flytte fra row " + datare.move.oldPostionCol + " col " + datare.move.oldPostionRow);	
 				}
-				System.out.println("server: ny melding fra klient "+ dataTransferObject.msg);
+				System.out.println("server: ny melding fra klient 1 (clientID = " + datare.clientId + ") "+ datare.msg);
 				
 				
 				// Do not move checker onto an occupied square.
@@ -102,19 +104,48 @@ public class Server extends Thread {
 				}
 				
 				datare.msg = "FLYTT";
+				datare.clientIdTurn = 2;
 				//dataTransferObject = checkersEngine.validate(dataTransferObject);
 				client1.send(datare);
+
+
+				checkersEngine.clientIdTurn = 2;
 			
 			}
 
-			while (dataTransferObject.clientIdTurn == 2) {
+			while (checkersEngine.clientIdTurn == 2) {
 				
-				client2.recive();
-				System.out.println("server: mottok data fra klient 1");
-				System.out.println("server: brikke flytte fra row " + dataTransferObject.move.oldcx + " col " + dataTransferObject.move.oldcy );
-				dataTransferObject = checkersEngine.validate(dataTransferObject);
 				client2.send(dataTransferObject);
 				
+				GameDataDTO datare = client1.recive();
+				System.out.println("server: mottok data fra klient 2");
+				
+				if(datare.move == null){
+					System.out.println("server: mangler move data klient 2 ");
+				}
+				else {
+					System.out.println("server: brikke flytte fra row " + datare.move.oldPostionCol + " col " + datare.move.oldPostionRow);	
+				}
+				System.out.println("server: ny melding fra klient 2 (clientID =  " + datare.clientId + ") "+ datare.msg);
+				
+				
+				// Do not move checker onto an occupied square.
+				for (PostionValidator _pv : datare.pieces){
+					if (_pv != datare.postionValidator 
+							&& _pv.cx == datare.postionValidator.cx
+								&& _pv.cy == datare.postionValidator.cy) {
+						//Dette skal sendes tilbaek
+						datare.postionValidator.cx = datare.move.oldcx;
+						datare.postionValidator.cy = datare.move.oldcy;
+					}
+				}
+				
+				datare.msg = "FLYTT";
+				datare.clientIdTurn = 1;
+				//dataTransferObject = checkersEngine.validate(dataTransferObject);
+				client2.send(datare);
+				
+				checkersEngine.clientIdTurn = 1;
 			}
 
 		}
