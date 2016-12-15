@@ -11,23 +11,26 @@ import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JPanel;
+
+import datamodels.GameDataDTO;
 import game.CheckerType;
+import game.Move;
 import game.PostionValidator;
 import game.Piece;
 import network.Client;
 
 public class BoardPanel extends JPanel {
 	
-	
 	public BoardPanel(Client client) {
 		// SquarePanel squarePanel = new SquarePanel();
 		// add(squarePanel);
-		this.client = client;
 		setVisible(true);
 
 		pieces = new ArrayList<>();
 		dimPrefSize = new Dimension(BOARDDIM, BOARDDIM);
-
+		
+		move = new Move();
+		
 		addPieces();
 		
 		addMouseListener(new MouseListener() {
@@ -38,21 +41,24 @@ public class BoardPanel extends JPanel {
 				int x = me.getX();
 				int y = me.getY();
 				
-				System.out.println("Current COL=" + x/SQUAREDIM +" ROW=" + y/SQUAREDIM + "(pos: X= " + x + " Y="+y + ")");
-
+				move.oldPostionCol = x/SQUAREDIM;
+				move.oldPostionRow = y/SQUAREDIM;
+				
+				System.out.println("Current COL=" + move.oldPostionCol +" ROW=" + move.oldPostionRow + "(pos: X= " + x + " Y="+y + ")");
 				
 				// Locate positioned checker under mouse press.
-
-				for (PostionValidator _pv : pieces)
+				for (PostionValidator _pv : pieces){
 					if (Piece.contains(x, y, _pv.cx, _pv.cy)) {
 						BoardPanel.this.postionValidator = _pv;
-						oldcx = _pv.cx;
-						oldcy = _pv.cy;
-						deltax = x - _pv.cx;
-						deltay = y - _pv.cy;
-						isMoving = true;
+						move.oldcx = _pv.cx;
+						move.oldcy = _pv.cy;
+						move.deltax = x - _pv.cx;
+						move.deltay = y - _pv.cy;
+						move.isMoving = true;
 						return;
 					}
+				}
+					
 			}
 
 			@Override
@@ -65,28 +71,27 @@ public class BoardPanel extends JPanel {
 				
 				System.out.println("Current COL=" + x/SQUAREDIM +" ROW=" + y/SQUAREDIM + "(pos: X= " + x + " Y="+y + ")");
 
-				if (isMoving)
-					isMoving = false;
+				if (move.isMoving)
+					move.isMoving = false;
 				else
 					return;
 
-				// Snap checker to center of square.
-			
-				postionValidator.cx = (x - deltax) / SQUAREDIM * SQUAREDIM + SQUAREDIM / 2;
-				postionValidator.cy = (y - deltay) / SQUAREDIM * SQUAREDIM + SQUAREDIM / 2;
+				// Snap checker to center of square.			
+				postionValidator.cx = (x - move.deltax) / SQUAREDIM * SQUAREDIM + SQUAREDIM / 2;
+				postionValidator.cy = (y - move.deltay) / SQUAREDIM * SQUAREDIM + SQUAREDIM / 2;
 
 				// Do not move checker onto an occupied square.
-
 				for (PostionValidator _pv : pieces)
 					if (_pv != BoardPanel.this.postionValidator 
 						&& _pv.cx == BoardPanel.this.postionValidator.cx
 							&& _pv.cy == BoardPanel.this.postionValidator.cy) {
-						BoardPanel.this.postionValidator.cx = oldcx;
-						BoardPanel.this.postionValidator.cy = oldcy;
+						BoardPanel.this.postionValidator.cx = move.oldcx;
+						BoardPanel.this.postionValidator.cy = move.oldcy;
 					
 					}
-				
+
 				postionValidator = null;
+				
 				repaint();
 			}
 
@@ -115,11 +120,11 @@ public class BoardPanel extends JPanel {
 		addMouseMotionListener(new MouseMotionListener() {
 			@Override
 			public void mouseDragged(MouseEvent me) {
-				if (isMoving) {
+				if (move.isMoving) {
 					// Update location of checker center.
 
-					postionValidator.cx = me.getX() - deltax;
-					postionValidator.cy = me.getY() - deltay;
+					postionValidator.cx = me.getX() - move.deltax;
+					postionValidator.cy = me.getY() - move.deltay;
 										
 					repaint();
 				}
@@ -243,21 +248,13 @@ public class BoardPanel extends JPanel {
 	private Dimension dimPrefSize;
 	// dragging flag -- set to true when user presses mouse button over checker
 	// and cleared to false when user releases mouse button
-	private boolean isMoving = false;
-	// displacement between drag start coordinates and checker center
-	// coordinates
-	private int deltax;		
-	private int deltay;
+	private Move move;
 	// reference to positioned checker at start of drag
 	private PostionValidator postionValidator;
-	// center location of checker at start of drag
-	private int oldcx;
-	private int oldcy;
+	
 	// list of Checker objects and their initial positions
 	private List<PostionValidator> pieces;
-
-	private Client client;
-
+	
 }
 
 
