@@ -74,8 +74,6 @@ public class Server extends Thread {
 
 		// Starter spill
 		while (checkersEngine.isActive) {
-
-			client1.send(dataTransferObject);
 			
 			while (checkersEngine.clientIdTurn == 1) {
 
@@ -104,6 +102,7 @@ public class Server extends Thread {
 				}
 				
 				datare.msg = "FLYTT";
+				datare.clientId = 1;
 				datare.clientIdTurn = 2;
 				//dataTransferObject = checkersEngine.validate(dataTransferObject);
 				client1.send(datare);
@@ -112,7 +111,7 @@ public class Server extends Thread {
 				checkersEngine.clientIdTurn = 2;
 			
 			}
-
+			
 			while (checkersEngine.clientIdTurn == 2) {
 				
 				client2.send(dataTransferObject);

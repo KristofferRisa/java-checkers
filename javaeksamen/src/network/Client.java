@@ -75,11 +75,11 @@ public class Client {
 		}
 	}
 
-	public void send(GameDataDTO data) {
+	public void send(GameDataDTO data2) {
 		// TODO Auto-generated method stub
 		try {
-			data.clientId = clientId;
-			output.writeObject(data);
+			data2.clientId = clientId;
+			output.writeObject(data2);
 			output.flush();
 			output.reset();
 		} catch (IOException e) {
@@ -91,8 +91,7 @@ public class Client {
 	
 	public GameDataDTO recive(){
 		try {
-			 data = (GameDataDTO)input.readObject();
-			 return data;
+			return (GameDataDTO)input.readObject();
 		} catch (ClassNotFoundException | IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

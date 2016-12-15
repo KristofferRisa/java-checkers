@@ -66,7 +66,9 @@ public class Checker {
 			//while(guiManager.gameControls.isVisible()){				
 			while(true){
 				try {
-					//Venter på 
+					//Venter på neste sin tur
+//					GameDataDTO data = klient.recive();
+//					guiManager.setData(data);
 						Thread.sleep(1000);
 				} catch (InterruptedException e) {
 					debug.log("_checker: error = " + e.getMessage());

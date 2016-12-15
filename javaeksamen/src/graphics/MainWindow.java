@@ -14,6 +14,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
+import datamodels.GameDataDTO;
 import datamodels.UserInput;
 import network.Client;
 import network.Server;
@@ -174,5 +175,9 @@ public class MainWindow extends JFrame {
 	public Server server;
 	
 	private static final long serialVersionUID = -3425445318104341180L;
+
+	public void setData(GameDataDTO data) {
+		board.data = data;
+	}
 	
 }

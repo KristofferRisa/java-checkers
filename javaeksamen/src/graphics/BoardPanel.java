@@ -30,7 +30,7 @@ public class BoardPanel extends JPanel {
 		// SquarePanel squarePanel = new SquarePanel();
 		// add(squarePanel);
 		setVisible(true);
-
+		data = client.getGameData();
 		pieces = new ArrayList<>();
 		dimPrefSize = new Dimension(BOARDDIM, BOARDDIM);
 		
@@ -77,10 +77,10 @@ public class BoardPanel extends JPanel {
 				
 				System.out.println("Current COL=" + x/SQUAREDIM +" ROW=" + y/SQUAREDIM + "(pos: X= " + x + " Y="+y + ")");
 
-				data = client.getGameData();
+				
 				
 				if (move.isMoving) {
-					if (data == null || data.clientId != data.clientIdTurn) {
+					if ( data.clientId != data.clientIdTurn) {
 						System.err.println("data er null eller clientId er ulik turnid");
 						System.err.println("Data er: " + data);
 						//System.err.println("ClientId er:" + data.clientId);
@@ -107,15 +107,19 @@ public class BoardPanel extends JPanel {
 				postionValidator.cy = (y - move.deltay) / SQUAREDIM * SQUAREDIM + SQUAREDIM / 2;
 
 				data = client.recive();
+				
 				data.pieces = pieces;
 				data.postionValidator = BoardPanel.this.postionValidator;
 				data.setMove(move);
+				
 				client.send(data);
+				
 				//MOTTA OK eller FEIL!
 				data = client.recive();
 				
 				BoardPanel.this.postionValidator = data.postionValidator;
 				pieces = data.pieces;
+				System.out.println("Data: Client " + data.clientId + " sier at det er " + data.clientIdTurn + "sin tur.");
 				// Do not move checker onto an occupied square.
 				
 
