@@ -207,9 +207,7 @@ public class StartPanel extends JPanel implements ActionListener {
 					TitledBorder.TOP, new Font("", Font.PLAIN, 30)));
 		}
 		
-		setVisible(true);
-		
-
+		setVisible(true);	
 	}
 	
 
