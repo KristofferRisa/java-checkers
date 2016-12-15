@@ -14,7 +14,9 @@ import com.sun.org.apache.xml.internal.resolver.helpers.Debug;
 
 import datamodels.GameDataDTO;
 import game.Checker;
+import game.Move;
 import game.PostionValidator;
+import graphics.BoardPanel;
 import graphics.DebugWindow;
 
 public class Server extends Thread {
@@ -25,8 +27,8 @@ public class Server extends Thread {
 		this.Debug = debug;
 		this.isConnected = false;
 		this.dataTransferObject = new GameDataDTO();
-		this.client1 = new ClientManager(dataTransferObject, 1, Debug);
-		this.client2 = new ClientManager(dataTransferObject, 2, Debug);
+		this.client1 = new ClientManager(dataTransferObject,1, Debug);
+		this.client2 = new ClientManager(dataTransferObject,2, Debug);
 	}
 
 	public void run() {
@@ -75,15 +77,41 @@ public class Server extends Thread {
 
 			while (dataTransferObject.clientIdTurn == 1) {
 
-				dataTransferObject = client1.recive();
-				dataTransferObject = checkersEngine.validate(dataTransferObject);
 				client1.send(dataTransferObject);
+				
+				GameDataDTO datare = client1.recive();
+				System.out.println("server: mottok data fra klient 1");
+				if(datare.move == null){
+					System.out.println("server: mangler move data klient");
+				}
+				else {
+					System.out.println("server: brikke flytte fra row " + datare.move.oldPostionCol + " col " + datare.move.oldPostionRow);	
+				}
+				System.out.println("server: ny melding fra klient "+ dataTransferObject.msg);
+				
+				
+				// Do not move checker onto an occupied square.
+				for (PostionValidator _pv : datare.pieces){
+					if (_pv != datare.postionValidator 
+							&& _pv.cx == datare.postionValidator.cx
+								&& _pv.cy == datare.postionValidator.cy) {
+						//Dette skal sendes tilbaek
+						datare.postionValidator.cx = datare.move.oldcx;
+						datare.postionValidator.cy = datare.move.oldcy;
+					}
+				}
+				
+				datare.msg = "FLYTT";
+				//dataTransferObject = checkersEngine.validate(dataTransferObject);
+				client1.send(datare);
 			
 			}
 
 			while (dataTransferObject.clientIdTurn == 2) {
 				
-				dataTransferObject = client2.recive();
+				client2.recive();
+				System.out.println("server: mottok data fra klient 1");
+				System.out.println("server: brikke flytte fra row " + dataTransferObject.move.oldcx + " col " + dataTransferObject.move.oldcy );
 				dataTransferObject = checkersEngine.validate(dataTransferObject);
 				client2.send(dataTransferObject);
 				

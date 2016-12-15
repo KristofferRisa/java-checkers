@@ -6,6 +6,7 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import datamodels.GameDataDTO;
 import datamodels.UserInput;
+import game.Move;
 import game.PostionValidator;
 import graphics.DebugWindow;
 
@@ -14,6 +15,7 @@ public class Client {
 	private UserInput userInput;
 	private ObjectInputStream input;
 	private ObjectOutputStream output;
+	private GameDataDTO data;
 	
 	public Client(String ip, int port, UserInput userInput, DebugWindow d){
 		this.ip = ip;
@@ -22,7 +24,6 @@ public class Client {
 		this.isConnected = false;
 		this.userInput = userInput;
 	}
-	
 
 	public void connect(){
 		try {			
@@ -53,7 +54,11 @@ public class Client {
 				Debug.log("_client: Tilkoplet server. melding fra server = " + data.msg);
 				
 				output.writeObject(data);
+				
+				output.flush();
+				
 				data =(GameDataDTO)input.readObject();
+				
 				isConnected = true;
 				
 			} else {
@@ -73,6 +78,8 @@ public class Client {
 		// TODO Auto-generated method stub
 		try {
 			output.writeObject(data);
+			output.flush();
+			output.reset();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -89,11 +96,16 @@ public class Client {
 		}
 		return null;
 	}
+	
+	public GameDataDTO getGameData(){
+		return data;
+	}
 
 	private DebugWindow Debug;
 	private String ip;
 	private int port;
 	public boolean isConnected;
 	public Socket socket;
-	public GameDataDTO data;
+
+	
 }

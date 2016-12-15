@@ -6,6 +6,7 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 import datamodels.GameDataDTO;
+import game.Move;
 import game.PostionValidator;
 import graphics.DebugWindow;
 
@@ -37,6 +38,8 @@ public class ClientManager extends Thread {
 				data.msg = "OK";
 				
 				output.writeObject(data);
+				output.flush();
+				output.reset();
 				
 				Debug.log("_clientManager_"+clientId+": Sendt OK melding til klient!" + data.msg);
 				
@@ -68,6 +71,8 @@ public class ClientManager extends Thread {
 				}
 				
 				output.writeObject(data);
+				output.flush();
+				output.reset();
 				
 //				while(true){
 //					Move move = (Move)input.readObject();
@@ -81,10 +86,11 @@ public class ClientManager extends Thread {
 		}
 	}
 	
-	public void send(GameDataDTO data) {
+	public void send(GameDataDTO data2) {
 		try {			
-			ObjectOutputStream output2 = new ObjectOutputStream(socket.getOutputStream());
-			output2.writeObject(data);
+			output.writeObject(data2);
+			output.flush();
+			output.reset();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -94,6 +100,17 @@ public class ClientManager extends Thread {
 	public GameDataDTO recive(){
 		try {
 			return (GameDataDTO)input.readObject();
+		} catch (ClassNotFoundException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	public Move reciveMove() {
+		try {
+			Move m = (Move)input.readObject();
+			return m;
 		} catch (ClassNotFoundException | IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
