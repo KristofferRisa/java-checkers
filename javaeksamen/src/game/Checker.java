@@ -20,7 +20,7 @@ public class Checker {
 		
 		starterClient();
 
-		showBoard();
+		showBoard(input);
 		
 		debug.log("ferdig, avslutter aplikasjon");
 		
@@ -58,10 +58,11 @@ public class Checker {
 		
 	}
 	
-	private void showBoard() {
+	private void showBoard(UserInput input2) {
 		if(klient.isConnected){
 			debug.log("_chekers: Viser brett");
-			guiManager.showBoard(klient);
+			guiManager.showBoard(klient, input2);
+			
 			
 			//while(guiManager.gameControls.isVisible()){				
 			while(true){
