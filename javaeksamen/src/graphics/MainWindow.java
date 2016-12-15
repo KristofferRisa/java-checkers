@@ -107,6 +107,7 @@ public class MainWindow extends JFrame {
 		}
 		remove(startPanel);
 		add(waitLabel);
+		setVisible(true);
 		repaint();
 		return startPanel.getUserInputData();
 		

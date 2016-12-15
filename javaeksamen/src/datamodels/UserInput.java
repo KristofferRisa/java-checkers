@@ -5,4 +5,5 @@ public class UserInput {
 	public String ipAdress;
 	public int portNumber;
 	public boolean isServer;
+	
 }
