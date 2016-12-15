@@ -154,6 +154,7 @@ public class StartPanel extends JPanel implements ActionListener {
 		btnServer.addActionListener(this);
 		btnJoin.addActionListener(this);
 		btnWhatIP.addActionListener(this);
+		btnLocal.addActionListener(this);
 		
 		// Puts relative sizes on all 
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -237,8 +238,15 @@ public class StartPanel extends JPanel implements ActionListener {
 			getValuesFromUserInterface(false); 
 		}		
 		if (e.getSource() == btnLocal) {
+			userInput = new UserInput();
 			userInput.ipAdress = "127.0.0.1";
-			getValuesFromUserInterface(true);
+			userInput.name = nameField.getText();
+			userInput.portNumber = Integer.parseInt(portField.getText());
+			userInput.isServer = true;
+			
+				
+			frame.getContentPane().repaint();
+			setVisible(false);
 		}		
 		if (e.getSource() == btnWhatIP) {
 			try {

@@ -20,7 +20,7 @@ public class Checker {
 		
 		starterClient();
 
-		showBoard(input);
+		showBoard();
 		
 		debug.log("ferdig, avslutter aplikasjon");
 		
@@ -55,9 +55,9 @@ public class Checker {
 		
 	}
 	
-	private void showBoard(UserInput input2) {
+	private void showBoard() {
 
-			guiManager.showBoard(client, input2);
+			guiManager.showBoard(client, input);
 	}
 	
 	public String gameType;

@@ -10,8 +10,11 @@ import datamodels.UserInput;
 import game.PostionValidator;
 import graphics.DebugWindow;
 
-public class Server extends Thread {
 
+
+public class Server extends Thread {
+	public static GameDataDTO data;
+	
 	private UserInput userInput;
 
 	public Server(UserInput userInput) {
@@ -39,7 +42,7 @@ public class Server extends Thread {
 			while ((socket = server.accept()) != null) {
 				System.out.println("_server: klar for å ta imot klienter");
 
-				new ClientManager(socket).start();
+				new ClientManager(socket);
 				
 			}
 

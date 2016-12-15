@@ -20,25 +20,31 @@ public class ClientManager extends Thread {
 	}
 	
 	public void run(){
-		try{			
-						
-			//Klar for å motta fra klienter
-			ObjectOutputStream output = new ObjectOutputStream(socket.getOutputStream());
-			ObjectInputStream input = new ObjectInputStream(socket.getInputStream());
+		try{	
+			
+			while(true){
+				//Klar for å motta fra klienter
+				ObjectInputStream input = new ObjectInputStream(socket.getInputStream());
+				
+				GameDataDTO data = (GameDataDTO)input.readObject();
 		
-			GameDataDTO data = (GameDataDTO)input.readObject();
-	
-			//TODO: Legge inn logikk for å håndtere tilstanden til spillet
+				//TODO: Legge inn logikk for å håndtere tilstanden til spillet
+				
+				ObjectOutputStream output = new ObjectOutputStream(socket.getOutputStream());
+
+				input.close();
+				//Sender data tilbake til klient
+				output.writeObject(data);
+				output.flush();
+				output.reset();
+				
+				
+//				output.close();
+				
+//				socket.close();
+			}
+						
 			
-			
-			//Sender data tilbake til klient
-			output.writeObject(data);
-			output.flush();
-			output.reset();
-			
-			output.close();
-			input.close();
-			socket.close();
 				
 		} catch(Exception e) {
 			System.out.println(e.getMessage());
