@@ -1,6 +1,8 @@
 package network;
 
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.List;
@@ -36,13 +38,34 @@ public class Server extends Thread {
 
 		// Venter på klienter i server.accept()
 		try {
-			Socket socket;
 			System.out.println("_server: venter på klient");
 
+			Socket socket;
 			while ((socket = server.accept()) != null) {
 				System.out.println("_server: klar for å ta imot klienter");
+				
+				ObjectOutputStream output = new ObjectOutputStream(socket.getOutputStream());
 
-				new ClientManager(socket);
+				output = new ObjectOutputStream(socket.getOutputStream());
+				
+				ObjectInputStream input = new ObjectInputStream(socket.getInputStream());
+				
+				GameDataDTO data = (GameDataDTO)input.readObject();
+		
+				//TODO: Legge inn logikk for å håndtere tilstanden til spillet
+				
+				output = new ObjectOutputStream(socket.getOutputStream());
+
+				input.close();
+				//Sender data tilbake til klient
+				output.writeObject(data);
+				output.flush();
+				output.reset();
+				
+				
+				output.close();
+				
+				socket.close();
 				
 			}
 

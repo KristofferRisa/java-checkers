@@ -6,71 +6,86 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import datamodels.GameDataDTO;
 import datamodels.UserInput;
+import game.Move;
+import game.PostionValidator;
+import graphics.DebugWindow;
 
 public class Client {
 
-	private String ip;
-	private int port;
 	private UserInput userInput;
-	public int id;
 	private ObjectInputStream input;
-	private Socket socket;
 	private ObjectOutputStream output;
-
+	private GameDataDTO data;
+	private int clientId;
+	
 	public Client(UserInput userInput){
-		this.ip = userInput.ipAdress;
-		this.port = userInput.portNumber;
+		this.isConnected = false;
 		this.userInput = userInput;
-		this.id = (userInput.isServer) ? 1 : 2;
-
-		
-		
-		
-		
 	}
 
-	public GameDataDTO send(GameDataDTO data){
-		try {		
+	public void connect(){
+		try {			
+			Debug.log("_klient: Forsøker å kople til server");
 			
-			try {
-				socket = new Socket(ip, port);
-				output = new ObjectOutputStream(socket.getOutputStream());
-				
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			socket = new Socket(ip, port);
 			
-			System.out.println("_klient: Forsøker å kople til server");
+			input = new ObjectInputStream(socket.getInputStream());
+			output = new ObjectOutputStream(socket.getOutputStream());
 			
-				data.clientId = (userInput.isServer) ? 1 : 2;
-				
-				
-				System.out.println("_client: Socket opprettet, " + socket.isConnected());
-				
+			Debug.log("_client: Socket opprettet, " + socket.isConnected());
+			
+			Debug.log("_client: Venter på handshake fra server");
+			
+			data = (GameDataDTO)input.readObject();
+			clientId = data.clientId;
+			
 				output.writeObject(data);
-
-//				output.close();
-				
-				System.out.println("_client: Venter på svar fra server");
-				
-				input = new ObjectInputStream(socket.getInputStream());
-				
-				data = (GameDataDTO)input.readObject();
 				
 				output.flush();
-				output.reset();
 				
-//				input.close();				
-//				socket.close();
+				data =(GameDataDTO)input.readObject();
 				
-				return data;
+			
 			
 		} catch (Exception e) {
-
-			e.printStackTrace();
-			return null;
+			
 		}
 	}
+
+	public void send(GameDataDTO data) {
+		// TODO Auto-generated method stub
+		try {
+			data.clientId = clientId;
+			output.writeObject(data);
+			output.flush();
+			output.reset();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
+	public GameDataDTO recive(){
+		try {
+			 data = (GameDataDTO)input.readObject();
+			 return data;
+		} catch (ClassNotFoundException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public GameDataDTO getGameData(){
+		return data;
+	}
+
+	private DebugWindow Debug;
+	private String ip;
+	private int port;
+	public boolean isConnected;
+	public Socket socket;
+
 	
 }
