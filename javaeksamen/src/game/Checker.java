@@ -1,7 +1,5 @@
 package game;
 
-import java.net.UnknownHostException;
-import datamodels.GameDataDTO;
 import datamodels.UserInput;
 import graphics.DebugWindow;
 import graphics.MainWindow;
@@ -18,7 +16,7 @@ public class Checker {
 		
 		starterServer();
 		
-		starterClient();
+		starterClient(input);
 
 		showBoard(input);
 		
@@ -33,15 +31,15 @@ public class Checker {
 		
 		if(input.isServer){
 			//Start server
-			server = new Server(debug);
-			server.start();	
+			server = new Server(debug,input);
+			server.start();
 		}
 	}
 
-	private void starterClient() {
+	private void starterClient(UserInput input2) {
 		debug.log("Starter ny klient");
 		String ip = "127.0.0.1";
-		int port = 1337;
+		int port = input2.portNumber;
 		klient = new Client(ip, port, input, debug);
 		klient.connect();
 	}
