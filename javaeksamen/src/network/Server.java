@@ -12,26 +12,15 @@ import graphics.DebugWindow;
 public class Server extends Thread {
 
 	private CheckersEngine checkersEngine;
-<<<<<<< HEAD
-	private GameDataDTO dataFromclien1;
-	private GameDataDTO dataFromclien2;
-	public Server(DebugWindow debug) {
-=======
 	private int port;
 	public Server(DebugWindow debug, UserInput input) {
->>>>>>> mphotfix
 		this.checkersEngine = new CheckersEngine();
 		this.Debug = debug;
 		this.isConnected = false;
 		this.dataTransferObject = new GameDataDTO();
 		this.client1 = new ClientManager(dataTransferObject,1, Debug);
 		this.client2 = new ClientManager(dataTransferObject,2, Debug);
-<<<<<<< HEAD
-		this.dataFromclien1 = new GameDataDTO();
-		this.dataFromclien2 = new GameDataDTO();
-=======
 		this.port = input.portNumber;
->>>>>>> mphotfix
 	}
 
 	public void run() {
@@ -78,43 +67,38 @@ public class Server extends Thread {
 		// Starter spill
 		while (checkersEngine.isActive) {
 
-						
+			client1.send(dataTransferObject);
+			
 			while (checkersEngine.clientIdTurn == 1) {
-				dataFromclien1.clientId = 1;
-				dataTransferObject.clientIdTurn = 1;
-				client1.send(dataTransferObject);
-				
-				//client1.recive();
 
 				client1.send(dataTransferObject);
 				
-				dataFromclien1 = client1.recive();
+				GameDataDTO datare = client1.recive();
 				System.out.println("server: mottok data fra klient 1");
-				if(dataFromclien1.move == null){
-					System.out.println("server: mangler move data klient 1 (clientID = " + dataFromclien1.clientId + ")");
+				if(datare.move == null){
+					System.out.println("server: mangler move data klient 1 (clientID = " + datare.clientId + ")");
 				}
 				else {
-					System.out.println("server: brikke flytte fra row " + dataFromclien1.move.oldPostionCol + " col " + dataFromclien1.move.oldPostionRow);	
+					System.out.println("server: brikke flytte fra row " + datare.move.oldPostionCol + " col " + datare.move.oldPostionRow);	
 				}
-				System.out.println("server: ny melding fra klient 1 (clientID = " + dataFromclien1.clientId + ") "+ dataFromclien1.msg);
+				System.out.println("server: ny melding fra klient 1 (clientID = " + datare.clientId + ") "+ datare.msg);
 				
 				
 				// Do not move checker onto an occupied square.
-				for (PostionValidator _pv : dataFromclien1.pieces){
-					if (_pv != dataFromclien1.postionValidator 
-							&& _pv.cx == dataFromclien1.postionValidator.cx
-								&& _pv.cy == dataFromclien1.postionValidator.cy) {
+				for (PostionValidator _pv : datare.pieces){
+					if (_pv != datare.postionValidator 
+							&& _pv.cx == datare.postionValidator.cx
+								&& _pv.cy == datare.postionValidator.cy) {
 						//Dette skal sendes tilbaek
-						dataFromclien1.postionValidator.cx = dataFromclien1.move.oldcx;
-						dataFromclien1.postionValidator.cy = dataFromclien1.move.oldcy;
+						datare.postionValidator.cx = datare.move.oldcx;
+						datare.postionValidator.cy = datare.move.oldcy;
 					}
 				}
 				
-				dataFromclien1.msg = "FLYTT";
-				dataFromclien1.clientIdTurn = 2;
-				dataFromclien1.clientId = 1;
+				datare.msg = "FLYTT";
+				datare.clientIdTurn = 2;
 				//dataTransferObject = checkersEngine.validate(dataTransferObject);
-				client1.send(dataFromclien1);
+				client1.send(datare);
 
 
 				checkersEngine.clientIdTurn = 2;
@@ -122,49 +106,42 @@ public class Server extends Thread {
 			}
 
 			while (checkersEngine.clientIdTurn == 2) {
-				dataFromclien2 = new GameDataDTO();
 				
-				dataFromclien2.clientId = 2;
-				dataFromclien2.clientIdTurn = 2;
-				dataFromclien2.pieces = dataFromclien1.pieces;
-				dataFromclien2.postionValidator = dataFromclien1.postionValidator;
+				client2.send(dataTransferObject);
 				
-				client2.send(dataFromclien2);
-				
-				client2.send(dataFromclien2);
-								
-				dataFromclien2 = client2.recive();
+				GameDataDTO datare = client1.recive();
 				System.out.println("server: mottok data fra klient 2");
 				
-				if(dataFromclien2.move == null){
+				if(datare.move == null){
 					System.out.println("server: mangler move data klient 2 ");
 				}
 				else {
-					System.out.println("server: brikke flytte fra row " + dataFromclien2.move.oldPostionCol + " col " + dataFromclien2.move.oldPostionRow);	
+					System.out.println("server: brikke flytte fra row " + datare.move.oldPostionCol + " col " + datare.move.oldPostionRow);	
 				}
-				System.out.println("server: ny melding fra klient 2 (clientID =  " + dataFromclien2.clientId + ") "+ dataFromclien2.msg);
+				System.out.println("server: ny melding fra klient 2 (clientID =  " + datare.clientId + ") "+ datare.msg);
 				
 				
 				// Do not move checker onto an occupied square.
-				for (PostionValidator _pv : dataFromclien2.pieces){
-					if (_pv != dataFromclien2.postionValidator 
-							&& _pv.cx == dataFromclien2.postionValidator.cx
-								&& _pv.cy == dataFromclien2.postionValidator.cy) {
+				for (PostionValidator _pv : datare.pieces){
+					if (_pv != datare.postionValidator 
+							&& _pv.cx == datare.postionValidator.cx
+								&& _pv.cy == datare.postionValidator.cy) {
 						//Dette skal sendes tilbaek
-						dataFromclien2.postionValidator.cx = dataFromclien2.move.oldcx;
-						dataFromclien2.postionValidator.cy = dataFromclien2.move.oldcy;
+						datare.postionValidator.cx = datare.move.oldcx;
+						datare.postionValidator.cy = datare.move.oldcy;
 					}
 				}
 				
-				dataFromclien2.msg = "FLYTT";
-				dataFromclien2.clientIdTurn = 1;
-				dataFromclien2.clientId = 2;
+				datare.msg = "FLYTT";
+				datare.clientIdTurn = 1;
 				//dataTransferObject = checkersEngine.validate(dataTransferObject);
-				client2.send(dataFromclien2);
+				client2.send(datare);
 				
 				checkersEngine.clientIdTurn = 1;
 			}
+
 		}
+
 	}
 
 	public boolean isConnected;
