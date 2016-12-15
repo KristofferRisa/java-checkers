@@ -1,5 +1,6 @@
 package graphics;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Desktop;
 import java.awt.Dimension;
@@ -69,7 +70,7 @@ public class StartPanel extends JPanel implements ActionListener {
 			e.printStackTrace();
 		}
 		btnServer = new JButton("Create New Online Game");
-		ipField = new JTextField("Enter IP here ", 10);
+		ipField = new JTextField("Enter IP here ");
 		btnJoin = new JButton("Join Online Game/Enter IP");
 		btnLocal = new JButton("Test Game Locally");
 		btnWhatIP = new JButton("?");
@@ -78,10 +79,9 @@ public class StartPanel extends JPanel implements ActionListener {
 		JLabel localipLabel = new JLabel("127.0.0.1");
 		// Added together in a panel for better GUI
 		JPanel p = new JPanel();
-		p.add(ipField);
-		p.add(btnWhatIP);
-		
-		
+		p.setLayout(new BorderLayout());
+		p.add(ipField, BorderLayout.CENTER);
+		p.add(btnWhatIP, BorderLayout.EAST);
 		changePort.setVisible(false);
 		portField.setVisible(false);
 		btnWhatIP.setToolTipText("Open whatsmyip.org");
@@ -116,9 +116,12 @@ public class StartPanel extends JPanel implements ActionListener {
 		gc.gridy = 2;
 		add(btnServer, gc);
 		// Enter IP and What is my IP button
+
 		gc.gridx = 0;
 		gc.gridy = 3;
 		add(p, gc);
+		
+		
 		//Remove text when mouse click on IP Field
 		ipField.addMouseListener(new MouseAdapter() {
 			@Override
@@ -160,6 +163,7 @@ public class StartPanel extends JPanel implements ActionListener {
 			
 			nameLabel.setFont(getFont().deriveFont(new Float(16)));
 			ipLabel.setFont(getFont().deriveFont(new Float(16)));
+			nameField.setFont(getFont().deriveFont(new Float(16)));
 			nameField.setFont(getFont().deriveFont(new Float(16)));
 			btnServer.setFont(getFont().deriveFont(new Float(16)));
 			btnJoin.setFont(getFont().deriveFont(new Float(16)));
@@ -213,9 +217,7 @@ public class StartPanel extends JPanel implements ActionListener {
 					TitledBorder.TOP, new Font("", Font.PLAIN, 30)));
 		}
 		
-		setVisible(true);
-		
-
+		setVisible(true);	
 	}
 	
 
@@ -237,7 +239,11 @@ public class StartPanel extends JPanel implements ActionListener {
 			getValuesFromUserInterface(true);
 		}
 		if (e.getSource() == btnJoin) {
-			getValuesFromUserInterface(false);
+			getValuesFromUserInterface(false); 
+		}		
+		if (e.getSource() == btnLocal) {
+			userInput.ipAdress = "127.0.0.1";
+			getValuesFromUserInterface(true);
 		}		
 		if (e.getSource() == btnWhatIP) {
 			try {
@@ -253,12 +259,19 @@ public class StartPanel extends JPanel implements ActionListener {
 	
 	}
 
-	private void getValuesFromUserInterface(Boolean b) {
+	private void getValuesFromUserInterface(Boolean isServer) {
 		userInput = new UserInput();
 		userInput.name = nameField.getText();
 		userInput.portNumber = Integer.parseInt(portField.getText());
-		userInput.isServer = b;
-		userInput.ipAdress = ipLabel.getText();
+		userInput.isServer = isServer;
+		if (isServer) {
+			userInput.ipAdress = ipLabel.getText();
+		}
+		else {
+			userInput.ipAdress = ipField.getText();
+		}
+		
+		
 			
 		frame.getContentPane().repaint();
 		setVisible(false);
