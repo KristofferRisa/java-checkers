@@ -14,10 +14,10 @@ public class Checker {
 		debug = new DebugWindow();
 		guiManager = new MainWindow();
 		
-//		openUserInputPanel();
-//		
-//		starterServer();
-//			
+		openUserInputPanel();
+		
+		starterServer();
+		
 		starterClient();
 
 		showBoard();
@@ -43,10 +43,7 @@ public class Checker {
 		String ip = "127.0.0.1";
 		int port = 1337;
 		klient = new Client(ip, port, input, debug);
-		//klient.connect();
-		//TODO: While debuging board game!
-		klient.isConnected = true;
-		
+		klient.connect();
 	}
 
 	private void openUserInputPanel() {
