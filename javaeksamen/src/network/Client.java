@@ -6,7 +6,7 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import datamodels.GameDataDTO;
 import datamodels.UserInput;
-import game.Move;
+import game.PostionValidator;
 import graphics.DebugWindow;
 
 public class Client {

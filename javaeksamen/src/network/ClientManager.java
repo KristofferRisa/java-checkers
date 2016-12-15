@@ -6,7 +6,7 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 import datamodels.GameDataDTO;
-import game.Move;
+import game.PostionValidator;
 import graphics.DebugWindow;
 
 public class ClientManager extends Thread {
@@ -14,7 +14,7 @@ public class ClientManager extends Thread {
 	private DebugWindow Debug;
 	private ObjectOutputStream output;
 	private ObjectInputStream input;
-	private Move move;
+	private PostionValidator move;
 	public boolean isClientConneted;
 	public GameDataDTO data;
 	private int clientId;

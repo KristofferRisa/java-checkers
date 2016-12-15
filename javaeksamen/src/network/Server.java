@@ -14,8 +14,7 @@ import com.sun.org.apache.xml.internal.resolver.helpers.Debug;
 
 import datamodels.GameDataDTO;
 import game.Checker;
-import game.CheckersEngine;
-import game.Move;
+import game.PostionValidator;
 import graphics.DebugWindow;
 
 public class Server extends Thread {

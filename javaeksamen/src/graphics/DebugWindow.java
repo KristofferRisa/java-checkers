@@ -15,7 +15,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import datamodels.GameDataDTO;
-import game.Move;
+import game.PostionValidator;
 import network.Client;
 import network.Server;
 

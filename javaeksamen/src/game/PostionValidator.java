@@ -2,7 +2,7 @@ package game;
 
 import java.io.Serializable;
 
-public class Move implements Serializable {
+public class PostionValidator implements Serializable {
 
 	private static final long serialVersionUID = -6334134243511203124L;
 	
@@ -14,18 +14,22 @@ public class Move implements Serializable {
 	public int fromCol;
 	public int toRow, toCol;      // Square it is to move to.
 	
-	public Move(int r1, int c1, int r2, int c2) {
+	public PostionValidator(){
+		
+	}
+	
+	public PostionValidator(int r1, int c1, int r2, int c2) {
 		// Constructor.  Just set the values of the instance variables.
 		fromRow = r1;
 		fromCol = c1;
 		toRow = r2;
 		toCol = c2;
 	}
+		 
+	public Piece piece;
+	     
+	public int cx;
+	     
+	public int cy;
 	
-	public boolean isJump() {
-		// Test whether this move is a jump.  It is assumed that
-		// the move is legal.  In a jump, the piece moves two
-		// rows.  (In a regular move, it only moves one row.)
-		return (fromRow - toRow == 2 || fromRow - toRow == -2);
-	}
 }

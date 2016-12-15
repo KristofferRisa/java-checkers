@@ -10,223 +10,199 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.swing.JPanel;
-
 import game.CheckerType;
+import game.PostionValidator;
 import game.Piece;
 import network.Client;
 
 public class BoardPanel extends JPanel {
-	// dimension of checkerboard square (25% bigger than checker)
-		private final static int SQUAREDIM = (int) (Piece.getDimension() * 1.25);
+	
+	
+	public BoardPanel(Client client) {
+		// SquarePanel squarePanel = new SquarePanel();
+		// add(squarePanel);
+		this.client = client;
+		setVisible(true);
 
-		// dimension of checkerboard (width of 8 squares)
+		pieces = new ArrayList<>();
+		dimPrefSize = new Dimension(BOARDDIM, BOARDDIM);
 
-		private final int BOARDDIM = 8 * SQUAREDIM;
-
-		// preferred size of Board component
-
-		private Dimension dimPrefSize;
-
-		// dragging flag -- set to true when user presses mouse button over checker
-		// and cleared to false when user releases mouse button
-
-		private boolean inDrag = false;
-
-		// displacement between drag start coordinates and checker center
-		// coordinates
-
-		private int deltax;
+		addPieces();
 		
-		private int deltay;
+		addMouseListener(new MouseListener() {
+			@Override
+			public void mousePressed(MouseEvent me) {
+				// Obtain mouse coordinates at time of press.
 
-		// reference to positioned checker at start of drag
-
-		private PosCheck posCheck;
-
-		// center location of checker at start of drag
-
-		private int oldcx, oldcy;
-
-		// list of Checker objects and their initial positions
-
-		private List<PosCheck> posChecks;
-
-		private Client client;
-
-		public BoardPanel(Client client) {
-			// SquarePanel squarePanel = new SquarePanel();
-			// add(squarePanel);
-			this.client = client;
-			setVisible(true);
-
-			posChecks = new ArrayList<>();
-			dimPrefSize = new Dimension(BOARDDIM, BOARDDIM);
-
-			postBlackBricks();
-			postHviteBricks();
-			addMouseListener(new MouseListener() {
-				@Override
-				public void mousePressed(MouseEvent me) {
-					// Obtain mouse coordinates at time of press.
-
-					int x = me.getX();
-					int y = me.getY();
-					
-					System.out.println("Current pos: X= " + x + " Y="+y);
-
-					// Locate positioned checker under mouse press.
-
-					for (PosCheck posCheck : posChecks)
-						if (Piece.contains(x, y, posCheck.cx, posCheck.cy)) {
-							BoardPanel.this.posCheck = posCheck;
-							oldcx = posCheck.cx;
-							oldcy = posCheck.cy;
-							deltax = x - posCheck.cx;
-							deltay = y - posCheck.cy;
-							inDrag = true;
-							return;
-						}
-				}
-
-				@Override
-				public void mouseReleased(MouseEvent me) {
-					// When mouse released, clear inDrag (to
-					// indicate no drag in progress) if inDrag is
-					// already set.
-
-					if (inDrag)
-						inDrag = false;
-					else
-						return;
-
-					// Snap checker to center of square.
-
-					int x = me.getX();
-					int y = me.getY();
-					
-					posCheck.cx = (x - deltax) / SQUAREDIM * SQUAREDIM + SQUAREDIM / 2;
-					posCheck.cy = (y - deltay) / SQUAREDIM * SQUAREDIM + SQUAREDIM / 2;
-
-					// Do not move checker onto an occupied square.
-
-					for (PosCheck posCheck : posChecks)
-						if (posCheck != BoardPanel.this.posCheck 
-							&& posCheck.cx == BoardPanel.this.posCheck.cx
-								&& posCheck.cy == BoardPanel.this.posCheck.cy) {
-							BoardPanel.this.posCheck.cx = oldcx;
-							BoardPanel.this.posCheck.cy = oldcy;
-							
-							
-						}
-					
-					posCheck = null;
-					repaint();
-				}
-
-				@Override
-				public void mouseClicked(MouseEvent arg0) {
-					// TODO Auto-generated method stub
-					
-				}
-
-				@Override
-				public void mouseEntered(MouseEvent arg0) {
-					// TODO Auto-generated method stub
-					
-				}
-
-				@Override
-				public void mouseExited(MouseEvent arg0) {
-					// TODO Auto-generated method stub
-					
-				}
+				int x = me.getX();
+				int y = me.getY();
+				
+				System.out.println("Current COL=" + x/SQUAREDIM +" ROW=" + y/SQUAREDIM + "(pos: X= " + x + " Y="+y + ")");
 
 				
+				// Locate positioned checker under mouse press.
 
-			});
-			// Attach a mouse motion listener to the applet. That listener listens
-			// for mouse drag events.
-
-			addMouseMotionListener(new MouseMotionListener() {
-				@Override
-				public void mouseDragged(MouseEvent me) {
-					if (inDrag) {
-						// Update location of checker center.
-
-						posCheck.cx = me.getX() - deltax;
-						posCheck.cy = me.getY() - deltay;
-											
-						repaint();
+				for (PostionValidator _pv : pieces)
+					if (Piece.contains(x, y, _pv.cx, _pv.cy)) {
+						BoardPanel.this.postionValidator = _pv;
+						oldcx = _pv.cx;
+						oldcy = _pv.cy;
+						deltax = x - _pv.cx;
+						deltay = y - _pv.cy;
+						isMoving = true;
+						return;
 					}
-				}
+			}
 
-				@Override
-				public void mouseMoved(MouseEvent arg0) {
-					// TODO Auto-generated method stub
+			@Override
+			public void mouseReleased(MouseEvent me) {
+				// When mouse released, clear inDrag (to
+				// indicate no drag in progress) if inDrag is
+				// already set.
+				int x = me.getX();
+				int y = me.getY();
+				
+				System.out.println("Current COL=" + x/SQUAREDIM +" ROW=" + y/SQUAREDIM + "(pos: X= " + x + " Y="+y + ")");
+
+				if (isMoving)
+					isMoving = false;
+				else
+					return;
+
+				// Snap checker to center of square.
+			
+				postionValidator.cx = (x - deltax) / SQUAREDIM * SQUAREDIM + SQUAREDIM / 2;
+				postionValidator.cy = (y - deltay) / SQUAREDIM * SQUAREDIM + SQUAREDIM / 2;
+
+				// Do not move checker onto an occupied square.
+
+				for (PostionValidator _pv : pieces)
+					if (_pv != BoardPanel.this.postionValidator 
+						&& _pv.cx == BoardPanel.this.postionValidator.cx
+							&& _pv.cy == BoardPanel.this.postionValidator.cy) {
+						BoardPanel.this.postionValidator.cx = oldcx;
+						BoardPanel.this.postionValidator.cy = oldcy;
 					
-				}
-			});
-
-		}
-
-		public void add(Piece piece, int row, int col) {
-			if (row < 1 || row > 8)
-				throw new IllegalArgumentException("row out of range: " + row);
-			if (col < 1 || col > 8)
-				throw new IllegalArgumentException("col out of range: " + col);
-			PosCheck posCheck = new PosCheck();
-			posCheck.piece = piece;
-			posCheck.cx = (col - 1) * SQUAREDIM + SQUAREDIM / 2;
-			posCheck.cy = (row - 1) * SQUAREDIM + SQUAREDIM / 2;
-			for (PosCheck _posCheck : posChecks)
-				if (posCheck.cx == _posCheck.cx && posCheck.cy == _posCheck.cy)
-					try {
-						throw new Exception("square at (" + row + "," + col + ") is occupied");
-					} catch (Exception e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
 					}
-			posChecks.add(posCheck);
-		}
+				
+				postionValidator = null;
+				repaint();
+			}
 
-		@Override
-		public Dimension getPreferredSize() {
-			return dimPrefSize;
-		}
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
 
-		@Override
-		protected void paintComponent(Graphics g) {
+			@Override
+			public void mouseEntered(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
 
-			paintCheckerBoard(g);
-			for (PosCheck posCheck : posChecks)
-				if (posCheck != BoardPanel.this.posCheck)
-					posCheck.piece.draw(g, posCheck.cx, posCheck.cy);
+			@Override
+			public void mouseExited(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
 
-			// Draw dragged checker last so that it appears over any underlying
-			// checker.
+		});
+		// Attach a mouse motion listener to the applet. That listener listens
+		// for mouse drag events.
 
-			if (posCheck != null)
-				posCheck.piece.draw(g, posCheck.cx, posCheck.cy);
-		}
+		addMouseMotionListener(new MouseMotionListener() {
+			@Override
+			public void mouseDragged(MouseEvent me) {
+				if (isMoving) {
+					// Update location of checker center.
 
-		private void paintCheckerBoard(Graphics g) {
-			((Graphics2D) g).setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-
-			// Paint checkerboard.
-
-			for (int row = 0; row < 8; row++) {
-				g.setColor(((row & 1) != 0) ? Color.DARK_GRAY : Color.WHITE);
-				for (int col = 0; col < 8; col++) {
-					g.fillRect(col * SQUAREDIM, row * SQUAREDIM, SQUAREDIM, SQUAREDIM);
-					g.setColor((g.getColor() == Color.DARK_GRAY) ? Color.WHITE : Color.DARK_GRAY);
+					postionValidator.cx = me.getX() - deltax;
+					postionValidator.cy = me.getY() - deltay;
+										
+					repaint();
 				}
 			}
-		}
+
+			@Override
+			public void mouseMoved(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+
+	}
+
+	public void add(Piece piece, int row, int col) {
 		
-		private void postBlackBricks() {
+		if (row < 1 || row > 8){
+			throw new IllegalArgumentException("row out of range: " + row);
+		}
 			
+		if (col < 1 || col > 8){
+			throw new IllegalArgumentException("col out of range: " + col);
+		}
+			
+		PostionValidator pv = new PostionValidator();
+		pv.piece = piece;
+		pv.cx = (col - 1) * SQUAREDIM + SQUAREDIM / 2;
+		pv.cy = (row - 1) * SQUAREDIM + SQUAREDIM / 2;
+		
+		for (PostionValidator _validator : pieces){
+			if (pv.cx == _validator.cx && pv.cy == _validator.cy){
+				try {
+					throw new Exception("square at (" + row + "," + col + ") is occupied");
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}			
+				
+		pieces.add(pv);
+	}
+
+	@Override
+	public Dimension getPreferredSize() {
+		return dimPrefSize;
+	}
+
+	@Override
+	protected void paintComponent(Graphics g) {
+
+		paintCheckerBoard(g);
+		for (PostionValidator _move : pieces){
+			if (_move != BoardPanel.this.postionValidator){
+				_move.piece.draw(g, _move.cx, _move.cy);
+			}					
+		}
+			
+		// Draw dragged checker last so that it appears over any underlying
+		// checker.
+		if (postionValidator != null){
+			postionValidator.piece.draw(g, postionValidator.cx, postionValidator.cy);
+		}
+			
+	}
+
+	private void paintCheckerBoard(Graphics g) {
+		((Graphics2D) g).setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+		// Paint checkerboard.
+
+		for (int row = 0; row < 8; row++) {
+			g.setColor(((row & 1) != 0) ? Color.DARK_GRAY : Color.LIGHT_GRAY);
+			for (int col = 0; col < 8; col++) {
+				g.fillRect(col * SQUAREDIM, row * SQUAREDIM, SQUAREDIM, SQUAREDIM);
+				g.setColor((g.getColor() == Color.DARK_GRAY) ? Color.LIGHT_GRAY : Color.DARK_GRAY);
+			}
+		}
+	}
+	
+	private void addPieces() {
+			
+			//Black pieces			
 			for (int i = 1; i <= 8; i++) {
 
 				if (i % 2 == 0) {
@@ -238,15 +214,11 @@ public class BoardPanel extends JPanel {
 
 				if (i % 2 != 0) {
 					add(new Piece(CheckerType.BLACK_REGULAR), 2, i);
-					
-					
 				}
 				
 			}
-		}
-		
-		private void postHviteBricks() {
 			
+			//White pieces
 			for (int i = 1; i <= 8; i++) {
 
 				if (i % 2 == 0) {
@@ -259,17 +231,32 @@ public class BoardPanel extends JPanel {
 				if (i % 2 != 0) {
 					add(new Piece(CheckerType.WHITE_REGULAR), 8, i);
 					
-					
-				}
-				
+				}	
 			}
 		}
-		
-		public class PosCheck {
-			 public Piece piece;
-		     public int cx;
-		     public int cy;
-		}
+	
+	// dimension of checkerboard square (25% bigger than checker)
+	private final static int SQUAREDIM = (int) (Piece.getDimension() * 1.25);
+	// dimension of checkerboard (width of 8 squares)
+	private final int BOARDDIM = 8 * SQUAREDIM;
+	// preferred size of Board component
+	private Dimension dimPrefSize;
+	// dragging flag -- set to true when user presses mouse button over checker
+	// and cleared to false when user releases mouse button
+	private boolean isMoving = false;
+	// displacement between drag start coordinates and checker center
+	// coordinates
+	private int deltax;		
+	private int deltay;
+	// reference to positioned checker at start of drag
+	private PostionValidator postionValidator;
+	// center location of checker at start of drag
+	private int oldcx;
+	private int oldcy;
+	// list of Checker objects and their initial positions
+	private List<PostionValidator> pieces;
+
+	private Client client;
 
 }
 

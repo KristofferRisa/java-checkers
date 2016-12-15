@@ -1,8 +1,9 @@
-package game;
+package network;
 
 import java.util.Vector;
 
 import datamodels.GameDataDTO;
+import game.PostionValidator;
 
 public class CheckersEngine {
 
@@ -73,7 +74,7 @@ public boolean isActive;
    }
    
 
-   public void makeMove(Move move) {
+   public void makeMove(PostionValidator move) {
          // Make the specified move.  It is assumed that move
          // is non-null and that the move it represents is legal.
       makeMove(move.fromRow, move.fromCol, move.toRow, move.toCol);
@@ -101,7 +102,7 @@ public boolean isActive;
    }
    
 
-   public Move[] getLegalMoves(int player) {
+   public PostionValidator[] getLegalMoves(int player) {
           // Return an array containing all the legal Moves
           // for the specfied player on the current board.  If the player
           // has no legal moves, null is returned.  The value of player
@@ -131,13 +132,13 @@ public boolean isActive;
          for (int col = 0; col < 8; col++) {
             if (board[row][col] == player || board[row][col] == playerKing) {
                if (canJump(player, row, col, row+1, col+1, row+2, col+2))
-                  moves.addElement(new Move(row, col, row+2, col+2));
+                  moves.addElement(new PostionValidator(row, col, row+2, col+2));
                if (canJump(player, row, col, row-1, col+1, row-2, col+2))
-                  moves.addElement(new Move(row, col, row-2, col+2));
+                  moves.addElement(new PostionValidator(row, col, row-2, col+2));
                if (canJump(player, row, col, row+1, col-1, row+2, col-2))
-                  moves.addElement(new Move(row, col, row+2, col-2));
+                  moves.addElement(new PostionValidator(row, col, row+2, col-2));
                if (canJump(player, row, col, row-1, col-1, row-2, col-2))
-                  moves.addElement(new Move(row, col, row-2, col-2));
+                  moves.addElement(new PostionValidator(row, col, row-2, col-2));
             }
          }
       }
@@ -155,13 +156,13 @@ public boolean isActive;
             for (int col = 0; col < 8; col++) {
                if (board[row][col] == player || board[row][col] == playerKing) {
                   if (canMove(player,row,col,row+1,col+1))
-                     moves.addElement(new Move(row,col,row+1,col+1));
+                     moves.addElement(new PostionValidator(row,col,row+1,col+1));
                   if (canMove(player,row,col,row-1,col+1))
-                     moves.addElement(new Move(row,col,row-1,col+1));
+                     moves.addElement(new PostionValidator(row,col,row-1,col+1));
                   if (canMove(player,row,col,row+1,col-1))
-                     moves.addElement(new Move(row,col,row+1,col-1));
+                     moves.addElement(new PostionValidator(row,col,row+1,col-1));
                   if (canMove(player,row,col,row-1,col-1))
-                     moves.addElement(new Move(row,col,row-1,col-1));
+                     moves.addElement(new PostionValidator(row,col,row-1,col-1));
                }
             }
          }
@@ -174,16 +175,16 @@ public boolean isActive;
       if (moves.size() == 0)
          return null;
       else {
-         Move[] moveArray = new Move[moves.size()];
+         PostionValidator[] moveArray = new PostionValidator[moves.size()];
          for (int i = 0; i < moves.size(); i++)
-            moveArray[i] = (Move)moves.elementAt(i);
+            moveArray[i] = (PostionValidator)moves.elementAt(i);
          return moveArray;
       }
 
    }  // end getLegalMoves
    
 
-   public Move[] getLegalJumpsFrom(int player, int row, int col) {
+   public PostionValidator[] getLegalJumpsFrom(int player, int row, int col) {
          // Return a list of the legal jumps that the specified player can
          // make starting from the specified row and column.  If no such
          // jumps are possible, null is returned.  The logic is similar
@@ -198,20 +199,20 @@ public boolean isActive;
       Vector moves = new Vector();  // The legal jumps will be stored in this vector.
       if (board[row][col] == player || board[row][col] == playerKing) {
          if (canJump(player, row, col, row+1, col+1, row+2, col+2))
-            moves.addElement(new Move(row, col, row+2, col+2));
+            moves.addElement(new PostionValidator(row, col, row+2, col+2));
          if (canJump(player, row, col, row-1, col+1, row-2, col+2))
-            moves.addElement(new Move(row, col, row-2, col+2));
+            moves.addElement(new PostionValidator(row, col, row-2, col+2));
          if (canJump(player, row, col, row+1, col-1, row+2, col-2))
-            moves.addElement(new Move(row, col, row+2, col-2));
+            moves.addElement(new PostionValidator(row, col, row+2, col-2));
          if (canJump(player, row, col, row-1, col-1, row-2, col-2))
-            moves.addElement(new Move(row, col, row-2, col-2));
+            moves.addElement(new PostionValidator(row, col, row-2, col-2));
       }
       if (moves.size() == 0)
          return null;
       else {
-         Move[] moveArray = new Move[moves.size()];
+         PostionValidator[] moveArray = new PostionValidator[moves.size()];
          for (int i = 0; i < moves.size(); i++)
-            moveArray[i] = (Move)moves.elementAt(i);
+            moveArray[i] = (PostionValidator)moves.elementAt(i);
          return moveArray;
       }
    }  // end getLegalMovesFrom()

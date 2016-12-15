@@ -2,7 +2,7 @@ package datamodels;
 
 import java.io.Serializable;
 
-import game.Move;
+import game.PostionValidator;
 import game.Player;
 
 /***
@@ -29,8 +29,8 @@ public class GameDataDTO implements Serializable{
 	public Player player2;
 	public String msg;
 	public String ip;
-	public Move move;
-	public Move lastMove;
+	public PostionValidator move;
+	public PostionValidator lastMove;
 	public int clientId;
 	public int clientIdTurn; //starter på 1
 	
