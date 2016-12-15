@@ -237,7 +237,11 @@ public class StartPanel extends JPanel implements ActionListener {
 			getValuesFromUserInterface(true);
 		}
 		if (e.getSource() == btnJoin) {
-			getValuesFromUserInterface(false);
+			getValuesFromUserInterface(false); 
+		}		
+		if (e.getSource() == btnLocal) {
+			userInput.ipAdress = "127.0.0.1";
+			getValuesFromUserInterface(true);
 		}		
 		if (e.getSource() == btnWhatIP) {
 			try {
@@ -253,12 +257,19 @@ public class StartPanel extends JPanel implements ActionListener {
 	
 	}
 
-	private void getValuesFromUserInterface(Boolean b) {
+	private void getValuesFromUserInterface(Boolean isServer) {
 		userInput = new UserInput();
 		userInput.name = nameField.getText();
 		userInput.portNumber = Integer.parseInt(portField.getText());
-		userInput.isServer = b;
-		userInput.ipAdress = ipLabel.getText();
+		userInput.isServer = isServer;
+		if (isServer) {
+			userInput.ipAdress = ipLabel.getText();
+		}
+		else {
+			userInput.ipAdress = ipField.getText();
+		}
+		
+		
 			
 		frame.getContentPane().repaint();
 		setVisible(false);
