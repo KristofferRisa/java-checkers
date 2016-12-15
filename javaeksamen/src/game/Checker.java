@@ -1,23 +1,24 @@
 package game;
 
-import java.net.UnknownHostException;
-import datamodels.GameDataTransferObject;
 import datamodels.UserInput;
-import graphics.DebugWindowFrame;
-import graphics.WindowContainerFrame;
+import graphics.DebugWindow;
+import graphics.MainWindow;
 import network.Client;
 import network.Server;
 
 public class Checker {
 
 	public Checker(){
+		debug = new DebugWindow();
+		guiManager = new MainWindow();
+		
 		openUserInputPanel();
 		
 		starterServer();
-			
-		starterClient();
 		
-		showBoard();
+		starterClient(input);
+
+		showBoard(input);
 		
 		debug.log("ferdig, avslutter aplikasjon");
 		
@@ -30,25 +31,21 @@ public class Checker {
 		
 		if(input.isServer){
 			//Start server
-			server = new Server(debug);
-			server.start();	
+			server = new Server(debug,input);
+			server.start();
 		}
 	}
 
-	private void starterClient() {
+	private void starterClient(UserInput input2) {
 		debug.log("Starter ny klient");
 		String ip = "127.0.0.1";
-		int port = 1337;
+		int port = input2.portNumber;
 		klient = new Client(ip, port, input, debug);
 		klient.connect();
-		
 	}
 
 	private void openUserInputPanel() {
-		debug = new DebugWindowFrame();
 		
-		guiManager = new WindowContainerFrame();
-	
 		input = guiManager.showUserInput();
 
 		debug.log("Player = " + input.name);
@@ -59,12 +56,14 @@ public class Checker {
 		
 	}
 	
-	private void showBoard() {
+	private void showBoard(UserInput input2) {
 		if(klient.isConnected){
 			debug.log("_chekers: Viser brett");
-			guiManager.showBoard(klient);
+			guiManager.showBoard(klient, input2);
 			
-			while(guiManager.gameControls.isVisible()){				
+			
+			//while(guiManager.gameControls.isVisible()){				
+			while(true){
 				try {
 					//Venter på 
 						Thread.sleep(1000);
@@ -79,9 +78,9 @@ public class Checker {
 	
 	public String gameType;
 	
-	private DebugWindowFrame debug;
+	private DebugWindow debug;
 
-	private WindowContainerFrame guiManager;
+	private MainWindow guiManager;
 	
 	private Server server;
 

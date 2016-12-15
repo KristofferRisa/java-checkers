@@ -1,5 +1,6 @@
-package graphics.usercontrol;
+package graphics;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Desktop;
 import java.awt.Dimension;
@@ -44,6 +45,8 @@ public class StartPanel extends JPanel implements ActionListener {
 
 	private JLabel changePort;
 
+	private JLabel ipLabel;
+	
 	public UserInput getUserInputData(){
 		if(userInput != null){
 			return userInput;
@@ -53,34 +56,37 @@ public class StartPanel extends JPanel implements ActionListener {
 	}
 	
 	public StartPanel(JFrame frame) {
-
 		this.frame = frame;
 		JLabel nameLabel = new JLabel("Username: ");
 		nameField = new JTextField("Enter a username");
-		JLabel ipLabel = null;
+		ipLabel = null;
+		
 		try {
 			ipLabel = new JLabel(InetAddress.getLocalHost().getHostAddress());
 		} catch (UnknownHostException e) {
 			
 			e.printStackTrace();
 		}
+		
 		btnServer = new JButton("Create New Online Game");
-		ipField = new JTextField("Enter IP here ", 10);
+		ipField = new JTextField("127.0.0.1");
 		btnJoin = new JButton("Join Online Game/Enter IP");
 		btnLocal = new JButton("Test Game Locally");
 		btnWhatIP = new JButton("?");
 		changePort = new JLabel("Change port ");
 		portField = new JTextField("55660");
 		JLabel localipLabel = new JLabel("127.0.0.1");
+		
 		// Added together in a panel for better GUI
 		JPanel p = new JPanel();
-		p.add(ipField);
-		p.add(btnWhatIP);
-		
+		p.setLayout(new BorderLayout());
+		p.add(ipField, BorderLayout.CENTER);
+		p.add(btnWhatIP, BorderLayout.EAST);
 		
 		changePort.setVisible(false);
 		portField.setVisible(false);
 		btnWhatIP.setToolTipText("Open whatsmyip.org");
+		
 		//GridBagLayot
 		setLayout(new GridBagLayout());
 		
@@ -92,6 +98,7 @@ public class StartPanel extends JPanel implements ActionListener {
 		gc.gridx = 0;
 		gc.gridy = 0;
 		add(nameLabel, gc);
+		
 		//Username Field
 		gc.gridx = 1;
 		gc.gridy = 0;
@@ -147,15 +154,16 @@ public class StartPanel extends JPanel implements ActionListener {
 		btnJoin.addActionListener(this);
 		btnWhatIP.addActionListener(this);
 		
-		
-		// Puts relative sizes on all JComponents
+		// Puts relative sizes on all 
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		int height = screenSize.height;
 		int width = screenSize.width;
+		
 		if (width <= 1366) {
 			
 			nameLabel.setFont(getFont().deriveFont(new Float(16)));
 			ipLabel.setFont(getFont().deriveFont(new Float(16)));
+			nameField.setFont(getFont().deriveFont(new Float(16)));
 			nameField.setFont(getFont().deriveFont(new Float(16)));
 			btnServer.setFont(getFont().deriveFont(new Float(16)));
 			btnJoin.setFont(getFont().deriveFont(new Float(16)));
@@ -165,9 +173,10 @@ public class StartPanel extends JPanel implements ActionListener {
 			ipField.setFont(getFont().deriveFont(new Float(16)));
 			btnWhatIP.setFont(getFont().deriveFont(new Float(16)));
 			localipLabel.setFont(getFont().deriveFont(new Float(16)));
+			p.setFont(getFont().deriveFont(new Float(16)));
 			setBorder(BorderFactory.createTitledBorder(null,
-					"Checkers Java 1.0!", TitledBorder.CENTER,
-					TitledBorder.TOP, new Font("", Font.PLAIN, 10)));
+					"Checkers Java 1.0!", TitledBorder.LEFT,
+					TitledBorder.TOP, new Font("Times New Roman", Font.PLAIN, 10)));
 
 		} else if (width >= 1367 && width <= 2001) {
 
@@ -182,9 +191,10 @@ public class StartPanel extends JPanel implements ActionListener {
 			ipField.setFont(getFont().deriveFont(new Float(26)));
 			btnWhatIP.setFont(getFont().deriveFont(new Float(26)));
 			localipLabel.setFont(getFont().deriveFont(new Float(26)));
+			p.setFont(getFont().deriveFont(new Float(26)));
 
 			setBorder(BorderFactory.createTitledBorder(null,
-					"Checkers Java 1.0!", TitledBorder.CENTER,
+					"Checkers Java 1.0!", TitledBorder.LEFT,
 					TitledBorder.TOP, new Font("", Font.PLAIN, 20)));
 		}
 
@@ -200,20 +210,15 @@ public class StartPanel extends JPanel implements ActionListener {
 			portField.setFont(getFont().deriveFont(new Float(36)));
 			btnWhatIP.setFont(getFont().deriveFont(new Float(36)));
 			localipLabel.setFont(getFont().deriveFont(new Float(36)));
+			p.setFont(getFont().deriveFont(new Float(36)));
 			
 			setBorder(BorderFactory.createTitledBorder(null,
-					"Checkers Java 1.0!", TitledBorder.CENTER,
+					"Checkers Java 1.0!", TitledBorder.LEFT,
 					TitledBorder.TOP, new Font("", Font.PLAIN, 30)));
 		}
 		
-		setVisible(true);
-		
-
+		setVisible(true);	
 	}
-	
-
-	
-	
 
 	public void showPortfield() {
 		changePort.setVisible(true);
@@ -222,15 +227,17 @@ public class StartPanel extends JPanel implements ActionListener {
 				
 	}
 
-	
 	public void actionPerformed(ActionEvent e) {
 
-		
 		if (e.getSource() == btnServer) {
 			getValuesFromUserInterface(true);
 		}
 		if (e.getSource() == btnJoin) {
-			getValuesFromUserInterface(false);
+			getValuesFromUserInterface(false); 
+		}		
+		if (e.getSource() == btnLocal) {
+			userInput.ipAdress = "127.0.0.1";
+			getValuesFromUserInterface(true);
 		}		
 		if (e.getSource() == btnWhatIP) {
 			try {
@@ -246,11 +253,18 @@ public class StartPanel extends JPanel implements ActionListener {
 	
 	}
 
-	private void getValuesFromUserInterface(Boolean b) {
+	private void getValuesFromUserInterface(Boolean isServer) {
 		userInput = new UserInput();
 		userInput.name = nameField.getText();
 		userInput.portNumber = Integer.parseInt(portField.getText());
-		userInput.isServer = b;
+		userInput.isServer = isServer;
+		if (isServer) {
+			userInput.ipAdress = ipLabel.getText();
+		}
+		else {
+			userInput.ipAdress = ipField.getText();
+		}
+			
 		frame.getContentPane().repaint();
 		setVisible(false);
 	}

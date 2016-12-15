@@ -1,42 +1,34 @@
 package graphics;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.net.ServerSocket;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import javax.swing.JPanel;
 
 import datamodels.UserInput;
-import game.board.CheckerType;
-import game.board.Piece;
-import graphics.usercontrol.Board;
-import graphics.usercontrol.GameControlPanel;
-import graphics.usercontrol.StartPanel;
-import graphics.usercontrol.UserInfoPanel;
 import network.Client;
 import network.Server;
 
-public class WindowContainerFrame extends JFrame {
+public class MainWindow extends JFrame {
 
-	public GameControlPanel gameControls;
-	
 	Toolkit tk = Toolkit.getDefaultToolkit();
 	Dimension d = tk.getScreenSize();
 	int screenHeight = d.height;
 	int screenWidth = d.width;
+
+	private BoardPanel board;
+	private UserInput userinput;
 	
-	public WindowContainerFrame(){
+	public MainWindow(){
 		configureFrame();
 		addMenu();
 	}
@@ -49,43 +41,20 @@ public class WindowContainerFrame extends JFrame {
 		JMenuItem newGame = new JMenuItem("New Game");
 		JMenuItem showDebug = new JMenuItem("Show Debug");
 		JMenuItem portItem= new JMenuItem ("Change port");
-		JMenuItem toggelMouse= new JMenuItem ("Mouse off");
+		JMenuItem disableMouse= new JMenuItem ("Mouse off");
 
+		
 		setJMenuBar(menubar);
 		menubar.add(menu);
 		menu.add(newGame);
 		menu.add(showDebug);
 		menu.add(portItem);
+		menu.add(disableMouse);
+		menu.add(closeMenuItem);
 		
-		menu.add(toggelMouse);
-		toggelMouse.setFont(new Font("Arial", Font.PLAIN, (int) screenWidth /150));
-		toggelMouse.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				setEnabled(false);
-				//boardpanel(startPanel, false);
-				//for (Component c : getComponents()) {
-                //    c.setEnabled(false);
-                //}
-            
-			}
-		});
-
-
-		menu.add(closeMenuItem);
-		menu.setFont(new Font("Arial", Font.PLAIN, (int) screenWidth /150));
-
-
+		menu.setFont(new Font("Arial", Font.PLAIN, (int) screenWidth / 150));
 		newGame.setFont(new Font("Arial", Font.PLAIN, (int) screenWidth / 150));
-
-
-		menu.add(closeMenuItem);
-		menu.setFont(new Font("Arial", Font.PLAIN, (int) screenWidth /150));
 		showDebug.setFont(new Font("Arial", Font.PLAIN, (int) screenWidth / 150));
-		showDebug.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				DebugWindowFrame debugWindowFrame = new DebugWindowFrame();
-			}
-		});
 		closeMenuItem.setFont(new Font("Arial", Font.PLAIN, (int) screenWidth / 150));
 		
 		closeMenuItem.addActionListener(new ActionListener() {
@@ -109,16 +78,24 @@ public class WindowContainerFrame extends JFrame {
             }
         });
 		
+		disableMouse.setFont(new Font("Arial", Font.PLAIN, (int) screenWidth / 150));
+		disableMouse.addActionListener(new ActionListener() {
+			@Override
+            public void actionPerformed(ActionEvent e) {
+				//Denne er ikke bra nok.. Fryser hele frame
+                setEnabled(false);
+            }
+        });
 		
 	
 	}
 
 	public UserInput showUserInput() {
 		startPanel = new StartPanel(this);
-		
 		add(startPanel);
 		setVisible(true);
 		JLabel waitLabel = new JLabel("Waiting for player 2");
+		
 		repaint();
 		while(startPanel.isVisible()){
 			
@@ -133,84 +110,54 @@ public class WindowContainerFrame extends JFrame {
 		}
 		remove(startPanel);
 		add(waitLabel);
-		repaint();
 		setVisible(true);
+		repaint();
 		return startPanel.getUserInputData();
-		
 		
 	}
 
 
-	public void showBoard(Client klient){
-		boardpanel = new Board(klient);
+	public void showBoard(Client klient, UserInput input2){
+//		boardpanel = new Board(klient);
 		
 		setLayout(new BorderLayout());
 				
 		//TODO: Oppdater med riktig brukerinfo
-		UserInfoPanel user1 = new UserInfoPanel("Test user", "IP");
+
+		UserInfoPanel user1 = new UserInfoPanel(input2.name, input2.ipAdress);
+
 		
 		add(user1, BorderLayout.NORTH);
 		
-		postBlackBricks();
+//		postBlackBricks();
+//		
+//		postHviteBricks();
 		
-		postHviteBricks();
-				
-		boardpanel.setPreferredSize(new Dimension(800,600));
 		
-		add(boardpanel,BorderLayout.CENTER);
+		
+		//boardpanel.setPreferredSize(new Dimension(800,600));
+		
+		
+		
+		//add(boardpanel,BorderLayout.CENTER);
 	
+		board = new BoardPanel(klient);
+		add(board);
+		
+		
+		
+		//add(new CheckersPanel());
 		//TODO: Oppdater med riktig brukerinfo
-		UserInfoPanel user2 = new UserInfoPanel("TEST TEST", "Localhost");
+		UserInfoPanel user2 = new UserInfoPanel(input2.name, input2.ipAdress);
+		
 		
 		add(user2, BorderLayout.SOUTH);
 		
-		gameControls = new GameControlPanel(klient);
-		
-		//add(gameControls,BorderLayout.SOUTH);
-		
+		setResizable(false);
 		pack();
 		repaint();
-		
-	}
 
-	private void postBlackBricks() {
 		
-		for (int i = 1; i <= 8; i++) {
-
-			if (i % 2 == 0) {
-				boardpanel.add(new Piece(CheckerType.BLACK_REGULAR), 1, i);
-			}
-		}
-		
-		for (int i = 1; i <= 8; i++) {
-
-			if (i % 2 != 0) {
-				boardpanel.add(new Piece(CheckerType.BLACK_REGULAR), 2, i);
-				
-				
-			}
-			
-		}
-	}
-	
-	private void postHviteBricks() {
-		
-		for (int i = 1; i <= 8; i++) {
-
-			if (i % 2 == 0) {
-				boardpanel.add(new Piece(CheckerType.WHITE_REGULAR), 7, i);
-			}
-		}
-		
-		for (int i = 1; i <= 8; i++) {
-
-			if (i % 2 != 0) {
-				boardpanel.add(new Piece(CheckerType.WHITE_REGULAR), 8, i);
-				
-				
-			}
-			
-		}
 	}
 
 	private void configureFrame() {
@@ -226,25 +173,10 @@ public class WindowContainerFrame extends JFrame {
 		setVisible(true);
 		
 	}
-	void setPanelEnabled(JPanel panel, Boolean isEnabled) {
-	    panel.setEnabled(isEnabled);
-
-	    Component[] components = panel.getComponents();
-
-	    for(int i = 0; i < components.length; i++) {
-	        if(components[i].getClass().getName() == "javax.swing.JPanel") {
-	            setPanelEnabled((JPanel) components[i], isEnabled);
-	        }
-
-	        components[i].setEnabled(isEnabled);
-	    }
-	}
 	
 	public StartPanel startPanel;
-	private Board boardpanel;
 	public Server server;
 	
 	private static final long serialVersionUID = -3425445318104341180L;
-
 	
 }

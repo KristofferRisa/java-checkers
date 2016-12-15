@@ -5,21 +5,22 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
-import datamodels.GameDataTransferObject;
-import game.board.Move;
-import graphics.DebugWindowFrame;
+import datamodels.GameDataDTO;
+import game.Move;
+import game.PostionValidator;
+import graphics.DebugWindow;
 
 public class ClientManager extends Thread {
 	public Socket socket;
-	private DebugWindowFrame Debug;
+	private DebugWindow Debug;
 	private ObjectOutputStream output;
 	private ObjectInputStream input;
-	private Move move;
+	private PostionValidator move;
 	public boolean isClientConneted;
-	public GameDataTransferObject data;
+	public GameDataDTO data;
 	private int clientId;
 	
-	public ClientManager(GameDataTransferObject data, int clientId, DebugWindowFrame d){
+	public ClientManager(GameDataDTO data, int clientId, DebugWindow d){
 		Debug = d;
 		isClientConneted = false;
 		this.clientId = clientId;
@@ -37,12 +38,14 @@ public class ClientManager extends Thread {
 				data.msg = "OK";
 				
 				output.writeObject(data);
+				output.flush();
+				output.reset();
 				
 				Debug.log("_clientManager_"+clientId+": Sendt OK melding til klient!" + data.msg);
 				
 				input = new ObjectInputStream(socket.getInputStream());
 			
-				GameDataTransferObject dataRecived = (GameDataTransferObject)input.readObject();
+				GameDataDTO dataRecived = (GameDataDTO)input.readObject();
 				
 				if(dataRecived.player1 != null){
 					data.player1 = dataRecived.player1;
@@ -68,6 +71,8 @@ public class ClientManager extends Thread {
 				}
 				
 				output.writeObject(data);
+				output.flush();
+				output.reset();
 				
 //				while(true){
 //					Move move = (Move)input.readObject();
@@ -81,19 +86,31 @@ public class ClientManager extends Thread {
 		}
 	}
 	
-	public void send(GameDataTransferObject data) {
+	public void send(GameDataDTO data2) {
 		try {			
-			ObjectOutputStream output2 = new ObjectOutputStream(socket.getOutputStream());
-			output2.writeObject(data);
+			output.writeObject(data2);
+			output.flush();
+			output.reset();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 	
-	public GameDataTransferObject recive(){
+	public GameDataDTO recive(){
 		try {
-			return (GameDataTransferObject)input.readObject();
+			return (GameDataDTO)input.readObject();
+		} catch (ClassNotFoundException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	public Move reciveMove() {
+		try {
+			Move m = (Move)input.readObject();
+			return m;
 		} catch (ClassNotFoundException | IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

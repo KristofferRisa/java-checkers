@@ -4,25 +4,27 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import datamodels.GameDataTransferObject;
+import datamodels.GameDataDTO;
 import datamodels.UserInput;
-import game.board.Move;
-import graphics.DebugWindowFrame;
+import game.Move;
+import game.PostionValidator;
+import graphics.DebugWindow;
 
 public class Client {
 
 	private UserInput userInput;
 	private ObjectInputStream input;
 	private ObjectOutputStream output;
+	private GameDataDTO data;
+	private int clientId;
 	
-	public Client(String ip, int port, UserInput userInput, DebugWindowFrame d){
+	public Client(String ip, int port, UserInput userInput, DebugWindow d){
 		this.ip = ip;
 		this.port = port;
 		this.Debug = d;
 		this.isConnected = false;
 		this.userInput = userInput;
 	}
-	
 
 	public void connect(){
 		try {			
@@ -37,8 +39,8 @@ public class Client {
 			
 			Debug.log("_client: Venter på handshake fra server");
 			
-			data = (GameDataTransferObject)input.readObject();
-			
+			data = (GameDataDTO)input.readObject();
+			clientId = data.clientId;
 			if(data.msg.equals("OK")){				
 				//Legger til spill info til data 
 				// transfer object
@@ -53,7 +55,11 @@ public class Client {
 				Debug.log("_client: Tilkoplet server. melding fra server = " + data.msg);
 				
 				output.writeObject(data);
-				data =(GameDataTransferObject)input.readObject();
+				
+				output.flush();
+				
+				data =(GameDataDTO)input.readObject();
+				
 				isConnected = true;
 				
 			} else {
@@ -69,10 +75,13 @@ public class Client {
 		}
 	}
 
-	public void send(GameDataTransferObject data) {
+	public void send(GameDataDTO data) {
 		// TODO Auto-generated method stub
 		try {
+			data.clientId = clientId;
 			output.writeObject(data);
+			output.flush();
+			output.reset();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -80,20 +89,26 @@ public class Client {
 		
 	}
 	
-	public GameDataTransferObject recive(){
+	public GameDataDTO recive(){
 		try {
-			return (GameDataTransferObject)input.readObject();
+			 data = (GameDataDTO)input.readObject();
+			 return data;
 		} catch (ClassNotFoundException | IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;
 	}
+	
+	public GameDataDTO getGameData(){
+		return data;
+	}
 
-	private DebugWindowFrame Debug;
+	private DebugWindow Debug;
 	private String ip;
 	private int port;
 	public boolean isConnected;
 	public Socket socket;
-	public GameDataTransferObject data;
+
+	
 }
