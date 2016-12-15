@@ -44,6 +44,11 @@ public class StartPanel extends JPanel implements ActionListener {
 
 	private JLabel changePort;
 
+	private JLabel ipLabel;
+	
+	//private JTextField enteripAddress;
+	
+
 	public UserInput getUserInputData(){
 		if(userInput != null){
 			return userInput;
@@ -56,7 +61,7 @@ public class StartPanel extends JPanel implements ActionListener {
 		this.frame = frame;
 		JLabel nameLabel = new JLabel("Username: ");
 		nameField = new JTextField("Enter a username");
-		JLabel ipLabel = null;
+		ipLabel = null;
 		try {
 			ipLabel = new JLabel(InetAddress.getLocalHost().getHostAddress());
 		} catch (UnknownHostException e) {
@@ -166,6 +171,7 @@ public class StartPanel extends JPanel implements ActionListener {
 			ipField.setFont(getFont().deriveFont(new Float(16)));
 			btnWhatIP.setFont(getFont().deriveFont(new Float(16)));
 			localipLabel.setFont(getFont().deriveFont(new Float(16)));
+			p.setFont(getFont().deriveFont(new Float(16)));
 			setBorder(BorderFactory.createTitledBorder(null,
 					"Checkers Java 1.0!", TitledBorder.CENTER,
 					TitledBorder.TOP, new Font("", Font.PLAIN, 10)));
@@ -183,6 +189,7 @@ public class StartPanel extends JPanel implements ActionListener {
 			ipField.setFont(getFont().deriveFont(new Float(26)));
 			btnWhatIP.setFont(getFont().deriveFont(new Float(26)));
 			localipLabel.setFont(getFont().deriveFont(new Float(26)));
+			p.setFont(getFont().deriveFont(new Float(26)));
 
 			setBorder(BorderFactory.createTitledBorder(null,
 					"Checkers Java 1.0!", TitledBorder.CENTER,
@@ -201,6 +208,7 @@ public class StartPanel extends JPanel implements ActionListener {
 			portField.setFont(getFont().deriveFont(new Float(36)));
 			btnWhatIP.setFont(getFont().deriveFont(new Float(36)));
 			localipLabel.setFont(getFont().deriveFont(new Float(36)));
+			p.setFont(getFont().deriveFont(new Float(36)));
 			
 			setBorder(BorderFactory.createTitledBorder(null,
 					"Checkers Java 1.0!", TitledBorder.CENTER,
@@ -250,6 +258,8 @@ public class StartPanel extends JPanel implements ActionListener {
 		userInput.name = nameField.getText();
 		userInput.portNumber = Integer.parseInt(portField.getText());
 		userInput.isServer = b;
+		userInput.ipAdress = ipLabel.getText();
+			
 		frame.getContentPane().repaint();
 		setVisible(false);
 	}
