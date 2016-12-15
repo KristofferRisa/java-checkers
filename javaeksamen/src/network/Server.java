@@ -6,13 +6,16 @@ import java.net.Socket;
 import java.util.List;
 
 import datamodels.GameDataDTO;
+import datamodels.UserInput;
 import game.PostionValidator;
 import graphics.DebugWindow;
 
 public class Server extends Thread {
 
-	public Server() {
-	
+	private UserInput userInput;
+
+	public Server(UserInput userInput) {
+		this.userInput = userInput;
 	}
 
 	public void run() {
@@ -21,7 +24,9 @@ public class Server extends Thread {
 
 		try {
 			System.out.println("_server: Starter server");
-			server = new ServerSocket(1337);
+			
+			server = new ServerSocket(userInput.portNumber);
+			
 		} catch (IOException ioe) {
 			System.out.println("_server: Kunne ikke lage Server socket");
 		}

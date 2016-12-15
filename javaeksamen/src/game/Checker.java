@@ -33,15 +33,13 @@ public class Checker {
 		
 		if(input.isServer){
 			//Start server
-			server = new Server();
+			server = new Server(input);
 			server.start();	
 		}
 	}
 
 	private void starterClient() {
 		debug.log("Starter ny klient");
-		String ip = "127.0.0.1";
-		int port = 1337;
 		client = new Client(input);
 	}
 
