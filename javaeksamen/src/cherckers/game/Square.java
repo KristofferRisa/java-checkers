@@ -8,6 +8,17 @@ import javax.swing.JPanel;
 
 public class Square extends JPanel {
 	
+	private Color calculateColor(int p) {
+		boolean annenhverRute = (p % 2 == 0);
+		boolean annenhverRad = (p / 8) % 2 == 0;
+		//return annenhverRute ? Color.black : Color.white;
+		return (annenhverRute != annenhverRad ? Color.decode("#FFE4B5"):Color.decode("#DEB887"));
+	}
+	private int position;	
+	public int x;
+	public int y;
+	private static final long serialVersionUID = 7926042768479192097L;
+
 	public Square(int x, int y,int postion) {
 		this.position = postion;
 		this.x = x;
@@ -47,19 +58,4 @@ public class Square extends JPanel {
 			}
 		});
 	}
-
-	private Color calculateColor(int p) {
-			boolean annenhverRute = (p % 2 == 0);
-			boolean annenhverRad = (p / 8) % 2 == 0;
-			//return annenhverRute ? Color.black : Color.white;
-			return (annenhverRute != annenhverRad ? Color.decode("#FFE4B5"):Color.decode("#DEB887"));
-	}
-	
-	private int position;	
-	
-	public int x;
-	public int y;
-	
-	private static final long serialVersionUID = 7926042768479192097L;
-
 }

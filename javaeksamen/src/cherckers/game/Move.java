@@ -5,9 +5,6 @@ import java.io.Serializable;
 public class Move implements Serializable {
 
 	private static final long serialVersionUID = 3330753089596560159L;
-	public Move(){
-		
-	}
 	public boolean isMoving = false;
 	// displacement between drag start coordinates and checker center
 	// coordinates

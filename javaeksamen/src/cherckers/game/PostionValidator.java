@@ -13,23 +13,8 @@ public class PostionValidator implements Serializable {
 	public int fromRow;  // Position of piece to be moved.
 	public int fromCol;
 	public int toRow, toCol;      // Square it is to move to.
-	
-	public PostionValidator(){
-		
-	}
-	
-	public PostionValidator(int r1, int c1, int r2, int c2) {
-		// Constructor.  Just set the values of the instance variables.
-		fromRow = r1;
-		fromCol = c1;
-		toRow = r2;
-		toCol = c2;
-	}
-		 
 	public Piece piece;
-	     
-	public int cx;
-	     
+    public int cx;
 	public int cy;
 	
 }

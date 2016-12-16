@@ -22,7 +22,6 @@ public class Checker {
 		startServerClient();
 		
 		startGame();
-
 	}
 
 	private void startGame() {
@@ -54,8 +53,7 @@ public class Checker {
 		}
 	}
 
-	private void openUserInputPanel() {
-		
+	private void openUserInputPanel() {	
 		//Henter input data fra UI og lagrer det i UserInput objekt
 		userInput = guiManager.showUserInput();
 		//Logging
