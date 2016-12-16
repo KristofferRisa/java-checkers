@@ -153,6 +153,7 @@ public class StartPanel extends JPanel implements ActionListener {
 		btnServer.addActionListener(this);
 		btnJoin.addActionListener(this);
 		btnWhatIP.addActionListener(this);
+		btnLocal.addActionListener(this);
 		
 		// Puts relative sizes on all 
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
