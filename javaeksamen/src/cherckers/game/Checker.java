@@ -16,20 +16,19 @@ public class Checker {
 
 	public Checker(){
 		debug = new DebugWindow();
-		guiManager = new MainWindow(debug);
-		
+		guiManager = new MainWindow(debug);		
 		openUserInputPanel();
-	
 		startNetwork(userInput);
-
 		debug.log("_chekers: Viser brett");
-		
 		guiManager.showBoard(server,client, userInput);
+<<<<<<< HEAD
 		String status = (userInput.isServer == true) ? "on" : "off";
 		debug.log("Server status: " + status);
 		String title = (userInput.isServer) ? "Player 1" : "Player 2";
 		guiManager.setTitle("Checkers (" + title + ")");
 		
+=======
+>>>>>>> origin/snart-jul
 	}
 	
 	private void startNetwork(UserInput userInput2) {
