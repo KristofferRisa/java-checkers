@@ -128,23 +128,30 @@ public class MainWindow extends JFrame {
 	}
 
 
-	public void showBoard(Server server, Client client,  UserInput input2){
+	public void showBoard(Server server, Client client, UserInput input){
 
 		setLayout(new BorderLayout());
-				
-		//TODO: Oppdater med riktig brukerinfo
-		//UserInfoPanel user1 = new UserInfoPanel("Test user", "IP");
 		
-		UserInfoPanel user1 = new UserInfoPanel(input2.name, input2.ipAdress);
+		//Utvkelse bruker info
+		GameDataDTO data = new GameDataDTO();
+		if(server != null){
+			data.player1 = input.name;
+			server.client.send(data);
+			data = server.client.recive();
+		} else {
+			data = client.recive();
+			data.player2 = input.name;
+			client.send(data);
+		}
+
+		UserInfoPanel user1 = new UserInfoPanel("Spiller 1: " + data.player1);
 		
 		add(user1, BorderLayout.NORTH);
 		
 		board = new BoardPanel(server, client);
 		add(board);
 		
-		//TODO: Oppdater med riktig brukerinfo
-		//UserInfoPanel user2 = new UserInfoPanel("TEST TEST", "Localhost");
-		UserInfoPanel user2 = new UserInfoPanel(input2.name, input2.ipAdress);
+		UserInfoPanel user2 = new UserInfoPanel("Spiller 2: "+ data.player2);
 		
 		add(user2, BorderLayout.SOUTH);
 		

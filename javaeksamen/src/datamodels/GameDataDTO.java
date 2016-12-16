@@ -15,8 +15,8 @@ import game.Player;
 public class GameDataDTO implements Serializable{
 
 	private static final long serialVersionUID = 4555028078803373326L;
-	public Player player1;
-	public Player player2;
+	public String player1;
+	public String player2;
 	public String msg;
 	public Move move;
 	public int clientIdTurn; //starter på 1
