@@ -133,8 +133,7 @@ public class BoardPanel extends JPanel {
 				
 				repaint();
 				
-				
-				if(gameData.clientIdTurn ==1 ){
+				if(gameData.clientIdTurn == 1 ){
 					if(server == null){
 						gameData = client.recive();
 						
@@ -143,6 +142,8 @@ public class BoardPanel extends JPanel {
 						server.client.send(gameData);
 					}
 				}
+				
+				repaint();
 				
 				if(gameData.clientIdTurn == 2 ){
 					if(server == null){
