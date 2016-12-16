@@ -212,20 +212,13 @@ public class StartPanel extends JPanel implements ActionListener {
 		setVisible(true);	
 	}
 	
-
-	
-	
-
 	public void showPortfield() {
 		changePort.setVisible(true);
 		
-		portField.setVisible(true);
-				
+		portField.setVisible(true);			
 	}
-
 	
 	public void actionPerformed(ActionEvent e) {
-
 		
 		if (e.getSource() == btnServer) {
 			getValuesFromUserInterface(true);
@@ -243,7 +236,6 @@ public class StartPanel extends JPanel implements ActionListener {
 				e1.printStackTrace();
 			}
 		}
-		
 	
 	}
 

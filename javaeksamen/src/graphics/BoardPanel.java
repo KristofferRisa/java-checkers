@@ -28,9 +28,30 @@ public class BoardPanel extends JPanel {
 	private Client client;
 	private Server server;
 	private GameDataDTO gameData;
+	
+	// dimension of checkerboard square (25% bigger than checker)
+	private final static int SQUAREDIM = (int) (Piece.getDimension() * 1.25);
+	// dimension of checkerboard (width of 8 squares)
+	private final int BOARDDIM = 8 * SQUAREDIM;
+	// preferred size of Board component
+	private Dimension dimPrefSize;
+	// dragging flag -- set to true when user presses mouse button over checker
+	// and cleared to false when user releases mouse button
+//	private Move move;
+	// reference to positioned checker at start of drag
+//	private PostionValidator postionValidator;
+	
+	// list of Checker objects and their initial positions
+//	private List<PostionValidator> pieces;s
 
 	public BoardPanel(Server server,Client client) {
-		gameData = new GameDataDTO();
+		if(server != null){
+			gameData = new GameDataDTO();
+			gameData.pieces = new ArrayList<>();
+			gameData.move = new Move();
+			addPieces();
+		}
+		
 		this.server = server;
 		this.client = client;
 		
@@ -38,12 +59,10 @@ public class BoardPanel extends JPanel {
 		// add(squarePanel);
 		setVisible(true);
 
-		pieces = new ArrayList<>();
+		
 		dimPrefSize = new Dimension(BOARDDIM, BOARDDIM);
 		
-		move = new Move();
 		
-		addPieces();
 		
 		addMouseListener(new MouseListener() {
 			@Override
@@ -53,20 +72,20 @@ public class BoardPanel extends JPanel {
 				int x = me.getX();
 				int y = me.getY();
 				
-				move.oldPostionCol = x/SQUAREDIM;
-				move.oldPostionRow = y/SQUAREDIM;
+				gameData.move.oldPostionCol = x/SQUAREDIM;
+				gameData.move.oldPostionRow = y/SQUAREDIM;
 				
-				System.out.println("Current COL=" + move.oldPostionCol +" ROW=" + move.oldPostionRow + "(pos: X= " + x + " Y="+y + ")");
+				System.out.println("Current COL=" + gameData.move.oldPostionCol +" ROW=" + gameData.move.oldPostionRow + "(pos: X= " + x + " Y="+y + ")");
 				
 				// Locate positioned checker under mouse press.
-				for (PostionValidator _pv : pieces){
+				for (PostionValidator _pv : gameData.pieces){
 					if (Piece.contains(x, y, _pv.cx, _pv.cy)) {
-						BoardPanel.this.postionValidator = _pv;
-						move.oldcx = _pv.cx;
-						move.oldcy = _pv.cy;
-						move.deltax = x - _pv.cx;
-						move.deltay = y - _pv.cy;
-						move.isMoving = true;
+						gameData.postionValidator = _pv;
+						gameData.move.oldcx = _pv.cx;
+						gameData.move.oldcy = _pv.cy;
+						gameData.move.deltax = x - _pv.cx;
+						gameData.move.deltay = y - _pv.cy;
+						gameData.move.isMoving = true;
 						return;
 					}
 				}
@@ -83,27 +102,27 @@ public class BoardPanel extends JPanel {
 				
 				System.out.println("Current COL=" + x/SQUAREDIM +" ROW=" + y/SQUAREDIM + "(pos: X= " + x + " Y="+y + ")");
 
-				if (move.isMoving)
-					move.isMoving = false;
+				if (gameData.move.isMoving)
+					gameData.move.isMoving = false;
 				else
 					return;
 
 				// Snap checker to center of square.			
-				postionValidator.cx = (x - move.deltax) / SQUAREDIM * SQUAREDIM + SQUAREDIM / 2;
-				postionValidator.cy = (y - move.deltay) / SQUAREDIM * SQUAREDIM + SQUAREDIM / 2;
+				gameData.postionValidator.cx = (x - gameData.move.deltax) / SQUAREDIM * SQUAREDIM + SQUAREDIM / 2;
+				gameData.postionValidator.cy = (y - gameData.move.deltay) / SQUAREDIM * SQUAREDIM + SQUAREDIM / 2;
 
 //					// Do not move checker onto an occupied square.
 
-				for (PostionValidator posCheck : pieces)
-					if (posCheck != BoardPanel.this.postionValidator 
-						&& posCheck.cx == BoardPanel.this.postionValidator.cx
-							&& posCheck.cy == BoardPanel.this.postionValidator.cy) {
-						BoardPanel.this.postionValidator.cx = move.oldcx;
-						BoardPanel.this.postionValidator.cy = move.oldcy;
+				for (PostionValidator posCheck : gameData.pieces)
+					if (posCheck != gameData.postionValidator 
+						&& posCheck.cx == gameData.postionValidator.cx
+							&& posCheck.cy == gameData.postionValidator.cy) {
+						gameData.postionValidator.cx = gameData.move.oldcx;
+						gameData.postionValidator.cy = gameData.move.oldcy;
 						
 					}
 				
-				postionValidator = null;
+				gameData.postionValidator = null;
 				
 				repaint();
 			}
@@ -133,11 +152,11 @@ public class BoardPanel extends JPanel {
 		addMouseMotionListener(new MouseMotionListener() {
 			@Override
 			public void mouseDragged(MouseEvent me) {
-				if (move.isMoving) {
+				if (gameData.move.isMoving) {
 					// Update location of checker center.
 
-					postionValidator.cx = me.getX() - move.deltax;
-					postionValidator.cy = me.getY() - move.deltay;
+					gameData.postionValidator.cx = me.getX() - gameData.move.deltax;
+					gameData.postionValidator.cy = me.getY() - gameData.move.deltay;
 										
 					repaint();
 				}
@@ -167,7 +186,7 @@ public class BoardPanel extends JPanel {
 		pv.cx = (col - 1) * SQUAREDIM + SQUAREDIM / 2;
 		pv.cy = (row - 1) * SQUAREDIM + SQUAREDIM / 2;
 		
-		for (PostionValidator _validator : pieces){
+		for (PostionValidator _validator : gameData.pieces){
 			if (pv.cx == _validator.cx && pv.cy == _validator.cy){
 				try {
 					throw new Exception("square at (" + row + "," + col + ") is occupied");
@@ -178,7 +197,7 @@ public class BoardPanel extends JPanel {
 			}
 		}			
 				
-		pieces.add(pv);
+		gameData.pieces.add(pv);
 	}
 
 	@Override
@@ -190,20 +209,23 @@ public class BoardPanel extends JPanel {
 	protected void paintComponent(Graphics g) {
 
 		paintCheckerBoard(g);
-		for (PostionValidator _move : pieces){
-			if (_move != BoardPanel.this.postionValidator){
-				_move.piece.draw(g, _move.cx, _move.cy);
-			}					
-		}
-			
-		// Draw dragged checker last so that it appears over any underlying
-		// checker.
-		if (postionValidator != null){
-			postionValidator.piece.draw(g, postionValidator.cx, postionValidator.cy);
+		if(gameData != null && gameData.pieces != null){
+			for (PostionValidator _move : gameData.pieces){
+				if (_move != gameData.postionValidator){
+					_move.piece.draw(g, _move.cx, _move.cy);
+				}					
+			}
+				
+			// Draw dragged checker last so that it appears over any underlying
+			// checker.
+			if (gameData.postionValidator != null){
+				gameData.postionValidator.piece.draw(g, gameData.postionValidator.cx, gameData.postionValidator.cy);
+			}				
 		}
 		
 		if(server == null){
 			gameData = client.recive();
+			repaint();
 		} else {
 			server.client.send(gameData);
 		}
@@ -258,21 +280,7 @@ public class BoardPanel extends JPanel {
 				}	
 			}
 		}
-	
-	// dimension of checkerboard square (25% bigger than checker)
-	private final static int SQUAREDIM = (int) (Piece.getDimension() * 1.25);
-	// dimension of checkerboard (width of 8 squares)
-	private final int BOARDDIM = 8 * SQUAREDIM;
-	// preferred size of Board component
-	private Dimension dimPrefSize;
-	// dragging flag -- set to true when user presses mouse button over checker
-	// and cleared to false when user releases mouse button
-	private Move move;
-	// reference to positioned checker at start of drag
-	private PostionValidator postionValidator;
-	
-	// list of Checker objects and their initial positions
-	private List<PostionValidator> pieces;
+
 	
 }
 

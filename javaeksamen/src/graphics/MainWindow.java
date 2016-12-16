@@ -13,6 +13,7 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JPanel;
 
 import datamodels.GameDataDTO;
 import datamodels.UserInput;
@@ -94,7 +95,14 @@ public class MainWindow extends JFrame {
 		startPanel = new StartPanel(this);
 		add(startPanel);
 		setVisible(true);
+		
 		JLabel waitLabel = new JLabel("Waiting for player 2");
+		
+		JPanel panel = new JPanel();
+		panel.setLayout(new BorderLayout());
+		panel.add(waitLabel , BorderLayout.CENTER);
+		
+		add(panel);
 		
 		repaint();
 		while(startPanel.isVisible()){
@@ -108,9 +116,10 @@ public class MainWindow extends JFrame {
 			}
 			
 		}
-		remove(startPanel);
-		add(waitLabel);
+		
+		remove(startPanel);		
 		repaint();
+		
 		return startPanel.getUserInputData();
 		
 	}

@@ -23,6 +23,7 @@ public class Checker {
 		
 		guiManager.showBoard(server,klient);
 	
+		
 		debug.log("ferdig, avslutter aplikasjon");	
 	}
 
