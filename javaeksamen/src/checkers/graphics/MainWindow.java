@@ -97,7 +97,8 @@ public class MainWindow extends JFrame {
 		JPanel panel = new JPanel();
 		panel.setLayout(new BorderLayout());
 		panel.add(waitLabel , BorderLayout.CENTER);
-		
+		panel.setVisible(true);
+		add(panel);
 		repaint();
 		
 		while(startPanel.isVisible()){
@@ -109,18 +110,13 @@ public class MainWindow extends JFrame {
 				debug.log("Noe feil ved henting av user input. " + e.getMessage());
 				e.printStackTrace();
 			}
-			
 		}
 		remove(startPanel);		
-		add(panel);
 		repaint();
 		return startPanel.getUserInputData();
-		
 	}
 
-
 	public void showBoard(Server server, Client client, UserInput input){
-
 		setLayout(new BorderLayout());
 		//Utvkelse bruker info
 		GameDataDTO data = new GameDataDTO();
@@ -135,12 +131,12 @@ public class MainWindow extends JFrame {
 		}
 
 		UserInfoPanel user1 = new UserInfoPanel("Spiller 1: " + data.player1);
-		
 		add(user1, BorderLayout.NORTH);		
 		board = new BoardPanel(server, client,debug);
 		add(board);		
 		UserInfoPanel user2 = new UserInfoPanel("Spiller 2: "+ data.player2);		
 		add(user2, BorderLayout.SOUTH);		
+		
 		setResizable(false);
 		pack();
 		repaint();		
@@ -156,7 +152,6 @@ public class MainWindow extends JFrame {
 		setLayout(new GridBagLayout());
 		setLocationRelativeTo(null);
 		setVisible(true);
-		
 	}
 	
 }
