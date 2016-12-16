@@ -75,26 +75,29 @@ public class BoardPanel extends JPanel {
 			public void mousePressed(MouseEvent me) {
 				// Obtain mouse coordinates at time of press.
 
-				int x = me.getX();
-				int y = me.getY();
-				
-				gameData.move.oldPostionCol = x/SQUAREDIM;
-				gameData.move.oldPostionRow = y/SQUAREDIM;
-				
-				System.out.println("Current COL=" + gameData.move.oldPostionCol +" ROW=" + gameData.move.oldPostionRow + "(pos: X= " + x + " Y="+y + ")");
-				
-				// Locate positioned checker under mouse press.
-				for (PostionValidator _pv : gameData.pieces){
-					if (Piece.contains(x, y, _pv.cx, _pv.cy)) {
-						gameData.postionValidator = _pv;
-						gameData.move.oldcx = _pv.cx;
-						gameData.move.oldcy = _pv.cy;
-						gameData.move.deltax = x - _pv.cx;
-						gameData.move.deltay = y - _pv.cy;
-						gameData.move.isMoving = true;
-						return;
-					}
-				}
+				if((server != null && gameData.clientIdTurn == 1)
+						|| (server == null && gameData.clientIdTurn == 2)){
+					int x = me.getX();
+					int y = me.getY();
+					
+					gameData.move.oldPostionCol = x/SQUAREDIM;
+					gameData.move.oldPostionRow = y/SQUAREDIM;
+					
+					System.out.println("Current COL=" + gameData.move.oldPostionCol +" ROW=" + gameData.move.oldPostionRow + "(pos: X= " + x + " Y="+y + ")");
+					
+					// Locate positioned checker under mouse press.
+					for (PostionValidator _pv : gameData.pieces){
+						if (Piece.contains(x, y, _pv.cx, _pv.cy)) {
+							gameData.postionValidator = _pv;
+							gameData.move.oldcx = _pv.cx;
+							gameData.move.oldcy = _pv.cy;
+							gameData.move.deltax = x - _pv.cx;
+							gameData.move.deltay = y - _pv.cy;
+							gameData.move.isMoving = true;
+							return;
+						}
+					}					
+				}				
 					
 			}
 
@@ -103,57 +106,46 @@ public class BoardPanel extends JPanel {
 				// When mouse released, clear inDrag (to
 				// indicate no drag in progress) if inDrag is
 				// already set.
-				int x = me.getX();
-				int y = me.getY();
-				
-				System.out.println("Current COL=" + x/SQUAREDIM +" ROW=" + y/SQUAREDIM + "(pos: X= " + x + " Y="+y + ")");
-
-				if (gameData.move.isMoving)
-					gameData.move.isMoving = false;
-				else
-					return;
-
-				// Snap checker to center of square.			
-				gameData.postionValidator.cx = (x - gameData.move.deltax) / SQUAREDIM * SQUAREDIM + SQUAREDIM / 2;
-				gameData.postionValidator.cy = (y - gameData.move.deltay) / SQUAREDIM * SQUAREDIM + SQUAREDIM / 2;
-
-//					// Do not move checker onto an occupied square.
-
-				for (PostionValidator posCheck : gameData.pieces)
-					if (posCheck != gameData.postionValidator 
-						&& posCheck.cx == gameData.postionValidator.cx
-							&& posCheck.cy == gameData.postionValidator.cy) {
-						gameData.postionValidator.cx = gameData.move.oldcx;
-						gameData.postionValidator.cy = gameData.move.oldcy;
+				if((server != null && gameData.clientIdTurn == 1)
+						|| (server == null && gameData.clientIdTurn == 2)){
+					int x = me.getX();
+					int y = me.getY();
+					
+					System.out.println("Current COL=" + x/SQUAREDIM +" ROW=" + y/SQUAREDIM + "(pos: X= " + x + " Y="+y + ")");
+	
+					if (gameData.move.isMoving)
+						gameData.move.isMoving = false;
+					else
+						return;
+	
+					// Snap checker to center of square.			
+					gameData.postionValidator.cx = (x - gameData.move.deltax) / SQUAREDIM * SQUAREDIM + SQUAREDIM / 2;
+					gameData.postionValidator.cy = (y - gameData.move.deltay) / SQUAREDIM * SQUAREDIM + SQUAREDIM / 2;
+	
+					// Do not move checker onto an occupied square.
+	
+					for (PostionValidator posCheck : gameData.pieces)
+						if (posCheck != gameData.postionValidator 
+							&& posCheck.cx == gameData.postionValidator.cx
+								&& posCheck.cy == gameData.postionValidator.cy) {
+							gameData.postionValidator.cx = gameData.move.oldcx;
+							gameData.postionValidator.cy = gameData.move.oldcy;
+						}
+					
+					gameData.postionValidator = null;
+					
+					
+					if(gameData.clientIdTurn == 2 && server == null ){
+						gameData.clientIdTurn = 1;
+						client.send(gameData);
 					}
-				
-				gameData.postionValidator = null;
-				
-
-				
-				repaint();
-				
-				
-				if(gameData.clientIdTurn ==1 ){
-					if(server == null){
-						gameData = client.recive();
-						
-					} else {
+					if(gameData.clientIdTurn == 1 && server != null){
 						gameData.clientIdTurn = 2;
 						server.client.send(gameData);
 					}
+					repaint();
 				}
 				
-				if(gameData.clientIdTurn == 2 ){
-					if(server == null){
-						gameData.clientIdTurn = 1;
-						client.send(gameData);
-					} else {
-						gameData = server.client.recive();
-						
-					}
-				}
-				repaint();
 			}
 
 			@Override
@@ -238,6 +230,15 @@ public class BoardPanel extends JPanel {
 	protected void paintComponent(Graphics g) {
 
 		paintCheckerBoard(g);
+		
+		if(gameData.clientIdTurn ==1 && server == null ){
+			gameData = client.recive();
+		}
+				
+		if(gameData.clientIdTurn == 2 && server != null){
+			 gameData = server.client.recive();
+		}
+		
 		if(gameData != null && gameData.pieces != null){
 			for (PostionValidator _move : gameData.pieces){
 				if (_move != gameData.postionValidator){
