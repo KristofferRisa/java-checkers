@@ -16,21 +16,16 @@ public class Checker {
 
 	public Checker(){
 		loadWindows();		
-		
-		openUserInputPanel();
-		
-		startServerClient();
-		
+		openUserInputPanel();		
+		startServerClient();		
 		startGame();
 	}
 
 	private void startGame() {
 		debug.log("_chekers: Viser brett");
-		guiManager.showBoard(server,client, userInput);
-		
+		guiManager.showBoard(server,client, userInput);		
 		String status = (userInput.isServer == true) ? "on" : "off";
 		debug.log("Server status: " + status);
-		
 		String title = (userInput.isServer) ? "Player 1" : "Player 2";
 		guiManager.setTitle("Checkers (" + title + ")");
 	}
