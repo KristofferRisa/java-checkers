@@ -15,30 +15,40 @@ public class Checker {
 	private UserInput userInput;
 
 	public Checker(){
-		debug = new DebugWindow();
-		guiManager = new MainWindow(debug);		
+		loadWindows();		
+		
 		openUserInputPanel();
-		startNetwork(userInput);
+		
+		startServerClient();
+		
+		startGame();
+
+	}
+
+	private void startGame() {
 		debug.log("_chekers: Viser brett");
 		guiManager.showBoard(server,client, userInput);
-<<<<<<< HEAD
+		
 		String status = (userInput.isServer == true) ? "on" : "off";
 		debug.log("Server status: " + status);
+		
 		String title = (userInput.isServer) ? "Player 1" : "Player 2";
 		guiManager.setTitle("Checkers (" + title + ")");
-		
-=======
->>>>>>> origin/snart-jul
+	}
+
+	private void loadWindows() {
+		debug = new DebugWindow();
+		guiManager = new MainWindow(debug);
 	}
 	
-	private void startNetwork(UserInput userInput2) {
+	private void startServerClient() {
 		
 		if(userInput.isServer){
-			//Start server
+			debug.log("Starter server");
 			server = new Server(userInput,debug);
 			server.connect();	
 		} else {
-			debug.log("Starter ny klient");
+			debug.log("Starter klient");
 			client = new Client(userInput, debug);
 			client.connect();
 		}
@@ -48,7 +58,6 @@ public class Checker {
 		
 		//Henter input data fra UI og lagrer det i UserInput objekt
 		userInput = guiManager.showUserInput();
-
 		//Logging
 		debug.log("Player = " + userInput.name);
 	}
