@@ -98,13 +98,9 @@ public class MainWindow extends JFrame {
 		
 		JLabel waitLabel = new JLabel("Waiting for player 2");
 		
-		JPanel panel = new JPanel();
-		panel.setLayout(new BorderLayout());
-		panel.add(waitLabel , BorderLayout.CENTER);
-		
-		add(panel);
 		
 		repaint();
+		
 		while(startPanel.isVisible()){
 			
 			try {
@@ -118,6 +114,13 @@ public class MainWindow extends JFrame {
 		}
 		
 		remove(startPanel);		
+		
+		JPanel panel = new JPanel();
+		panel.setLayout(new BorderLayout());
+		panel.add(waitLabel , BorderLayout.CENTER);
+		
+		add(panel);
+		
 		repaint();
 		
 		return startPanel.getUserInputData();
