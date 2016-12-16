@@ -1,4 +1,4 @@
-package cherckers.game;
+package checkers.game;
 
 import checkers.datamodels.UserInput;
 import checkers.graphics.DebugWindow;

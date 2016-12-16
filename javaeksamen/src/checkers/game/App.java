@@ -1,4 +1,4 @@
-package cherckers.game;
+package checkers.game;
 public class App {
 	
 	public static void main(String[] args){

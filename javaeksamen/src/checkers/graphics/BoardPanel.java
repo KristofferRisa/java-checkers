@@ -11,12 +11,12 @@ import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
 import javax.swing.JPanel;
 import checkers.datamodels.GameDataDTO;
+import checkers.game.CheckerType;
+import checkers.game.Move;
+import checkers.game.Piece;
+import checkers.game.PostionValidator;
 import checkers.network.Client;
 import checkers.network.Server;
-import cherckers.game.CheckerType;
-import cherckers.game.Move;
-import cherckers.game.Piece;
-import cherckers.game.PostionValidator;
 
 public class BoardPanel extends JPanel {
 

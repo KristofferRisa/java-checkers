@@ -1,4 +1,4 @@
-package cherckers.game;
+package checkers.game;
 
 import java.awt.Color;
 import java.awt.Graphics;

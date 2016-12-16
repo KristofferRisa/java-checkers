@@ -3,8 +3,8 @@ package checkers.datamodels;
 import java.io.Serializable;
 import java.util.List;
 
-import cherckers.game.Move;
-import cherckers.game.PostionValidator;
+import checkers.game.Move;
+import checkers.game.PostionValidator;
 /***
  * A Data transfer object class that holds all that data that is being transmitted to the clients and back to the server. 
  *
