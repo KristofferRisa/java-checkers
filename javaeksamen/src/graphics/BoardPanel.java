@@ -11,9 +11,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
-
 import javax.swing.JPanel;
-
 import datamodels.GameDataDTO;
 import game.CheckerType;
 import game.Move;
@@ -35,39 +33,28 @@ public class BoardPanel extends JPanel {
 	private final int BOARDDIM = 8 * SQUAREDIM;
 	// preferred size of Board component
 	private Dimension dimPrefSize;
-	// dragging flag -- set to true when user presses mouse button over checker
-	// and cleared to false when user releases mouse button
-	// private Move move;
-	// reference to positioned checker at start of drag
-	// private PostionValidator postionValidator;
-
-	// list of Checker objects and their initial positions
-	// private List<PostionValidator> pieces;s
+	private boolean isReady;
 
 	public BoardPanel(Server server, Client client) {
+		this.server = server;
+		this.client = client;
+		isReady = false; //parameter for å finne ut om brikkene er lastet for begge spillere
+
 		if (server != null) {
 			gameData = new GameDataDTO();
 			gameData.pieces = new ArrayList<>();
 			gameData.move = new Move();
 			addPieces();
-			//setUpGame();
-		}
+			server.client.send(gameData);
+			isReady = true;
+		} else {
+			gameData = client.recive();
+			repaint();
+		} 
 
-		this.server = server;
-		this.client = client;
-
-		// SquarePanel squarePanel = new SquarePanel();
-		// add(squarePanel);
 		setVisible(true);
 
 		dimPrefSize = new Dimension(BOARDDIM, BOARDDIM);
-
-		if (server == null) {
-			gameData = client.recive();
-			repaint();
-		} else {
-			server.client.send(gameData);
-		}
 
 		addMouseListener(new MouseListener() {
 			@Override
@@ -220,31 +207,6 @@ public class BoardPanel extends JPanel {
 		gameData.pieces.add(pv);
 	}
 
-//	public void setUpGame() {
-//         // Set up the board with checkers in position for the beginning
-//         // of a game.  Note that checkers can only be found in squares
-//         // that satisfy  row % 2 == col % 2.  At the start of the game,
-//         // all such squares in the first three rows contain black squares
-//         // and all such squares in the last three rows contain red squares.
-//     for (int row = 0; row < 8; row++) {
-//        for (int col = 0; col < 8; col++) {
-//           if ( row % 2 == col % 2 ) {
-//              if (row < 3 ) {
-//                 [row][col] = CheckerType.BLACK_REGULAR;
-//                 
-//              else if (row > 4)
-//                 [row][col] = CheckerType.WHITE_REGULAR;
-//              else
-//                 board[][col] = CheckerType.EMPTY;
-//           }
-//           else {
-//              [row][col] = CheckerType.EMPTY;
-//           }
-//        }
-//     }
-	  // end
-																																																														// setUpGame()
-
 	@Override
 	public Dimension getPreferredSize() {
 		return dimPrefSize;
@@ -255,7 +217,7 @@ public class BoardPanel extends JPanel {
 
 		paintCheckerBoard(g);
 		
-		if(gameData.clientIdTurn ==1 && server == null ){
+		if(gameData.clientIdTurn == 1 && server == null && isReady ){
 			gameData = client.recive();
 		}
 				
@@ -263,21 +225,19 @@ public class BoardPanel extends JPanel {
 			 gameData = server.client.recive();
 		}
 		
-		if(gameData != null && gameData.pieces != null){
-			for (PostionValidator _move : gameData.pieces){
-				if (_move != gameData.postionValidator){
-					_move.piece.draw(g, _move.cx, _move.cy);
-				}					
-			}
-				
-			// Draw dragged checker last so that it appears over any underlying
-			// checker.
-			if (gameData.postionValidator != null){
-				gameData.postionValidator.piece.draw(g, gameData.postionValidator.cx, gameData.postionValidator.cy);
-			}		
+		for (PostionValidator _move : gameData.pieces){
+			if (_move != gameData.postionValidator){
+				_move.piece.draw(g, _move.cx, _move.cy);
+			}					
+		}
 			
-		}	
+		// Draw dragged checker last so that it appears over any underlying
+		// checker.
+		if (gameData.postionValidator != null){
+			gameData.postionValidator.piece.draw(g, gameData.postionValidator.cx, gameData.postionValidator.cy);
+		}		
 		
+		isReady = true;
 	}
 
 	private void paintCheckerBoard(Graphics g) {
