@@ -16,16 +16,11 @@ public class Checker {
 
 	public Checker(){
 		debug = new DebugWindow();
-		guiManager = new MainWindow(debug);
-		
+		guiManager = new MainWindow(debug);		
 		openUserInputPanel();
-	
 		startNetwork(userInput);
-
 		debug.log("_chekers: Viser brett");
-		
 		guiManager.showBoard(server,client, userInput);
-	
 	}
 	
 	private void startNetwork(UserInput userInput2) {
