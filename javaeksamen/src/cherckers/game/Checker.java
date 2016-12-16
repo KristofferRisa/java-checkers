@@ -16,8 +16,13 @@ public class Checker {
 
 	public Checker(){
 		loadWindows();		
+<<<<<<< HEAD
 		openUserInputPanel();		
 		startServerClient();		
+=======
+		openUserInputPanel();	
+		startServerClient();	
+>>>>>>> fc98fa900cba9d7c51a05c82244a0feb0470520a
 		startGame();
 	}
 
@@ -51,7 +56,6 @@ public class Checker {
 	private void openUserInputPanel() {	
 		//Henter input data fra UI og lagrer det i UserInput objekt
 		userInput = guiManager.showUserInput();
-		//Logging
 		debug.log("Player = " + userInput.name);
 	}
 

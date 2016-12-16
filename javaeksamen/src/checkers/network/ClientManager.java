@@ -9,27 +9,26 @@ import checkers.datamodels.GameDataDTO;
 import checkers.graphics.DebugWindow;
 
 public class ClientManager {
+	
 	public Socket socket;
-	private DebugWindow Debug;
+	private DebugWindow debug;
 	private ObjectOutputStream output;
 	private ObjectInputStream input;
 	public GameDataDTO data;
 	
-	public ClientManager(DebugWindow d){
-		Debug = d;
+	public ClientManager(DebugWindow debug){
+		this.debug = debug;
 	}
 	
 	public void connect(){
 		
-		try{			
-				Debug.log("_clientManager: Starter klient tilkopling");				
-							
-				output = new ObjectOutputStream(socket.getOutputStream());
-				input = new ObjectInputStream(socket.getInputStream());			
+		try{
+			debug.log("_clientManager: Starter klient tilkopling");		
+			output = new ObjectOutputStream(socket.getOutputStream());
+			input = new ObjectInputStream(socket.getInputStream());			
 				
 		} catch(Exception e) {
-			
-			Debug.log("_clientManager_" + e.getMessage());
+			debug.log("_clientManager_" + e.getMessage());
 		}
 		
 	}
@@ -40,7 +39,7 @@ public class ClientManager {
 			output.flush();
 			output.reset();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			debug.log("Noe skjedde med sending av objekt i server (klientbehandler) " + e.getMessage());
 			e.printStackTrace();
 		}
 	}
@@ -49,7 +48,7 @@ public class ClientManager {
 		try {
 			return (GameDataDTO)input.readObject();
 		} catch (ClassNotFoundException | IOException e) {
-			// TODO Auto-generated catch block
+			debug.log("Noe skjedde med mottak av object i server (klientbehanlder) " + e.getMessage() );
 			e.printStackTrace();
 		}
 		return null;

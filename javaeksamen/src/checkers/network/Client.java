@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-
 import checkers.datamodels.GameDataDTO;
 import checkers.datamodels.UserInput;
 import checkers.graphics.DebugWindow;
@@ -15,31 +14,26 @@ public class Client {
 	private ObjectInputStream input;
 	private ObjectOutputStream output;
 	private Socket socket;
-	private DebugWindow Debug;
+	private DebugWindow debug;
 	
 	public Client(UserInput userInput, DebugWindow d){
-		this.Debug = d;
+		this.debug = d;
 		this.userInput = userInput;
 	}
 
 	public void connect(){
 		try {			
-			Debug.log("_klient: Forsøker å kople til server");
+			debug.log("_klient: Forsøker å kople til server");
 			
 			socket = new Socket(userInput.ipAdress, userInput.portNumber);
 			
 			input = new ObjectInputStream(socket.getInputStream());
 			output = new ObjectOutputStream(socket.getOutputStream());
 			
-			Debug.log("_client: Socket opprettet, " + socket.isConnected());
-//			data = (GameDataDTO)input.readObject();
-//		
-//			output.writeObject(data);
-//				
-//			output.flush();
-//				
+			debug.log("_client: Socket opprettet, " + socket.isConnected());
+
 		} catch (Exception e) {
-			Debug.log("_client: " + e.getMessage());
+			debug.log("_client: " + e.getMessage());
 		}
 	}
 
@@ -50,7 +44,7 @@ public class Client {
 			output.flush();
 			output.reset();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			debug.log("Noe skjedde med sending av objekt " + e.getMessage());
 			e.printStackTrace();
 		}
 		
@@ -61,13 +55,10 @@ public class Client {
 		try {
 			return (GameDataDTO)input.readObject();
 		} catch (ClassNotFoundException | IOException e) {
-			// TODO Auto-generated catch block
+			debug.log("Noe feil skjedde med mottak av objekt " + e.getMessage());
 			e.printStackTrace();
 		}
 		return null;
+		
 	}
-
-
-
-	
 }

@@ -44,16 +44,12 @@ public class Server {
 			
 
 		} catch (IOException e) {
-			Debug.log("_server: Unable to process client request");
+			Debug.log("_server: Unable to process client request. error="+e.getMessage());
 			e.printStackTrace();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			Debug.log("_server: " + e.getMessage());
 			e.printStackTrace();
 		}
-
 	}
-
-	
 
 }
