@@ -1,4 +1,4 @@
-package datamodels;
+package checkers.datamodels;
 
 public class UserInput {
 	public String name;

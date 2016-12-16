@@ -1,4 +1,4 @@
-package game;
+package cherckers.game;
 
 public enum CheckerType {
 	   BLACK_REGULAR,

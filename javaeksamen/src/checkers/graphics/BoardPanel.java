@@ -1,6 +1,6 @@
 //BOARDPANEL
 
-package graphics;
+package checkers.graphics;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -12,13 +12,14 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
 import javax.swing.JPanel;
-import datamodels.GameDataDTO;
-import game.CheckerType;
-import game.Move;
-import game.Piece;
-import game.PostionValidator;
-import network.Client;
-import network.Server;
+
+import checkers.datamodels.GameDataDTO;
+import checkers.network.Client;
+import checkers.network.Server;
+import cherckers.game.CheckerType;
+import cherckers.game.Move;
+import cherckers.game.Piece;
+import cherckers.game.PostionValidator;
 
 public class BoardPanel extends JPanel {
 

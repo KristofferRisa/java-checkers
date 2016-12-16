@@ -1,5 +1,5 @@
 
-package graphics;
+package checkers.graphics;
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Dimension;
@@ -14,10 +14,10 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-import datamodels.GameDataDTO;
-import game.PostionValidator;
-import network.Client;
-import network.Server;
+import checkers.datamodels.GameDataDTO;
+import checkers.network.Client;
+import checkers.network.Server;
+import cherckers.game.PostionValidator;
 
 public class DebugWindow extends JFrame implements ActionListener {
 

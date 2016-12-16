@@ -1,4 +1,4 @@
-package graphics;
+package checkers.graphics;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.MouseEvent;
@@ -6,7 +6,7 @@ import java.awt.event.MouseListener;
 
 import javax.swing.JPanel;
 
-import game.Square;
+import cherckers.game.Square;
 
 
 public class SquarePanel extends JPanel {

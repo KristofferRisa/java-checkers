@@ -1,9 +1,9 @@
-package network;
+package checkers.network;
 
 import java.util.Vector;
 
-import datamodels.GameDataDTO;
-import game.PostionValidator;
+import checkers.datamodels.GameDataDTO;
+import cherckers.game.PostionValidator;
 
 public class CheckersEngine {
 

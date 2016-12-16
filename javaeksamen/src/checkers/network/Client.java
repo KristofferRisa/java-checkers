@@ -1,12 +1,13 @@
-package network;
+package checkers.network;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import datamodels.GameDataDTO;
-import datamodels.UserInput;
-import graphics.DebugWindow;
+
+import checkers.datamodels.GameDataDTO;
+import checkers.datamodels.UserInput;
+import checkers.graphics.DebugWindow;
 
 public class Client {
 

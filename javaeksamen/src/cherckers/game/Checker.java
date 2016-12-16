@@ -1,14 +1,13 @@
-package game;
+package cherckers.game;
 
 import java.net.UnknownHostException;
 
-import datamodels.GameDataDTO;
-import datamodels.UserInput;
-import graphics.DebugWindow;
-import graphics.MainWindow;
-import network.Client;
-import network.Server;
-import datamodels.UserInput;
+import checkers.datamodels.GameDataDTO;
+import checkers.datamodels.UserInput;
+import checkers.graphics.DebugWindow;
+import checkers.graphics.MainWindow;
+import checkers.network.Client;
+import checkers.network.Server;
 
 public class Checker {
 	
@@ -16,7 +15,7 @@ public class Checker {
 
 	public Checker(){
 		debug = new DebugWindow();
-		guiManager = new MainWindow();
+		guiManager = new MainWindow(debug);
 		
 		openUserInputPanel();
 				

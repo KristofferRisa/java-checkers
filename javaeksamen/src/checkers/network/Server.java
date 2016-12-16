@@ -1,4 +1,4 @@
-package network;
+package checkers.network;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -12,13 +12,13 @@ import java.net.Socket;
 
 import com.sun.org.apache.xml.internal.resolver.helpers.Debug;
 
-import datamodels.GameDataDTO;
-import datamodels.UserInput;
-import game.Checker;
-import game.Move;
-import game.PostionValidator;
-import graphics.BoardPanel;
-import graphics.DebugWindow;
+import checkers.datamodels.GameDataDTO;
+import checkers.datamodels.UserInput;
+import checkers.graphics.BoardPanel;
+import checkers.graphics.DebugWindow;
+import cherckers.game.Checker;
+import cherckers.game.Move;
+import cherckers.game.PostionValidator;
 
 public class Server {
 

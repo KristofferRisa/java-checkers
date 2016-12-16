@@ -1,4 +1,4 @@
-package game;
+package cherckers.game;
 
 import java.awt.Color;
 import java.awt.event.MouseEvent;

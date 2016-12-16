@@ -1,4 +1,4 @@
-package graphics;
+package checkers.graphics;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -15,10 +15,10 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 
-import datamodels.GameDataDTO;
-import datamodels.UserInput;
-import network.Client;
-import network.Server;
+import checkers.datamodels.GameDataDTO;
+import checkers.datamodels.UserInput;
+import checkers.network.Client;
+import checkers.network.Server;
 
 public class MainWindow extends JFrame {
 

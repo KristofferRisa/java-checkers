@@ -1,5 +1,5 @@
 
-package graphics;
+package checkers.graphics;
 
 import java.awt.BorderLayout;
 import java.awt.Desktop;
@@ -28,7 +28,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 
-import datamodels.UserInput;
+import checkers.datamodels.UserInput;
 
 
 public class StartPanel extends JPanel implements ActionListener {

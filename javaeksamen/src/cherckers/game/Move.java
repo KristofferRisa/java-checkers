@@ -1,4 +1,4 @@
-package game;
+package cherckers.game;
 
 import java.io.Serializable;
 
