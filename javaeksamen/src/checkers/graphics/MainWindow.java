@@ -7,14 +7,12 @@ import java.awt.GridBagLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
-
 import checkers.datamodels.GameDataDTO;
 import checkers.datamodels.UserInput;
 import checkers.network.Client;
@@ -22,13 +20,14 @@ import checkers.network.Server;
 
 public class MainWindow extends JFrame {
 
-	Toolkit tk = Toolkit.getDefaultToolkit();
-	Dimension d = tk.getScreenSize();
-	int screenHeight = d.height;
-	int screenWidth = d.width;
-
+	private Toolkit tk = Toolkit.getDefaultToolkit();
+	private Dimension d = tk.getScreenSize();
+	private int screenWidth = d.width;
 	private BoardPanel board;
 	private DebugWindow debug;
+	public StartPanel startPanel;
+	public Server server;
+	private static final long serialVersionUID = -3425445318104341180L;
 	
 	public MainWindow(DebugWindow debug){
 		configureFrame();
@@ -97,6 +96,9 @@ public class MainWindow extends JFrame {
 		
 		JLabel waitLabel = new JLabel("Waiting for player 2");
 		
+		JPanel panel = new JPanel();
+		panel.setLayout(new BorderLayout());
+		panel.add(waitLabel , BorderLayout.CENTER);
 		
 		repaint();
 		
@@ -114,10 +116,7 @@ public class MainWindow extends JFrame {
 		
 		remove(startPanel);		
 		
-		JPanel panel = new JPanel();
-		panel.setLayout(new BorderLayout());
-		panel.add(waitLabel , BorderLayout.CENTER);
-		
+	
 		add(panel);
 		
 		repaint();
@@ -162,8 +161,7 @@ public class MainWindow extends JFrame {
 
 	private void configureFrame() {
 		setTitle("Checkers 1.0 - OBJ2000");
-		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-		
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();	
 		int height = screenSize.height;
 		int width = screenSize.width;
 		setSize(height/1,width/2);
@@ -173,10 +171,5 @@ public class MainWindow extends JFrame {
 		setVisible(true);
 		
 	}
-	
-	public StartPanel startPanel;
-	public Server server;
-	
-	private static final long serialVersionUID = -3425445318104341180L;
 	
 }

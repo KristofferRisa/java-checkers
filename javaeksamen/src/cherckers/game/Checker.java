@@ -56,7 +56,6 @@ public class Checker {
 	private void openUserInputPanel() {	
 		//Henter input data fra UI og lagrer det i UserInput objekt
 		userInput = guiManager.showUserInput();
-		//Logging
 		debug.log("Player = " + userInput.name);
 	}
 

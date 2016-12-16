@@ -10,7 +10,6 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
 import javax.swing.JPanel;
-
 import checkers.datamodels.GameDataDTO;
 import checkers.network.Client;
 import checkers.network.Server;
@@ -25,7 +24,6 @@ public class BoardPanel extends JPanel {
 	private Client client;
 	private Server server;
 	private static GameDataDTO gameData;
-
 	// dimension of checkerboard square (25% bigger than checker)
 	private final static int SQUAREDIM = (int) (Piece.getDimension() * 1.25);
 	// dimension of checkerboard (width of 8 squares)
@@ -137,25 +135,20 @@ public class BoardPanel extends JPanel {
 
 					repaint();
 				}
-				
 			}
-
 
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				// TODO Auto-generated method stub
 
 			}
 
 			@Override
 			public void mouseEntered(MouseEvent arg0) {
-				// TODO Auto-generated method stub
 
 			}
 
 			@Override
 			public void mouseExited(MouseEvent arg0) {
-				// TODO Auto-generated method stub
 
 			}
 
@@ -170,6 +163,7 @@ public class BoardPanel extends JPanel {
 					// Update location of checker center.
 
 					gameData.postionValidator.cx = me.getX() - gameData.move.deltax;
+					
 					gameData.postionValidator.cy = me.getY() - gameData.move.deltay;
 
 					repaint();
@@ -178,7 +172,6 @@ public class BoardPanel extends JPanel {
 
 			@Override
 			public void mouseMoved(MouseEvent arg0) {
-				// TODO Auto-generated method stub
 
 			}
 		});
@@ -207,7 +200,7 @@ public class BoardPanel extends JPanel {
 				try {
 					throw new Exception("square at (" + row + "," + col + ") is occupied");
 				} catch (Exception e) {
-					// TODO Auto-generated catch block
+					debug.log("noe feilet med brikkene " + e.getMessage());
 					e.printStackTrace();
 				}
 			}
@@ -295,7 +288,6 @@ public class BoardPanel extends JPanel {
 
 			if (i % 2 != 0) {
 				add(new Piece(CheckerType.WHITE_REGULAR), 8, i);
-
 			}
 		}
 
