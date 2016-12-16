@@ -1,5 +1,3 @@
-//BOARDPANEL
-
 package checkers.graphics;
 
 import java.awt.Color;
@@ -34,12 +32,17 @@ public class BoardPanel extends JPanel {
 	private final int BOARDDIM = 8 * SQUAREDIM;
 	// preferred size of Board component
 	private Dimension dimPrefSize;
+	//parameter for å finne ut om brikkene er lastet for begge spillere
 	private boolean isReady;
+	private String clientId;
+	private DebugWindow debug;
 
-	public BoardPanel(Server server, Client client) {
+	public BoardPanel(Server server, Client client, DebugWindow debug) {
 		this.server = server;
 		this.client = client;
-		isReady = false; //parameter for å finne ut om brikkene er lastet for begge spillere
+		this.debug = debug;
+		this.isReady = false; 
+		this.clientId = (this.server == null) ? "player 2" : "player 1";
 
 		if (server != null) {
 			gameData = new GameDataDTO();
@@ -82,8 +85,9 @@ public class BoardPanel extends JPanel {
 							gameData.move.isMoving = true;
 							return;
 						}
-					}					
-				}			
+					}
+				}	
+				debug.log("Det er ikke dint tur " + clientId);
 			}
 
 
@@ -121,7 +125,6 @@ public class BoardPanel extends JPanel {
 					
 					gameData.postionValidator = null;
 					
-					
 					if(gameData.clientIdTurn == 2 && server == null ){
 						gameData.clientIdTurn = 1;
 						client.send(gameData);
@@ -130,6 +133,8 @@ public class BoardPanel extends JPanel {
 						gameData.clientIdTurn = 2;
 						server.client.send(gameData);
 					}
+					
+
 					repaint();
 				}
 				
@@ -177,10 +182,13 @@ public class BoardPanel extends JPanel {
 
 			}
 		});
+		repaint();
 	}
 
 	public void add(Piece piece, int row, int col) {
 
+		debug.log("legger ut brikker");
+		
 		if (row < 1 || row > 8) {
 			throw new IllegalArgumentException("row out of range: " + row);
 		}
@@ -219,11 +227,13 @@ public class BoardPanel extends JPanel {
 		paintCheckerBoard(g);
 		
 		if(gameData.clientIdTurn == 1 && server == null && isReady ){
+			debug.log("forsøker å motta oppdatert brett infor fra klient 2");
 			gameData = client.recive();
 		}
 				
 		if(gameData.clientIdTurn == 2 && server != null){
-			 gameData = server.client.recive();
+			debug.log("forsøker å motta oppdatert brett infor fra klient 1");
+			gameData = server.client.recive();
 		}
 		
 		for (PostionValidator _move : gameData.pieces){

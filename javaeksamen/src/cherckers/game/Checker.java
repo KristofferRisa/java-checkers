@@ -25,7 +25,11 @@ public class Checker {
 		debug.log("_chekers: Viser brett");
 		
 		guiManager.showBoard(server,client, userInput);
-	
+		String status = (userInput.isServer == true) ? "on" : "off";
+		debug.log("Server status: " + status);
+		String title = (userInput.isServer) ? "Player 1" : "Player 2";
+		guiManager.setTitle("Checkers (" + title + ")");
+		
 	}
 	
 	private void startNetwork(UserInput userInput2) {
@@ -48,8 +52,6 @@ public class Checker {
 
 		//Logging
 		debug.log("Player = " + userInput.name);
-		String status = (userInput.isServer == true) ? "on" : "off";
-		debug.log("Server status: " + status);
 	}
 
 }

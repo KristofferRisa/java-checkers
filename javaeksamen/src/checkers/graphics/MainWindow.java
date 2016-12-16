@@ -147,7 +147,7 @@ public class MainWindow extends JFrame {
 		
 		add(user1, BorderLayout.NORTH);
 		
-		board = new BoardPanel(server, client);
+		board = new BoardPanel(server, client,debug);
 		add(board);
 		
 		UserInfoPanel user2 = new UserInfoPanel("Spiller 2: "+ data.player2);

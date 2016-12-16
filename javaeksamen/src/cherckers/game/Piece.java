@@ -4,8 +4,6 @@ import java.awt.Color;
 import java.awt.Graphics;
 import javax.swing.JComponent;
 
-
-
 public class Piece extends JComponent {
 	
 	private static final long serialVersionUID = 1398287619308015211L;
