@@ -92,10 +92,8 @@ public class MainWindow extends JFrame {
 	public UserInput showUserInput() {
 		startPanel = new StartPanel(this,debug);
 		add(startPanel);
-		setVisible(true);
-		
-		JLabel waitLabel = new JLabel("Waiting for player 2");
-		
+		setVisible(true);		
+		JLabel waitLabel = new JLabel("Waiting for player 2");		
 		JPanel panel = new JPanel();
 		panel.setLayout(new BorderLayout());
 		panel.add(waitLabel , BorderLayout.CENTER);
@@ -113,14 +111,9 @@ public class MainWindow extends JFrame {
 			}
 			
 		}
-		
 		remove(startPanel);		
-		
-	
 		add(panel);
-		
 		repaint();
-		
 		return startPanel.getUserInputData();
 		
 	}
@@ -129,7 +122,6 @@ public class MainWindow extends JFrame {
 	public void showBoard(Server server, Client client, UserInput input){
 
 		setLayout(new BorderLayout());
-		
 		//Utvkelse bruker info
 		GameDataDTO data = new GameDataDTO();
 		if(server != null){
@@ -144,19 +136,14 @@ public class MainWindow extends JFrame {
 
 		UserInfoPanel user1 = new UserInfoPanel("Spiller 1: " + data.player1);
 		
-		add(user1, BorderLayout.NORTH);
-		
+		add(user1, BorderLayout.NORTH);		
 		board = new BoardPanel(server, client,debug);
-		add(board);
-		
-		UserInfoPanel user2 = new UserInfoPanel("Spiller 2: "+ data.player2);
-		
-		add(user2, BorderLayout.SOUTH);
-		
+		add(board);		
+		UserInfoPanel user2 = new UserInfoPanel("Spiller 2: "+ data.player2);		
+		add(user2, BorderLayout.SOUTH);		
 		setResizable(false);
 		pack();
-		repaint();
-		
+		repaint();		
 	}
 
 	private void configureFrame() {
