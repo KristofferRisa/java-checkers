@@ -2,15 +2,15 @@ package cherckers.game;
 
 import java.awt.Color;
 import java.awt.Graphics;
-
 import javax.swing.JComponent;
 
-import java.awt.Color;
 
 
 public class Piece extends JComponent {
 	
-private final static int DIMENSION = 50;
+	private static final long serialVersionUID = 1398287619308015211L;
+
+	private final static int DIMENSION = 50;
 	
 	private CheckerType checkerType;
 	

@@ -91,7 +91,7 @@ public class MainWindow extends JFrame {
 	}
 
 	public UserInput showUserInput() {
-		startPanel = new StartPanel(this);
+		startPanel = new StartPanel(this,debug);
 		add(startPanel);
 		setVisible(true);
 		
@@ -106,7 +106,7 @@ public class MainWindow extends JFrame {
 				System.out.println("Waiting on user input");
 				Thread.sleep(1000);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
+				debug.log("Noe feil ved henting av user input. " + e.getMessage());
 				e.printStackTrace();
 			}
 			

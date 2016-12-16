@@ -19,7 +19,6 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.UnknownHostException;
 import java.util.MissingResourceException;
-
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -40,6 +39,8 @@ public class StartPanel extends JPanel implements ActionListener {
 	private JLabel changePort;
 
 	private JLabel ipLabel;
+
+	private DebugWindow debug;
 	
 	public UserInput getUserInputData(){
 		if(userInput != null){
@@ -49,8 +50,9 @@ public class StartPanel extends JPanel implements ActionListener {
 		throw new MissingResourceException("Missing userinput data", getName(), "UserInput");
 	}
 	
-	public StartPanel(JFrame frame) {
+	public StartPanel(JFrame frame, DebugWindow debug) {
 		this.frame = frame;
+		this.debug = debug;
 		JLabel nameLabel = new JLabel("Username: ");
 		nameField = new JTextField("Enter a username");
 		ipLabel = null;
@@ -151,7 +153,6 @@ public class StartPanel extends JPanel implements ActionListener {
 		
 		// Puts relative sizes on all 
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-		int height = screenSize.height;
 		int width = screenSize.width;
 		
 		if (width <= 1366) {
@@ -240,7 +241,7 @@ public class StartPanel extends JPanel implements ActionListener {
 				Desktop dt = Desktop.getDesktop();
 				dt.browse(uri);
 			} catch (IOException | URISyntaxException e1) {
-				// TODO Auto-generated catch block
+				debug.log("_startPanel: Noe feilet ved åpning av URL. " + e1.getMessage());
 				e1.printStackTrace();
 			}
 		}

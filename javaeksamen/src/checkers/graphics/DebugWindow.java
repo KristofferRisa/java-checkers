@@ -14,15 +14,12 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-import checkers.datamodels.GameDataDTO;
-import checkers.network.Client;
-import checkers.network.Server;
-import cherckers.game.PostionValidator;
-
 public class DebugWindow extends JFrame implements ActionListener {
-
-	private Server srv;
-	private Client k;
+	
+	static JTextArea ta;
+	private static final long serialVersionUID = 1L;
+	private JTextField t;
+	private JButton sendButton;
 	
 	public DebugWindow(String title) {		
 		addComponents();
@@ -75,6 +72,7 @@ public class DebugWindow extends JFrame implements ActionListener {
 	}
 
 	private void doCmd() {
+		//for å teste kommandoer under utvikling.
 		String txt = t.getText().toLowerCase().trim();
 		log("command: "+ txt);
 		Commands cmd = Commands.valueOf(txt);
@@ -113,7 +111,6 @@ public class DebugWindow extends JFrame implements ActionListener {
 	    if (e.getKeyCode()==KeyEvent.VK_ENTER){
 	    	doCmd();
 	    }
-
 	}
 
 	private void setupFrame(String title) {
@@ -136,9 +133,4 @@ public class DebugWindow extends JFrame implements ActionListener {
 		}
 	}
 
-	
-	static JTextArea ta;
-	private static final long serialVersionUID = 1L;
-	private JTextField t;
-	private JButton sendButton;
 }

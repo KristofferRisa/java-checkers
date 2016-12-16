@@ -1,8 +1,5 @@
 package cherckers.game;
 
-import java.net.UnknownHostException;
-
-import checkers.datamodels.GameDataDTO;
 import checkers.datamodels.UserInput;
 import checkers.graphics.DebugWindow;
 import checkers.graphics.MainWindow;
@@ -11,26 +8,25 @@ import checkers.network.Server;
 
 public class Checker {
 	
-	
+	private DebugWindow debug;
+	private MainWindow guiManager;
+	private Server server;
+	private Client client;
+	private UserInput userInput;
 
 	public Checker(){
 		debug = new DebugWindow();
 		guiManager = new MainWindow(debug);
 		
 		openUserInputPanel();
-				
+	
 		startNetwork(userInput);
 
 		debug.log("_chekers: Viser brett");
 		
-		
-		guiManager.showBoard(server,klient, userInput);
+		guiManager.showBoard(server,client, userInput);
 	
-		
-		debug.log("ferdig, avslutter aplikasjon");	
 	}
-
-	
 	
 	private void startNetwork(UserInput userInput2) {
 		
@@ -40,8 +36,8 @@ public class Checker {
 			server.connect();	
 		} else {
 			debug.log("Starter ny klient");
-			klient = new Client(userInput, debug);
-			klient.connect();
+			client = new Client(userInput, debug);
+			client.connect();
 		}
 	}
 
@@ -54,17 +50,6 @@ public class Checker {
 		debug.log("Player = " + userInput.name);
 		String status = (userInput.isServer == true) ? "on" : "off";
 		debug.log("Server status: " + status);
-		
 	}
-	
-	private DebugWindow debug;
 
-	private MainWindow guiManager;
-	
-	private Server server;
-
-	private Client klient;
-
-	private UserInput userInput;
-	
 }
