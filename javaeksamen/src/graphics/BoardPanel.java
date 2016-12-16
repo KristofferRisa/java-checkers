@@ -11,24 +11,24 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
-import java.util.List;
+
 import javax.swing.JPanel;
 
 import datamodels.GameDataDTO;
 import game.CheckerType;
 import game.Move;
-import game.PostionValidator;
 import game.Piece;
+import game.PostionValidator;
 import network.Client;
 import network.Server;
 
 public class BoardPanel extends JPanel {
-	
+
 	private static final long serialVersionUID = -3323794800676139078L;
 	private Client client;
 	private Server server;
 	private static GameDataDTO gameData;
-	
+
 	// dimension of checkerboard square (25% bigger than checker)
 	private final static int SQUAREDIM = (int) (Piece.getDimension() * 1.25);
 	// dimension of checkerboard (width of 8 squares)
@@ -37,44 +37,42 @@ public class BoardPanel extends JPanel {
 	private Dimension dimPrefSize;
 	// dragging flag -- set to true when user presses mouse button over checker
 	// and cleared to false when user releases mouse button
-//	private Move move;
+	// private Move move;
 	// reference to positioned checker at start of drag
-//	private PostionValidator postionValidator;
-	
-	// list of Checker objects and their initial positions
-//	private List<PostionValidator> pieces;s
+	// private PostionValidator postionValidator;
 
-	public BoardPanel(Server server,Client client) {
-		if(server != null){
+	// list of Checker objects and their initial positions
+	// private List<PostionValidator> pieces;s
+
+	public BoardPanel(Server server, Client client) {
+		if (server != null) {
 			gameData = new GameDataDTO();
 			gameData.pieces = new ArrayList<>();
 			gameData.move = new Move();
 			addPieces();
+			//setUpGame();
 		}
-		
+
 		this.server = server;
 		this.client = client;
-		
+
 		// SquarePanel squarePanel = new SquarePanel();
 		// add(squarePanel);
 		setVisible(true);
 
-		
 		dimPrefSize = new Dimension(BOARDDIM, BOARDDIM);
-		
-		if(server == null){
+
+		if (server == null) {
 			gameData = client.recive();
 			repaint();
 		} else {
 			server.client.send(gameData);
 		}
-		
-			
+
 		addMouseListener(new MouseListener() {
 			@Override
 			public void mousePressed(MouseEvent me) {
 				// Obtain mouse coordinates at time of press.
-
 				if((server != null && gameData.clientIdTurn == 1)
 						|| (server == null && gameData.clientIdTurn == 2)){
 					int x = me.getX();
@@ -97,9 +95,10 @@ public class BoardPanel extends JPanel {
 							return;
 						}
 					}					
-				}				
-					
+				}			
 			}
+
+
 
 			@Override
 			public void mouseReleased(MouseEvent me) {
@@ -148,22 +147,23 @@ public class BoardPanel extends JPanel {
 				
 			}
 
+
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				// TODO Auto-generated method stub
-				
+
 			}
 
 			@Override
 			public void mouseEntered(MouseEvent arg0) {
 				// TODO Auto-generated method stub
-				
+
 			}
 
 			@Override
 			public void mouseExited(MouseEvent arg0) {
 				// TODO Auto-generated method stub
-				
+
 			}
 
 		});
@@ -178,7 +178,7 @@ public class BoardPanel extends JPanel {
 
 					gameData.postionValidator.cx = me.getX() - gameData.move.deltax;
 					gameData.postionValidator.cy = me.getY() - gameData.move.deltay;
-										
+
 					repaint();
 				}
 			}
@@ -186,29 +186,28 @@ public class BoardPanel extends JPanel {
 			@Override
 			public void mouseMoved(MouseEvent arg0) {
 				// TODO Auto-generated method stub
-				
+
 			}
 		});
 	}
 
-
 	public void add(Piece piece, int row, int col) {
-		
-		if (row < 1 || row > 8){
+
+		if (row < 1 || row > 8) {
 			throw new IllegalArgumentException("row out of range: " + row);
 		}
-			
-		if (col < 1 || col > 8){
+
+		if (col < 1 || col > 8) {
 			throw new IllegalArgumentException("col out of range: " + col);
 		}
-			
+
 		PostionValidator pv = new PostionValidator();
 		pv.piece = piece;
 		pv.cx = (col - 1) * SQUAREDIM + SQUAREDIM / 2;
 		pv.cy = (row - 1) * SQUAREDIM + SQUAREDIM / 2;
-		
-		for (PostionValidator _validator : gameData.pieces){
-			if (pv.cx == _validator.cx && pv.cy == _validator.cy){
+
+		for (PostionValidator _validator : gameData.pieces) {
+			if (pv.cx == _validator.cx && pv.cy == _validator.cy) {
 				try {
 					throw new Exception("square at (" + row + "," + col + ") is occupied");
 				} catch (Exception e) {
@@ -216,10 +215,35 @@ public class BoardPanel extends JPanel {
 					e.printStackTrace();
 				}
 			}
-		}			
-				
+		}
+
 		gameData.pieces.add(pv);
 	}
+
+//	public void setUpGame() {
+//         // Set up the board with checkers in position for the beginning
+//         // of a game.  Note that checkers can only be found in squares
+//         // that satisfy  row % 2 == col % 2.  At the start of the game,
+//         // all such squares in the first three rows contain black squares
+//         // and all such squares in the last three rows contain red squares.
+//     for (int row = 0; row < 8; row++) {
+//        for (int col = 0; col < 8; col++) {
+//           if ( row % 2 == col % 2 ) {
+//              if (row < 3 ) {
+//                 [row][col] = CheckerType.BLACK_REGULAR;
+//                 
+//              else if (row > 4)
+//                 [row][col] = CheckerType.WHITE_REGULAR;
+//              else
+//                 board[][col] = CheckerType.EMPTY;
+//           }
+//           else {
+//              [row][col] = CheckerType.EMPTY;
+//           }
+//        }
+//     }
+	  // end
+																																																														// setUpGame()
 
 	@Override
 	public Dimension getPreferredSize() {
@@ -269,43 +293,41 @@ public class BoardPanel extends JPanel {
 			}
 		}
 	}
-	
+
 	private void addPieces() {
-			
-			//Black pieces			
-			for (int i = 1; i <= 8; i++) {
 
-				if (i % 2 == 0) {
-					add(new Piece(CheckerType.BLACK_REGULAR), 1, i);
-				}
-			}
-			
-			for (int i = 1; i <= 8; i++) {
+		// Black pieces
+		for (int i = 1; i <= 8; i++) {
 
-				if (i % 2 != 0) {
-					add(new Piece(CheckerType.BLACK_REGULAR), 2, i);
-				}
-				
-			}
-			
-			//White pieces
-			for (int i = 1; i <= 8; i++) {
-
-				if (i % 2 == 0) {
-					add(new Piece(CheckerType.WHITE_REGULAR), 7, i);
-				}
-			}
-			
-			for (int i = 1; i <= 8; i++) {
-
-				if (i % 2 != 0) {
-					add(new Piece(CheckerType.WHITE_REGULAR), 8, i);
-					
-				}	
+			if (i % 2 == 0) {
+				add(new Piece(CheckerType.BLACK_REGULAR), 1, i);
 			}
 		}
 
+		for (int i = 1; i <= 8; i++) {
+
+			if (i % 2 != 0) {
+				add(new Piece(CheckerType.BLACK_REGULAR), 2, i);
+			}
+
+		}
+
+		// White pieces
+		for (int i = 1; i <= 8; i++) {
+
+			if (i % 2 == 0) {
+				add(new Piece(CheckerType.WHITE_REGULAR), 7, i);
+			}
+		}
+
+		for (int i = 1; i <= 8; i++) {
+
+			if (i % 2 != 0) {
+				add(new Piece(CheckerType.WHITE_REGULAR), 8, i);
+
+			}
+		}
+
+	}
+
 }
-
-
-

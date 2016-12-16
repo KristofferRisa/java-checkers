@@ -128,12 +128,14 @@ public class MainWindow extends JFrame {
 	}
 
 
-	public void showBoard(Server server, Client client){
+	public void showBoard(Server server, Client client,  UserInput input2){
 
 		setLayout(new BorderLayout());
 				
 		//TODO: Oppdater med riktig brukerinfo
-		UserInfoPanel user1 = new UserInfoPanel("Test user", "IP");
+		//UserInfoPanel user1 = new UserInfoPanel("Test user", "IP");
+		
+		UserInfoPanel user1 = new UserInfoPanel(input2.name, input2.ipAdress);
 		
 		add(user1, BorderLayout.NORTH);
 		
@@ -141,7 +143,8 @@ public class MainWindow extends JFrame {
 		add(board);
 		
 		//TODO: Oppdater med riktig brukerinfo
-		UserInfoPanel user2 = new UserInfoPanel("TEST TEST", "Localhost");
+		//UserInfoPanel user2 = new UserInfoPanel("TEST TEST", "Localhost");
+		UserInfoPanel user2 = new UserInfoPanel(input2.name, input2.ipAdress);
 		
 		add(user2, BorderLayout.SOUTH);
 		
