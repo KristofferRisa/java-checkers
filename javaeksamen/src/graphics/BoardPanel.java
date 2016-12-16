@@ -27,7 +27,7 @@ public class BoardPanel extends JPanel {
 	private static final long serialVersionUID = -3323794800676139078L;
 	private Client client;
 	private Server server;
-	private GameDataDTO gameData;
+	private static GameDataDTO gameData;
 	
 	// dimension of checkerboard square (25% bigger than checker)
 	private final static int SQUAREDIM = (int) (Piece.getDimension() * 1.25);
@@ -62,8 +62,14 @@ public class BoardPanel extends JPanel {
 		
 		dimPrefSize = new Dimension(BOARDDIM, BOARDDIM);
 		
+		if(server == null){
+			gameData = client.recive();
+			repaint();
+		} else {
+			server.client.send(gameData);
+		}
 		
-		
+			
 		addMouseListener(new MouseListener() {
 			@Override
 			public void mousePressed(MouseEvent me) {
@@ -119,11 +125,34 @@ public class BoardPanel extends JPanel {
 							&& posCheck.cy == gameData.postionValidator.cy) {
 						gameData.postionValidator.cx = gameData.move.oldcx;
 						gameData.postionValidator.cy = gameData.move.oldcy;
-						
 					}
 				
 				gameData.postionValidator = null;
 				
+
+				
+				repaint();
+				
+				
+				if(gameData.clientIdTurn ==1 ){
+					if(server == null){
+						gameData = client.recive();
+						
+					} else {
+						gameData.clientIdTurn = 2;
+						server.client.send(gameData);
+					}
+				}
+				
+				if(gameData.clientIdTurn == 2 ){
+					if(server == null){
+						gameData.clientIdTurn = 1;
+						client.send(gameData);
+					} else {
+						gameData = server.client.recive();
+						
+					}
+				}
 				repaint();
 			}
 
@@ -168,8 +197,8 @@ public class BoardPanel extends JPanel {
 				
 			}
 		});
-
 	}
+
 
 	public void add(Piece piece, int row, int col) {
 		
@@ -220,16 +249,10 @@ public class BoardPanel extends JPanel {
 			// checker.
 			if (gameData.postionValidator != null){
 				gameData.postionValidator.piece.draw(g, gameData.postionValidator.cx, gameData.postionValidator.cy);
-			}				
-		}
-		
-		if(server == null){
-			gameData = client.recive();
-			repaint();
-		} else {
-			server.client.send(gameData);
-		}
+			}		
 			
+		}	
+		
 	}
 
 	private void paintCheckerBoard(Graphics g) {
@@ -281,7 +304,6 @@ public class BoardPanel extends JPanel {
 			}
 		}
 
-	
 }
 
 
