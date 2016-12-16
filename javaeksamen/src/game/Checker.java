@@ -1,14 +1,18 @@
 package game;
 
 import java.net.UnknownHostException;
+
 import datamodels.GameDataDTO;
 import datamodels.UserInput;
 import graphics.DebugWindow;
 import graphics.MainWindow;
 import network.Client;
 import network.Server;
+import datamodels.UserInput;
 
 public class Checker {
+	
+	
 
 	public Checker(){
 		debug = new DebugWindow();
@@ -16,12 +20,12 @@ public class Checker {
 		
 		openUserInputPanel();
 				
-		startNetwork();
+		startNetwork(userInput);
 
 		debug.log("_chekers: Viser brett");
 		
 		
-		guiManager.showBoard(server,klient);
+		guiManager.showBoard(server,klient, userInput);
 	
 		
 		debug.log("ferdig, avslutter aplikasjon");	
@@ -29,7 +33,7 @@ public class Checker {
 
 	
 	
-	private void startNetwork() {
+	private void startNetwork(UserInput userInput2) {
 		
 		if(userInput.isServer){
 			//Start server
