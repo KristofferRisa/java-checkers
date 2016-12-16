@@ -248,8 +248,6 @@ public class StartPanel extends JPanel implements ActionListener {
 				e1.printStackTrace();
 			}
 		}
-		
-	
 	}
 
 	private void getValuesFromUserInterface(Boolean isServer) {
@@ -268,6 +266,4 @@ public class StartPanel extends JPanel implements ActionListener {
 		setVisible(false);
 	}
 	
-
-
 }

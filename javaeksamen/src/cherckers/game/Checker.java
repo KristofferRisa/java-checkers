@@ -16,13 +16,8 @@ public class Checker {
 
 	public Checker(){
 		loadWindows();		
-<<<<<<< HEAD
 		openUserInputPanel();		
-		startServerClient();		
-=======
-		openUserInputPanel();	
-		startServerClient();	
->>>>>>> fc98fa900cba9d7c51a05c82244a0feb0470520a
+		startServerClient();
 		startGame();
 	}
 
