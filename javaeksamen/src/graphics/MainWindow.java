@@ -28,33 +28,31 @@ public class MainWindow extends JFrame {
 	int screenWidth = d.width;
 
 	private BoardPanel board;
+	private DebugWindow debug;
 	
-	public MainWindow(){
+	public MainWindow(DebugWindow debug){
 		configureFrame();
 		addMenu();
+		this.debug = debug;
 	}
-	
 
 	private void addMenu() {
 		JMenuBar menubar = new JMenuBar();
 		JMenu menu = new JMenu("Menu");
 		JMenuItem closeMenuItem = new JMenuItem("Close");
-		JMenuItem newGame = new JMenuItem("New Game");
-		JMenuItem showDebug = new JMenuItem("Show Debug");
+		JMenuItem showDebug = new JMenuItem("Show/hide Debug");
 		JMenuItem portItem= new JMenuItem ("Change port");
 		JMenuItem disableMouse= new JMenuItem ("Mouse off");
 
 		
 		setJMenuBar(menubar);
 		menubar.add(menu);
-		menu.add(newGame);
 		menu.add(showDebug);
 		menu.add(portItem);
 		menu.add(disableMouse);
 		menu.add(closeMenuItem);
 		
 		menu.setFont(new Font("Arial", Font.PLAIN, (int) screenWidth / 150));
-		newGame.setFont(new Font("Arial", Font.PLAIN, (int) screenWidth / 150));
 		showDebug.setFont(new Font("Arial", Font.PLAIN, (int) screenWidth / 150));
 		closeMenuItem.setFont(new Font("Arial", Font.PLAIN, (int) screenWidth / 150));
 		
@@ -67,7 +65,8 @@ public class MainWindow extends JFrame {
 		showDebug.addActionListener(new ActionListener() {
 			@Override
             public void actionPerformed(ActionEvent e) {
-				//ADD CLOSE AND OPEN DEBUG WINDOW HERE
+				boolean active = (debug.isVisible()) ? false : true;
+				debug.setVisible(active);
             }
         });
 		
