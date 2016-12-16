@@ -16,11 +16,8 @@ public class Checker {
 
 	public Checker(){
 		loadWindows();		
-		
-		openUserInputPanel();
-		
-		startServerClient();
-		
+		openUserInputPanel();	
+		startServerClient();	
 		startGame();
 	}
 

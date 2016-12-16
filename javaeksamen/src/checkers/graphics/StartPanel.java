@@ -69,7 +69,7 @@ public class StartPanel extends JPanel implements ActionListener {
 		
 		btnServer = new JButton("Create New Online Game");
 		ipField = new JTextField("127.0.0.1");
-		btnJoin = new JButton("Join Online Game/Enter IP");
+		btnJoin = new JButton("Join Online Game");
 		btnLocal = new JButton("Test Game Locally");
 		btnWhatIP = new JButton("?");
 		changePort = new JLabel("Change port ");
