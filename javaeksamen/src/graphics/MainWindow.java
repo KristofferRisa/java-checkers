@@ -116,9 +116,8 @@ public class MainWindow extends JFrame {
 	}
 
 
-	public void showBoard(Client klient){
-//		boardpanel = new Board(klient);
-		
+	public void showBoard(Server server, Client client){
+
 		setLayout(new BorderLayout());
 				
 		//TODO: Oppdater med riktig brukerinfo
@@ -126,34 +125,17 @@ public class MainWindow extends JFrame {
 		
 		add(user1, BorderLayout.NORTH);
 		
-//		postBlackBricks();
-//		
-//		postHviteBricks();
-		
-		
-		
-		//boardpanel.setPreferredSize(new Dimension(800,600));
-		
-		
-		
-		//add(boardpanel,BorderLayout.CENTER);
-	
-		board = new BoardPanel(klient);
+		board = new BoardPanel(server, client);
 		add(board);
 		
-		
-		
-		//add(new CheckersPanel());
 		//TODO: Oppdater med riktig brukerinfo
 		UserInfoPanel user2 = new UserInfoPanel("TEST TEST", "Localhost");
-		
 		
 		add(user2, BorderLayout.SOUTH);
 		
 		setResizable(false);
 		pack();
 		repaint();
-
 		
 	}
 
@@ -175,9 +157,5 @@ public class MainWindow extends JFrame {
 	public Server server;
 	
 	private static final long serialVersionUID = -3425445318104341180L;
-
-	public void setData(GameDataDTO data) {
-		board.data = data;
-	}
 	
 }

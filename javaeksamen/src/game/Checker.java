@@ -15,71 +15,43 @@ public class Checker {
 		guiManager = new MainWindow();
 		
 		openUserInputPanel();
-		
-		starterServer();
-		
-		starterClient();
+				
+		startNetwork();
 
-		showBoard();
+		debug.log("_chekers: Viser brett");
 		
-		debug.log("ferdig, avslutter aplikasjon");
 		
-		System.exit(0);
+		guiManager.showBoard(server,klient);
+	
+		debug.log("ferdig, avslutter aplikasjon");	
 	}
 
 	
 	
-	private void starterServer() {
+	private void startNetwork() {
 		
-		if(input.isServer){
+		if(userInput.isServer){
 			//Start server
-			server = new Server(debug);
-			server.start();	
+			server = new Server(userInput,debug);
+			server.connect();	
+		} else {
+			debug.log("Starter ny klient");
+			klient = new Client(userInput, debug);
+			klient.connect();
 		}
-	}
-
-	private void starterClient() {
-		debug.log("Starter ny klient");
-		String ip = "127.0.0.1";
-		int port = 1337;
-		klient = new Client(ip, port, input, debug);
-		klient.connect();
 	}
 
 	private void openUserInputPanel() {
 		
-		input = guiManager.showUserInput();
+		//Henter input data fra UI og lagrer det i UserInput objekt
+		userInput = guiManager.showUserInput();
 
-		debug.log("Player = " + input.name);
-		
-		String status = (input.isServer == true) ? "on" : "off";
-		
+		//Logging
+		debug.log("Player = " + userInput.name);
+		String status = (userInput.isServer == true) ? "on" : "off";
 		debug.log("Server status: " + status);
 		
 	}
-	
-	private void showBoard() {
-		if(klient.isConnected){
-			debug.log("_chekers: Viser brett");
-			guiManager.showBoard(klient);
-			
-			//while(guiManager.gameControls.isVisible()){				
-			while(true){
-				try {
-					//Venter på neste sin tur
-//					GameDataDTO data = klient.recive();
-//					guiManager.setData(data);
-						Thread.sleep(1000);
-				} catch (InterruptedException e) {
-					debug.log("_checker: error = " + e.getMessage());
-					e.printStackTrace();
-				}
-			}		
-			
-		}
-	}
-	
-	public String gameType;
 	
 	private DebugWindow debug;
 
@@ -89,6 +61,6 @@ public class Checker {
 
 	private Client klient;
 
-	private UserInput input;
+	private UserInput userInput;
 	
 }
