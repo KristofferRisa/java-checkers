@@ -1,2 +1,2 @@
-# dirtyviggo
+# Java Checkers
 Eksamen i objektorientert programmering
